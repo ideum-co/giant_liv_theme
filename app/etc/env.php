@@ -9,7 +9,8 @@ return [
         ],
         'frontend' => [
             'default' => [
-                'id_prefix' => '000_'
+                'id_prefix' => '000_',
+                'backend' => 'Magento\\Framework\\Cache\\Backend\\File'
             ],
             'page_cache' => [
                 'id_prefix' => '000_'
@@ -30,10 +31,10 @@ return [
         'table_prefix' => '',
         'connection' => [
             'default' => [
-                'host' => 'primary.database--nkp6gnv9hqh9.addon.code.run:3306',
+                'host' => 'mysql',
                 'dbname' => 'magento',
-                'username' => 'c36013b041c7eb4d',
-                'password' => '5100337a4e5a18e5aa9b77740ed746',
+                'username' => 'magento',
+                'password' => 'magento',
                 'model' => 'mysql4',
                 'engine' => 'innodb',
                 'initStatements' => 'SET NAMES utf8;',
@@ -52,10 +53,13 @@ return [
     'x-frame-options' => 'SAMEORIGIN',
     'MAGE_MODE' => 'developer',
     'session' => [
-        'save' => 'db'
+        'save' => 'files'
     ],
     'lock' => [
-        'provider' => 'db'
+        'provider' => 'file',
+        'config' => [
+            'path' => '/var/www/html/var/lock'
+        ]
     ],
     'directories' => [
         'document_root_is_pub' => true
