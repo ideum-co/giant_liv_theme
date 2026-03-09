@@ -1,0 +1,156 @@
+<?php
+/**
+ * Athlete2 Theme, Custom lazy Load
+ *
+ * @author      Olegnax
+ * @package     Olegnax_Athlete2
+ * @copyright   Copyright (c) 2023 Olegnax (https://olegnax.com). All rights reserved.
+ * @license     https://www.olegnax.com/license
+ */
+
+use Magento\Catalog\Block\Product\Image;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
+use Olegnax\Athlete2\Helper\Video;
+
+?>
+<?php
+/** @var $block Image */
+/** @var $escaper Escaper */
+/** @var SecureHtmlRenderer $secureRenderer */
+/**
+ * Enable lazy loading for images with borders and if variable enable_lazy_loading_for_images_without_borders
+ * is enabled in view.xml. Otherwise small size images without borders may be distorted. So max-width is used for them
+ * to prevent stretching and lazy loading does not work.
+ */
+$lazy			 = $this->helper( 'Olegnax\Athlete2\Helper\Helper' )->isLazyLoadEnabled();
+/** @var Video $videoHelper */
+$videoHelper = $this->helper( Video::class);
+if ($lazy) : ?>
+
+<span class="product-image-container ox-product-hover-image-container"
+	  style="width:<?= $escaper->escapeHtmlAttr($block->getWidth()) ?>px;">
+	<span class="product-image-wrapper"
+		  style="padding-bottom: <?= ($block->getRatio() * 100) ?>%;">
+			<img class="product-image-photo product-first-image-photo lazy"
+                  <?php if (is_array($block->getCustomAttributes())) {
+                      foreach ($block->getCustomAttributes() as $name => $value) {
+                          printf('%s="%s" ', $escaper->escapeHtmlAttr($name),$escaper->escapeHtmlAttr($value));
+                      }
+                  } else {
+                      echo $escaper->escapeHtmlAttr($block->getCustomAttributes());
+                  } ?>
+				 src="<?= $this->getViewFileUrl( 'Olegnax_Core/images/preloader-img.svg' ); ?>"
+				 data-original="<?= $escaper->escapeUrl($block->getImageUrl()) ?>"
+				 width="<?= $escaper->escapeHtmlAttr($block->getWidth()) ?>"
+				 height="<?= $escaper->escapeHtmlAttr($block->getHeight()) ?>"
+				 data-ox="hover_product"
+				 alt="<?=
+				 /* @noEscape */ $block->stripTags( $block->getLabel(), null, true )
+				 ?>"/>
+			<?php if($videoHelper->videoOnHover($block->getProduct())){ ?>
+			<?= $videoHelper->getVideo($block->getProduct(), [
+				'video_attrs' => [
+					'width' => $block->getWidth(),
+					'height' => $block->getHeight(),
+					'controls' => $videoHelper->showControls($block->getProduct()),
+					'loop' => true,
+					'autoplay' => false,
+					'muted' => true,
+					'preload' => "none",
+				],
+			]); ?>
+			<?php } else { ?>
+			<img class="product-image-photo product-second-image-photo lazy"
+                  <?php if (is_array($block->getCustomAttributes())) {
+                      foreach ($block->getCustomAttributes() as $name => $value) {
+                          printf('%s="%s" ', $escaper->escapeHtmlAttr($name),$escaper->escapeHtmlAttr($value));
+                      }
+                  } else {
+                      echo $escaper->escapeHtmlAttr($block->getCustomAttributes());
+                  } ?>
+				 src="<?= $this->getViewFileUrl( 'Olegnax_Core/images/preloader-img.svg' ); ?>"
+				 data-original="<?= $escaper->escapeUrl($block->getImageHoverUrl()) ?>"
+				 width="<?= $escaper->escapeHtmlAttr($block->getWidth()) ?>"
+				 height="<?= $escaper->escapeHtmlAttr($block->getHeight()) ?>"
+				 data-ox="hover_product"
+				 alt="<?=
+				 /* @noEscape */ $block->stripTags( $block->getLabelHover(), null, true )
+				 ?>"/>
+			<?php } ?>
+	</span>
+</span>
+<?php else :
+    $width = (int)$block->getWidth();
+    $paddingBottom = $block->getRatio() * 100;
+    ?>
+	<span class="product-image-container ox-product-hover-image-container product-image-container-<?= /* @noEscape */ $block->getProductId() ?>">
+    <span class="product-image-wrapper">
+        	<img class="product-image-photo product-first-image-photo <?= $escaper->escapeHtmlAttr($block->getClass()) ?>"
+			  <?php if (is_array($block->getCustomAttributes())) {
+				  foreach ($block->getCustomAttributes() as $name => $value) {
+					  printf('%s="%s" ', $escaper->escapeHtmlAttr($name),$escaper->escapeHtmlAttr($value));
+				  }
+			  } else {
+				  echo $escaper->escapeHtmlAttr($block->getCustomAttributes());
+			  } ?>
+            src="<?= $escaper->escapeUrl($block->getImageUrl()) ?>"
+			data-ox="hover_product"
+            width="<?= $escaper->escapeHtmlAttr($block->getWidth()) ?>"
+            height="<?= $escaper->escapeHtmlAttr($block->getHeight()) ?>"
+            alt="<?= $escaper->escapeHtmlAttr($block->getLabel()) ?>"/>
+			<?php if($videoHelper->videoOnHover($block->getProduct())){ ?>
+				<?= $videoHelper->getVideo($block->getProduct(), [
+					'video_attrs' => [
+						'width' => $block->getWidth(),
+						'height' => $block->getHeight(),
+						'loop' => true,
+						'autoplay' => false,
+						'muted' => true,
+						'preload' => "none",
+					],
+				]); ?>
+			<?php } else { ?>
+        	<img class="product-image-photo  product-second-image-photo <?= $escaper->escapeHtmlAttr($block->getClass()) ?>"
+			  <?php if (is_array($block->getCustomAttributes())) {
+				  foreach ($block->getCustomAttributes() as $name => $value) {
+					  printf('%s="%s" ', $escaper->escapeHtmlAttr($name),$escaper->escapeHtmlAttr($value));
+				  }
+			  } else {
+				  echo $escaper->escapeHtmlAttr($block->getCustomAttributes());
+			  } ?>
+            src="<?= $escaper->escapeUrl($block->getImageHoverUrl()) ?>"
+			data-ox="hover_product"
+            width="<?= $escaper->escapeHtmlAttr($block->getWidth()) ?>"
+            height="<?= $escaper->escapeHtmlAttr($block->getHeight()) ?>"
+            alt="<?= $escaper->escapeHtmlAttr($block->getLabelHover()) ?>"/>
+			<?php } ?>
+	</span>
+</span>
+    <?php
+    $styles = <<<STYLE
+.product-image-container-{$block->getProductId()} {
+    width: {$width}px;
+}
+.product-image-container-{$block->getProductId()} span.product-image-wrapper {
+    padding-bottom: {$paddingBottom}%;
+}
+STYLE;
+//In case a script was using "style" attributes of these elements
+    $script = <<<SCRIPT
+prodImageContainers = document.querySelectorAll(".product-image-container-{$block->getProductId()}");
+for (var i = 0; i < prodImageContainers.length; i++) {
+    prodImageContainers[i].style.width = "{$width}px";
+}
+prodImageContainersWrappers = document.querySelectorAll(
+    ".product-image-container-{$block->getProductId()}  span.product-image-wrapper"
+);
+for (var i = 0; i < prodImageContainersWrappers.length; i++) {
+    prodImageContainersWrappers[i].style.paddingBottom = "{$paddingBottom}%";
+}
+SCRIPT;
+
+    ?>
+    <?= /* @noEscape */ $secureRenderer->renderTag('style', [], $styles, false) ?>
+    <?= /* @noEscape */ $secureRenderer->renderTag('script', ['type' => 'text/javascript'], $script, false) ?>
+<?php endif;

@@ -1,0 +1,27 @@
+<?php
+/**
+ * Blog post comments link template
+ *
+ * @var $block Info
+ *
+ * @category    Olegnax
+ * @package     Olegnax_Athlete2
+ * @copyright   Copyright (c) 2023 Olegnax (http://www.olegnax.com/)
+ * @license     https://www.olegnax.com/license
+ */
+
+use Magefan\Blog\Block\Post\Info;
+
+?>
+
+<?php
+$_post					 = $block->getPost();
+$_magefanCommentsEnabled = $this->magefanCommentsEnabled();
+?>
+
+<?php if ( $_magefanCommentsEnabled && $_post->getCommentsCount() ) { ?>
+	<a class="item" title="<?php echo $block->escapeHtml( $_post->getTitle() ) ?>" href="<?php echo $block->escapeUrl($_post->getPostUrl()) ?>#post-comments">
+		<span class="label"><?php echo __( 'Comments' ) ?></span>
+		<?php echo $block->escapeHtml( $_post->getCommentsCount() ) ?>
+	</a>
+<?php } ?>

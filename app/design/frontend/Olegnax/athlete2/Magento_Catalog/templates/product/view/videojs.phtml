@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * Athlete2 Theme
+ *
+ * @author      Olegnax
+ * @package     Olegnax_Athlete2
+ * @copyright   Copyright (c) 2023 Olegnax (https://olegnax.com). All rights reserved.
+ * @license     https://www.olegnax.com/license
+ */
+/** @var Video $videoHelper */
+
+use Olegnax\Athlete2\Helper\Video;
+
+$videoHelper = $this->helper( Video::class );
+if ( $videoHelper->stopOnClick( $block->getProduct() ) && !$videoHelper->showControls( $block->getProduct() ) ):
+	?>
+	<script>
+	    require( [ "jquery" ], function ( $ ) {
+	        "use strict";
+	        $( function () {
+	            $( ".gallery__video-wrapper" ).each( function () {
+	                var $this = $( this ),
+	                    video = $( 'video', this ).get( 0 );
+	                if ( $this.length ) {
+	                    $this.on( 'click', function ( e ) {
+	                        e.preventDefault();
+	                        if ( video.paused ) {
+	                            video.play();
+	                        } else if ( video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2 ) {
+	                            video.pause();
+	                        }
+	                    } );
+	                }
+	            } );
+	        } );
+	    } );
+	</script>
+	<?php
+
+ endif;

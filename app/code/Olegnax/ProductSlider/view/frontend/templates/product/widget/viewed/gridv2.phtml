@@ -1,0 +1,64 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\Ui\Block\Wrapper;
+use Olegnax\Athlete2\Helper\ProductList;
+
+?>
+<?php
+// phpcs:disable Magento2.Security.LanguageConstruct.DirectOutput
+// phpcs:disable Magento2.PHP.ShortEchoSyntax.ShortEchoTag
+
+/** @var $block Wrapper */
+?>
+
+<?php
+	$theme_helper	 = $this->helper( ProductList::class );
+	$at_settings	 = $theme_helper->getModuleConfig();
+
+    $showTitle		 = $block->getShowTitle();
+	$titleTag		 = $block->getTitleTag() ?: 'strong';
+	$title = $block->getTitle();
+	$titleClass		 = 'no-title';
+	if ( $showTitle ) {
+		$titleClass = 'title-' . $titleTag;
+	}
+	$titleClass .= ' block-title title';
+
+	$classes		 = [];
+	$classes[]		 = 'product-columns-' . $block->getColumnsDesktop();
+	$classes[]		 = 'product-columns-l-' . $block->getColumnsDesktopSmall();
+	$classes[]		 = 'product-columns-m-' . $block->getColumnsTablet();
+	$classes[]		 = 'product-columns-s-' . $block->getColumnsMobile();
+	$classes[]		 = 'title--align-' . $block->getTitleAlign();
+	$classes[]		 = $block->getProductsLayoutCentered() ? 'align-details-center' : '';
+	$classes[]		 = $block->getTitleSideLine() ? 'title--sideline' : '';
+	$classes[]		=  $block->getCustomClass();
+
+    $type			 = 'widget-product-grid';
+	$mode			 = 'grid';
+	$wrapper_classes = 'widget block-viewed-products-grid products-grid__layout-2 block-products-list ' . $mode . ' ' . $block->escapeHtml(implode( ' ', $classes) );
+
+?>
+
+
+<?php /* @noEscape */ echo $block->renderApp([
+    'widget_columns' => [
+		'label' => $title,
+		'titleClasses' => $titleClass,
+        'displayMode' => $mode,
+        'template' => 'Olegnax_ProductSlider/product/list/grid-v2',
+        'additionalClasses' => $wrapper_classes,
+    ],
+	'title' => [
+		'label' => $title,
+		'tag' => $titleTag,
+		'show' => (bool)$showTitle
+	],
+    'image' => [
+        'imageCode' => 'recently_viewed_products_grid_content_widget'
+    ]
+]);

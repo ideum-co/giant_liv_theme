@@ -1,0 +1,24 @@
+& when (@media-common = true) {
+    .header__search-below{
+        &.block-search{
+            width: 100%;
+            padding: 0 7px 7px;
+            z-index: auto;
+            form{
+                position: relative;
+            }
+        }
+        .header__item-search{
+            margin: 0;
+        }
+    }
+}
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {  
+    .mobile-search--below{
+        .header__content{
+            .header__item-search{
+                display: none;
+            }
+        }
+    }
+}

@@ -1,0 +1,31 @@
+<?php
+/**
+ * Blog post tags template
+ *
+ * @var $block Info
+ *
+ * @category    Olegnax
+ * @package     Olegnax_Athlete2
+ * @copyright   Copyright (c) 2023 Olegnax (http://www.olegnax.com/)
+ * @license     https://www.olegnax.com/license
+ */
+
+use Magefan\Blog\Block\Post\Info;
+
+?>
+
+<?php
+$_post = $block->getPost();
+$_tagsCount = $_post->getTagsCount();
+?>
+
+<?php if ($_tagsCount) { ?>
+<div class="item post-tags">
+	<span class="label"><?php echo __('Tags:') ?></span>
+	<?php $n = 0; foreach($_post->getRelatedTags() as $tag) { $n++; ?>
+		<a title="<?php echo $block->escapeHtml($tag->getTitle()) ?>" href="<?php echo $block->escapeUrl($tag->getTagUrl()) ?>">
+			<?php echo $block->escapeHtml($tag->getTitle()) ?>
+		</a>
+	<?php } ?>
+</div>
+<?php } ?>

@@ -1,0 +1,48 @@
+@font-face{font-family:'Overpass';font-style:normal;font-weight:400;src:url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-regular.eot');src:local('Overpass Regular'),local('Overpass-Regular'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-regular.eot?#iefix') format('embedded-opentype'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-regular-webfont.woff2') format('woff2'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-regular.woff') format('woff'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-regular.ttf') format('truetype'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-regular.#Overpass') format('svg')}@font-face{font-family:'Overpass';font-style:normal;font-weight:800;src:url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-800.eot');src:local('Overpass ExtraBold'),local('Overpass-ExtraBold'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-800.eot?#iefix') format('embedded-opentype'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-800-webfont.woff2') format('woff2'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-800.woff') format('woff'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-800.ttf') format('truetype'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-800.#Overpass') format('svg')}@font-face{font-family:'OverpassRecut';font-style:normal;font-weight:800;src:url('https://static.giant-bicycles.com/Fonts/overpass-recut-v2/overpass-recut-v2.eot');src:local('OverpassRecut ExtraBold'),local('OverpassRecut-ExtraBold'),url('https://static.giant-bicycles.com/Fonts/overpass-recut-v2/overpass-recut-v2.eot?#iefix') format('embedded-opentype'),url('https://static.giant-bicycles.com/Fonts/overpass-recut-v2/overpass-recut-v2.woff2') format('woff2'),url('https://static.giant-bicycles.com/Fonts/overpass-recut-v2/overpass-recut-v2.woff') format('woff'),url('https://static.giant-bicycles.com/Fonts/overpass-recut-v2/overpass-recut-v2.ttf') format('truetype'),url('https://static.giant-bicycles.com/Fonts/overpass-recut-v2/overpass-recut-v2.#OverpassRecut') format('svg')}
+
+
+
+.tiles.tiles-homeblockstyle .tile .caption div.h3, .tiles.tiles-homeblockstyle .tile .caption div.title, .tiles.tiles-homeblockstyle .tile .caption h3, .tiles.tiles-sticktogetherstyle .tile .caption div.h3, .tiles.tiles-sticktogetherstyle .tile .caption div.title, .tiles.tiles-sticktogetherstyle .tile .caption h3 {
+    font-family: Overpass, Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 0 25px;
+    color: #fff !important;
+    text-shadow: 0 0 5px rgba(0, 0, 0, .5);
+    margin: 0;
+    font-size: 3rem;
+    letter-spacing: -.1rem;
+}
+.ox-megamenu__dropdown {
+    display: none;
+    position: absolute;
+    left: 0 !important;
+    top: 60px;
+    right: 0;
+    width: 100% !important;
+    background: url(https://static.giant-bicycles.com/Images/Shared/Navigation/bg_topshadow.png) repeat-x #fff;
+    z-index: 1000 !important;
+    padding: 35px 0 0 !important;
+}
+ul.circles li a img {
+    border-radius: 50%;
+    margin: 3px 0 5px;
+    border: 1px solid #ddd;
+    width: 100px;
+    height: 100px;
+    display: block;
+}
+.crosslinkbanner.liv {
+    background: #570054;
+}
+.crosslinkbanner {
+    background: #000;
+    float: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    width: 150px;
+    height: 180px;
+    overflow-y: hidden;
+}

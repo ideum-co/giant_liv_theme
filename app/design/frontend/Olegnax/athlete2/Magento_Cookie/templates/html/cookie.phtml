@@ -1,0 +1,28 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\Framework\View\Element\Js\Cookie;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
+
+/**
+ * Cookie settings initialization script
+ *
+ * @var $block Cookie
+ * @var SecureHtmlRenderer $secureRenderer
+ */
+
+$scriptString = '
+    window.cookiesConfig = window.cookiesConfig || {};
+    window.cookiesConfig.secure = ' . /* @noEscape */
+    ($block->getSessionConfig()->getCookieSecure() ? 'true' :
+        'false');
+if (isset($secureRenderer))  {
+    echo /* @noEscape */$secureRenderer->renderTag('script', [], $scriptString, false);
+} else {
+    ?><script>
+        <?= /* @noEscape */ $scriptString ?>;
+    </script><?php
+}

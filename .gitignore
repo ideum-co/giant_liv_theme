@@ -1,0 +1,42 @@
+# Magento 2 .gitignore
+
+# Vendor (reinstall via composer install)
+/vendor/
+
+# Generated files
+/generated/
+
+# Static content (regenerated via setup:static-content:deploy)
+/pub/static/
+
+# Media catalog cache
+/pub/media/catalog/product/cache/
+
+# Var directory (cache, logs, sessions, etc.)
+/var/
+
+# Node modules
+/node_modules/
+
+# Composer auth (contains credentials)
+/auth.json
+
+# IDE files
+/.idea/
+/.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment sensitive files (uncomment if needed)
+# /app/etc/env.php
+
+# Lost+found
+/lost+found/
+
+# Temporary files
+/tmp/
+/uploads/

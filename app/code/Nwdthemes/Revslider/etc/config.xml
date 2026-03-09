@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <nwdthemes_revslider>
+            <revslider_configuration>
+                <status>1</status>
+            </revslider_configuration>
+        </nwdthemes_revslider>
+        <system>
+            <media_storage_configuration>
+                <allowed_resources>
+                    <nwdthemes_revslider>revslider</nwdthemes_revslider>
+                </allowed_resources>
+            </media_storage_configuration>
+        </system>
+    </default>
+</config>

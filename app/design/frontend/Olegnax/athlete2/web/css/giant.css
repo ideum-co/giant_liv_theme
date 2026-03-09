@@ -1,0 +1,203 @@
+
+
+@font-face{font-family:'Overpass';font-style:normal;font-weight:400;src:url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-regular.eot');src:local('Overpass Regular'),local('Overpass-Regular'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-regular.eot?#iefix') format('embedded-opentype'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-regular-webfont.woff2') format('woff2'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-regular.woff') format('woff'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-regular.ttf') format('truetype'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-regular.#Overpass') format('svg')}@font-face{font-family:'Overpass';font-style:normal;font-weight:800;src:url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-800.eot');src:local('Overpass ExtraBold'),local('Overpass-ExtraBold'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-800.eot?#iefix') format('embedded-opentype'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-800-webfont.woff2') format('woff2'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-800.woff') format('woff'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-800.ttf') format('truetype'),url('https://static.giant-bicycles.com/Fonts/overpass-v4-latin_latin-ext/overpass-v4-latin_latin-ext-800.#Overpass') format('svg')}@font-face{font-family:'OverpassRecut';font-style:normal;font-weight:800;src:url('https://static.giant-bicycles.com/Fonts/overpass-recut-v2/overpass-recut-v2.eot');src:local('OverpassRecut ExtraBold'),local('OverpassRecut-ExtraBold'),url('https://static.giant-bicycles.com/Fonts/overpass-recut-v2/overpass-recut-v2.eot?#iefix') format('embedded-opentype'),url('https://static.giant-bicycles.com/Fonts/overpass-recut-v2/overpass-recut-v2.woff2') format('woff2'),url('https://static.giant-bicycles.com/Fonts/overpass-recut-v2/overpass-recut-v2.woff') format('woff'),url('https://static.giant-bicycles.com/Fonts/overpass-recut-v2/overpass-recut-v2.ttf') format('truetype'),url('https://static.giant-bicycles.com/Fonts/overpass-recut-v2/overpass-recut-v2.#OverpassRecut') format('svg')}
+
+.tiles.tiles-homeblockstyle .tile .caption div.h3, .tiles.tiles-homeblockstyle .tile .caption div.title, .tiles.tiles-homeblockstyle .tile .caption h3, .tiles.tiles-sticktogetherstyle .tile .caption div.h3, .tiles.tiles-sticktogetherstyle .tile .caption div.title, .tiles.tiles-sticktogetherstyle .tile .caption h3 {
+    font-family: Overpass, Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 0 25px;
+    color: #fff !important;
+    text-shadow: 0 0 5px rgba(0, 0, 0, .5);
+    margin: 0;
+    font-size: 3rem;
+    letter-spacing: -.1rem;
+}
+.page-layout-product-full-width .content-wrapper-topbaritems .container .item .circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+    transition: .5s all;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.product-info-main .product-info-price, .product-options-bottom .product-info-price {
+    display: block !important;
+}
+.product-info-main {
+    display: grid;
+}
+.ox-product-page__categories {
+    order: 1;
+}
+.product-reviews-summary.empty {
+    order: 2;
+}
+.page-title-wrapper.product {
+    order: 3;
+margin-bottom: 5px;
+}
+.product-info-price {
+    order: 4;
+}
+.product-add-form {
+    order: 5;
+}
+.product-social-links {
+    order: 6;
+}
+.product__after-desc-block {
+    order: 7;
+}
+.product-info-main .page-title-wrapper .page-title {
+    margin-bottom: 5px !important;
+}
+.product-reviews-summary {
+    margin: 0 0 6px !important;
+}
+.product-info-stock-sku {
+    display: flex;
+    align-items: center;
+margin: 10px 0 0;
+}
+.swatch-opt {
+    margin: 0 0 15px 0 !important ;
+}
+.swatch-option.image {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid #eee;
+    background: #aaa;
+    position: relative;
+}
+.product-info-main .product.attribute.sku {
+    font-size: 1.1rem !important;
+    color: #888 !important;
+}
+span.price-label {
+    display: none !important;
+}
+.product-info-main .product-info-price, .product-options-bottom .product-info-price ¨{
+    margin-bottom: 15px !important;
+}
+.fotorama__nav.fotorama__nav--thumbs {
+    text-align: center;
+}
+.fotorama__thumb-border {
+    border: none;
+}
+.review-form-actions button.action.submit.primary {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    color: #000;
+    line-height: 35px;
+    padding: 0 15px;
+    display: inline-block;
+    font-weight: 500;
+    text-transform: capitalize;
+    font-size: 14px;
+}
+.review-fields-wrapper {
+    background: #fff;
+}
+legend.legend.review-legend span {
+    margin: 0 0 30px;
+    font-weight: 800;
+    letter-spacing: -.1rem;
+    font-size: 30px;
+}
+div#additional {
+    display: none;
+}
+.similares .product-item-info {
+    width: 416px !important;
+    display: table-caption;
+    align-items: center;
+    align-content: center;
+columns: 2;
+}
+.similares .block.widget .product-item-info {
+    max-height: 125px;
+overflow: hidden;
+}
+.similares .product-image-container {
+      width: 125px !important;
+}
+.similares .product-item-actions {
+    display: none;
+}
+.similares .product-item .product-item-name a {
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+.similares .price {
+    color: #999 !important
+    font-size: 1.4rem !important;
+    font-weight: 400 !important;
+}
+div#similarproducts h3 {
+    font-weight: 500;
+    text-transform: none;
+    font-size: 2rem;
+}
+a.post-item-link, h2.post-title {
+    color: #444;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: .1rem;
+    transition: all .2s ease;
+    margin: 0 0 10px 0;
+}
+.post-list.blog-style-modern article .post-description, .item.post-categories {
+    display: none !important;
+}
+span.item.post-posed-date{
+color: #666;
+    text-transform: uppercase;
+    font-size: 11px;
+    margin: 0 0 10px 0;
+    letter-spacing: .05rem;
+}
+.post-links {
+    display: none !important;
+}
+.post-list.blog-style-modern article .post-title {
+font-size: 28px;
+margin-bottom: 16px;
+text-align: center;
+line-height: 20px;
+}
+.post-list.blog-style-modern article .post-title {
+text-align: center;
+line-height: 20px;
+color: #444 !important;
+text-transform: uppercase;
+font-weight: 700;
+font-size: 1.8rem;
+letter-spacing: .1rem !important;
+transition: all .2s ease;
+margin: 0 0 10px 0;
+}
+.post-list.blog-style-modern article .post-meta {
+color: #666;
+text-transform: uppercase;
+font-size: 11px;
+margin: 0 0 10px 0;
+letter-spacing: .05rem;
+text-align: center;
+}
+.post-list article .post-image-wrapper {
+margin-bottom: 20px !important;
+aspect-ratio: 3/2.2;
+}
+.banner.banner-video iframe {
+width: 100% !important;
+height: 100% !important;
+}

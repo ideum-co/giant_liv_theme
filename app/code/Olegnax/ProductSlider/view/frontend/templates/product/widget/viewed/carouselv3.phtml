@@ -1,0 +1,85 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\Ui\Block\Wrapper;
+use Olegnax\Athlete2\Helper\ProductList;
+
+?>
+<?php
+// phpcs:disable Magento2.Security.LanguageConstruct.DirectOutput
+// phpcs:disable Magento2.PHP.ShortEchoSyntax.ShortEchoTag
+
+/** @var $block Wrapper */
+?>
+
+<?php
+	$theme_helper	 = $this->helper( ProductList::class );
+	$at_settings	 = $theme_helper->getModuleConfig();
+
+	$carouselOptions = $this->getCarouselOptions();
+
+    $showTitle		 = $block->getShowTitle();
+	$titleTag		 = $block->getTitleTag() ?: 'strong';
+	$title = $block->getTitle();
+	$titleClass		 = 'no-title';
+	if ( $showTitle ) {
+		$titleClass = 'title-' . $titleTag;
+	}
+	$titleClass .= ' block-title title';
+	$navPosition	 = $this->getNavPosition();
+	$classes		 = [];
+	$classes[]		 = 'product-columns-' . $this->getColumnsDesktop();
+	$classes[]		 = 'product-columns-l-' . $this->getColumnsDesktopSmall();
+	$classes[]		 = 'product-columns-m-' . $this->getColumnsTablet();
+	$classes[]		 = 'product-columns-s-' . $this->getColumnsMobile();
+	$classes[]		 = 'title--align-' . $this->getTitleAlign();
+	$classes[]		 = $this->getProductsLayoutCentered() ? 'align-details-center' : '';
+	$classes[]		 = $this->getTitleSideLine() ? 'title--sideline' : '';
+	$classes[]		 = 'owl-dots--align-' . $this->getDotsAlign();
+	$classes[]		 = 'owl-nav--position-' . $navPosition;
+	$classes[]		 = 'title--align-' . $this->getTitleAlign();
+	$classes[]		 = $this->getDots() ? 'owl-dots--show' : '';
+	$classes[]		 = $this->getTitleSideLine() ? 'title--sideline' : '';
+	$classes[]		=  $this->getCustomClass();
+
+    $type			 = 'widget-product-grid';
+	$mode			 = 'grid';
+	$wrapper_classes = 'widget block-viewed-products-grid products-grid__layout-default products-grid__buttons-below block-products-list ' . $mode . ' ' . $block->escapeHtml(implode( ' ', $classes) );
+	$_nav = false;
+	$nav = $this->getNav();
+	if ( $navPosition == 'title' && $nav ){
+		$_nav = true;
+	}
+	$_showTitle = false;
+	if ( $showTitle && $title){
+		$_showTitle = true;
+	}
+?>
+
+<?php /* @noEscape */ echo $block->renderApp([
+    'widget_columns' => [
+		'label' => $title,
+		'titleClasses' => $titleClass,
+        'displayMode' => $mode,
+        'template' => 'Olegnax_ProductSlider/product/list/carousel-v3',
+        'additionalClasses' => $wrapper_classes,
+		'carouselOptions' =>  $carouselOptions,
+    ],
+	'title' => [
+		'label' => $title,
+		'tag' => $titleTag,
+		'show' => (bool)$_showTitle
+	],
+	'owl-nav' =>[
+		'show' => (bool)$_nav
+	],
+	'owl-init' =>[
+		'show' => true,
+	],
+    'image' => [
+        'imageCode' => 'recently_viewed_products_grid_content_widget'
+    ]
+]);

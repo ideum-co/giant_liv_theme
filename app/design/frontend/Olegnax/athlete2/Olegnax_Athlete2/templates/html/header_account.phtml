@@ -1,0 +1,12 @@
+<?php
+$icon = '<i class="athlete2-icon-login"></i>';
+?>
+<div class="header__item header__item-account" data-move-desktop="header.myaccount">
+	<a class="button js-item-myaccount-action" href="<?= $block->escapeUrl($block->getUrl('customer/account')); ?>">
+			<?= $icon; ?>
+			<span class="label">
+					<?= $block->escapeHtml(__('My Account')) ?>
+			</span>
+	</a>
+	<?php echo $this->getChildHtml("header_account_drop"); ?>
+</div>

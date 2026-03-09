@@ -1,0 +1,20 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<if args="isAllowed()">
+    <button attr="'data-post': $col.getDataPost($row()), title: getLabel()"
+            class="action tocompare"
+            data-action="add-to-compare">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16">
+                <g>
+                  <polygon points="2 2 8 2 8 0 0 0 0 12 3 12 3 10 2 10 2 2"></polygon>
+                  <rect x="8" y="2" width="2" height="1"></rect>
+                  <polygon points="13 6 13 14 6 14 6 6 13 6 13 4 4 4 4 16 15 16 15 6 13 6"></polygon>
+                </g>
+            </svg>
+            <span text="getLabel()"></span>
+    </button>
+</if>

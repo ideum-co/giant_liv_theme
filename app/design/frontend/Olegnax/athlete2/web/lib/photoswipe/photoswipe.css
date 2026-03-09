@@ -1,0 +1,420 @@
+/*! PhotoSwipe main CSS by Dmitry Semenov | photoswipe.com | MIT license */
+/*
+	Styles for basic PhotoSwipe functionality (sliding area, open/close transitions)
+*/
+/* pswp = photoswipe */
+.pswp {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  -ms-touch-action: none;
+  touch-action: none;
+  z-index: 1500;
+  -webkit-text-size-adjust: 100%;
+  /* create separate layer, to avoid paint on window.onscroll in webkit/blink */
+  -webkit-backface-visibility: hidden;
+  outline: none; }
+  .pswp * {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box; }
+  .pswp img {
+    max-width: none; }
+
+/* style is added when JS option showHideOpacity is set to true */
+.pswp--animate_opacity {
+  /* 0.001, because opacity:0 doesn't trigger Paint action, which causes lag at start of transition */
+  opacity: 0.001;
+  will-change: opacity;
+  /* for open/close transition */
+  -webkit-transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
+          transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1); }
+
+.pswp--open {
+  display: block; }
+@keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+.pswp__img{
+    animation: fadeIn linear .2s;
+}
+.pswp--zoom-allowed .pswp__img {
+  /* autoprefixer: off */
+  cursor: -webkit-zoom-in;
+  cursor: -moz-zoom-in;
+  cursor: zoom-in; }
+
+.pswp--zoomed-in .pswp__img {
+  /* autoprefixer: off */
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: grab; }
+
+.pswp--dragging .pswp__img {
+  /* autoprefixer: off */
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing; }
+
+/*
+	Background is added as a separate element.
+	As animating opacity is much faster than animating rgba() background-color.
+*/
+.pswp__bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  opacity: 0;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  will-change: opacity; }
+
+.pswp__scroll-wrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+
+.pswp__container,
+.pswp__zoom-wrap {
+  -ms-touch-action: none;
+  touch-action: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0; }
+
+/* Prevent selection and tap highlights */
+.pswp__container,
+.pswp__img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+      user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none; }
+
+.pswp__zoom-wrap {
+  position: absolute;
+  width: 100%;
+  -webkit-transform-origin: left top;
+  -ms-transform-origin: left top;
+  transform-origin: left top;
+  /* for open/close transition */
+  -webkit-transition: -webkit-transform 333ms cubic-bezier(0.4, 0, 0.22, 1);
+          transition: transform 333ms cubic-bezier(0.4, 0, 0.22, 1); }
+
+.pswp__bg {
+  will-change: opacity;
+  /* for open/close transition */
+  -webkit-transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
+          transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1); }
+
+.pswp--animated-in .pswp__bg,
+.pswp--animated-in .pswp__zoom-wrap {
+  -webkit-transition: none;
+  transition: none; }
+
+.pswp__container,
+.pswp__zoom-wrap {
+  -webkit-backface-visibility: hidden; }
+
+.pswp__item {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden; }
+
+.pswp__img {
+  position: absolute;
+  width: auto;
+  height: auto;
+  top: 0;
+  left: 0; }
+
+/*
+	stretched thumbnail or div placeholder element (see below)
+	style is added to avoid flickering in webkit/blink when layers overlap
+*/
+.pswp__img--placeholder {
+  -webkit-backface-visibility: hidden; }
+
+/*
+	div element that matches size of large image
+	large image loads on top of it
+*/
+.pswp__img--placeholder--blank {
+    background: none;
+}
+
+.pswp--ie .pswp__img {
+  width: 100% !important;
+  height: auto !important;
+  left: 0;
+  top: 0; }
+
+/*
+	Error message appears when image is not loaded
+	(JS option errorMsg controls markup)
+*/
+.pswp__error-msg {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  line-height: 16px;
+  margin-top: -8px;
+  color: #CCC; }
+
+.pswp__error-msg a {
+  color: #CCC;
+  text-decoration: underline; }
+
+
+/* -------------------------------------------------
+
+Skin
+
+-------------------------------------------------*/
+
+/* root element of UI */
+
+.pswp__ui {
+  -webkit-font-smoothing: auto;
+  visibility: visible;
+  opacity: 1;
+  z-index: 1550; }
+
+.pswp__caption--empty {
+  display: none; }
+
+/* Fake caption element, used to calculate height of next/prev image */
+.pswp__caption--fake {
+  visibility: hidden; }
+
+.pswp__ui--idle .pswp__caption,
+.pswp__ui--idle .pswp__top-bar,
+.pswp__ui--idle .pswp__button{
+      opacity: 0;
+    /*-webkit-transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
+    transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);*/
+
+}
+.pswp.pswp__caption,
+.pswp.pswp__top-bar,
+.pswp.pswp--has_mouse .pswp__button--arrow--left,
+.pswp.pswp--has_mouse .pswp__button--arrow--right{
+    -webkit-backface-visibility: hidden;
+    will-change: opacity;
+
+}
+.pswp.pswp--has_mouse .pswp__button--arrow--left,
+.pswp.pswp--has_mouse .pswp__button--arrow--right{
+    visibility: visible;
+}
+
+.pswp.pswp__ui--hidden .pswp__top-bar,
+.pswp.pswp__ui--hidden .pswp__caption,
+.pswp.pswp__ui--hidden .pswp__button--arrow--left,
+.pswp.pswp__ui--hidden .pswp__button--arrow--right {
+  /* Force paint & create composition layer for controls. */
+  opacity: 0.001; }
+
+.pswp.pswp__ui--one-slide .pswp__button--arrow--left,
+.pswp.pswp__ui--one-slide .pswp__button--arrow--right,
+.pswp.pswp__ui--one-slide .pswp__counter {
+  display: none; 
+}
+
+.pswp__element--disabled {
+  display: none !important; 
+}
+
+/*
+    Buttons
+*/
+.pswp .pswp__button{
+-webkit-appearance: none;
+  background: #000000;
+  cursor: pointer;
+  display: block;
+}
+.pswp .pswp__button:active {
+    outline: none;
+}
+.pswp .pswp__button::-moz-focus-inner {
+    padding: 0;
+    border: 0; 
+}
+.pswp.pswp--touch .pswp__button--arrow--left,
+.pswp.pswp--touch .pswp__button--arrow--right {
+  visibility: hidden; 
+}
+.pswp .pswp__button:hover{
+   background: #ffe51e;
+}
+.pswp .pswp__button:hover:after,
+.pswp .pswp__button:hover:before{
+    background:#000000; /* @fotorama-icons--hover-color */
+}
+.pswp .pswp__button:before,
+.pswp .pswp__button:after,
+.pswp .pswp__button{
+transition-duration: .4s;
+transition-property: transform,opacity,background-color;
+transition-timing-function: ease;
+}
+.pswp .pswp__button:before,
+.pswp .pswp__button:after{
+    background: #ffffff;
+    transform-origin: center;
+}
+.pswp .pswp__button:hover:before,
+.pswp .pswp__button:hover:after,
+.pswp .pswp__button:hover{
+   transition-duration: 10ms;
+}
+
+.pswp .pswp__button--zoom,
+.pswp .pswp__button--fs,
+.pswp .pswp__button--close{
+    height: 50px;
+    overflow: hidden;
+    position: absolute;
+    width: 50px;
+}
+.pswp .pswp__button--close:after,
+.pswp .pswp__button--close:before,
+.pswp .pswp__button--zoom:before,
+.pswp .pswp__button--zoom:after{
+    content: ' ';
+    width: 2px;
+    height: 20px;
+    display: block;
+    position: absolute;
+    left: 24px;
+    top: 15px;
+    opacity:1;
+}
+.pswp .pswp__button--close{
+    right: 0;
+}
+.pswp .pswp__button--close:after{
+    transform: rotate(-45deg);
+}
+.pswp .pswp__button--close:before{
+    transform: rotate(45deg);
+}
+.pswp .pswp__button--share{
+    display: none;
+}
+/*
+    Zoom
+*/
+.pswp__button--zoom {
+  display: none;
+}
+
+.pswp--zoom-allowed .pswp__button--zoom {
+  display: block; 
+}
+.pswp .pswp__button--zoom:after{
+    transform: rotate(90deg);
+}
+.pswp.pswp--zoomed-in .pswp__button--zoom:before{
+    content:none;    
+}
+/*
+    Arrows
+*/
+.pswp__button--arrow--left,
+.pswp__button--arrow--right {
+  top: 50%;
+  margin-top: -35px;
+  width: 50px; /* @size-fotorama--arrow-width*/
+  height: 70px; /* @size-fotorama--arrow-height*/
+  position: absolute; 
+
+}
+.pswp .pswp__button--arrow--left {
+  left: 0; 
+}
+.pswp .pswp__button--arrow--right {
+  right: 0; 
+}
+
+.pswp .pswp__button--arrow--left:after,
+.pswp .pswp__button--arrow--right:after, 
+.pswp .pswp__button--arrow--left:before,
+.pswp .pswp__button--arrow--right:before {
+        content:' ';
+        width: 2px;
+        height: 20px;
+        display: block;
+        position: absolute;
+        left: 24px;
+        top: 18px;
+        opacity:1;
+}
+.pswp .pswp__button--arrow--left:after,
+.pswp .pswp__button--arrow--right:after{
+        top: 31px;
+        transform-origin: center;
+}
+.pswp .pswp__button--arrow--left:before{
+    transform: rotate(45deg);
+}
+.pswp .pswp__button--arrow--left:after{
+    transform: rotate(-45deg);
+}
+.pswp .pswp__button--arrow--right:before{
+    transform: rotate(-45deg);
+}
+.pswp .pswp__button--arrow--right:after{
+    transform: rotate(45deg);
+}
+/*
+    Counter
+*/
+.pswp__counter {
+    font-weight: 800;
+    color: #000;
+    position: fixed;
+    bottom: 5%;
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    line-height: 1;
+}
+
+
+@media only screen and (min-width: 641px){
+    .pswp__counter {
+        font-size: 48px;
+        line-height: 72px;
+        letter-spacing: -2px;
+        bottom:auto;
+        right: 5%;
+        top: calc(50% - 35px);
+        height: 72px;
+        padding: 0 10px;
+        padding-right: 70px;
+        width: auto;
+        text-align: left;
+    }
+}

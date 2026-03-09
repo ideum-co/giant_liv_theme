@@ -1,0 +1,95 @@
+<?php
+/*
+ * @author      Olegnax
+ * @package     Olegnax_Athlete2
+ * @copyright   Copyright (c) 2023 Olegnax (http://olegnax.com/). All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+/** @var $block Image */
+/** @var $escaper Escaper */
+/** @var SecureHtmlRenderer $secureRenderer */
+/**
+ * Enable lazy loading for images with borders and if variable enable_lazy_loading_for_images_without_borders
+ * is enabled in view.xml. Otherwise small size images without borders may be distorted. So max-width is used for them
+ * to prevent stretching and lazy loading does not work.
+ */
+
+use Magento\Catalog\Block\Product\Image;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
+
+$lazy = $this->helper('Olegnax\Athlete2\Helper\Helper')->isLazyLoadEnabled();
+$attributes = '';
+if (is_array($block->getCustomAttributes())) {
+    foreach ($block->getCustomAttributes() as $name => $value) {
+        $attributes .= sprintf('%s="%s" ', $escaper->escapeHtmlAttr($name), $escaper->escapeHtmlAttr($value));
+    }
+} else {
+    $attributes .= $escaper->escapeHtmlAttr($block->getCustomAttributes());
+}
+
+if ($lazy) : ?>
+
+    <span class="product-image-container ox-product-thumb-image-container"
+          style="width:<?= $escaper->escapeHtmlAttr($block->getWidth()) ?>px;">
+	<span class="product-image-wrapper"
+          style="padding-bottom: <?= ($block->getRatio() * 100) ?>%;">
+            <?php foreach ($block->getImages() as $image): ?>
+                <img class="product-image-photo product-thumb-image-photo lazy" <?= $attributes ?>
+				 src="<?= $this->getViewFileUrl('Olegnax_Core/images/preloader-img.svg'); ?>"
+                     data-original="<?= $escaper->escapeUrl($image['image_url']) ?>"
+                     width="<?= $escaper->escapeHtmlAttr($image['width']) ?>"
+                     height="<?= $escaper->escapeHtmlAttr($image['height']) ?>"
+                     alt="<?= $block->stripTags($image['label'], null, true) ?>"/>
+            <?php endforeach; ?>
+	</span>
+</span>
+<?php else :
+    $width = (int)$block->getWidth();
+    $paddingBottom = $block->getRatio() * 100;
+    ?>
+    <span class="product-image-container ox-product-thumb-image-container product-image-container-<?= /* @noEscape */
+    $block->getProductId() ?>">
+    <span class="product-image-wrapper">
+    <?php $class = $escaper->escapeHtmlAttr($block->getClass());
+    foreach ($block->getImages() as $image): ?>
+        <img class="product-image-photo product-thumb-image-photo <?= $class ?>"
+			  <?= $attributes ?>
+            src="<?= $escaper->escapeUrl($image['image_url']) ?>"
+             width="<?= $escaper->escapeHtmlAttr($image['width']) ?>"
+             height="<?= $escaper->escapeHtmlAttr($image['height']) ?>"
+             alt="<?= $block->stripTags($image['label'], null, true) ?>"/>
+    <?php endforeach; ?>
+	</span>
+</span>
+    <?php
+    $styles = <<<STYLE
+.product-image-container-{$block->getProductId()} {
+    width: {$width}px;
+}
+.product-image-container-{$block->getProductId()} span.product-image-wrapper {
+    padding-bottom: {$paddingBottom}%;
+}
+STYLE;
+//In case a script was using "style" attributes of these elements
+    $script = <<<SCRIPT
+prodImageContainers = document.querySelectorAll(".product-image-container-{$block->getProductId()}");
+for (var i = 0; i < prodImageContainers.length; i++) {
+    prodImageContainers[i].style.width = "{$width}px";
+}
+prodImageContainersWrappers = document.querySelectorAll(
+    ".product-image-container-{$block->getProductId()}  span.product-image-wrapper"
+);
+for (var i = 0; i < prodImageContainersWrappers.length; i++) {
+    prodImageContainersWrappers[i].style.paddingBottom = "{$paddingBottom}%";
+}
+SCRIPT;
+
+    ?>
+    <?= /* @noEscape */
+    $secureRenderer->renderTag('style', [], $styles, false) ?>
+    <?= /* @noEscape */
+    $secureRenderer->renderTag('script', ['type' => 'text/javascript'], $script, false) ?>
+<?php endif;

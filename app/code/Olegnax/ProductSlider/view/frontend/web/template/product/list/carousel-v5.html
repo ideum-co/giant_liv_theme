@@ -1,0 +1,61 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div if="hasData()"
+     class="block" css="additionalClasses">
+    <div if="regionHasElements('title-area')" css="titleClasses">
+        <fastForEach args="data: getRegion('title-area'), as: '$col'" >
+            <render args="$col.getBody()"></render>
+        </fastForEach>
+    </div>
+    <div class="block-content">
+        <div css="'products-' + displayMode  + ' ' + displayMode">
+            <fastForEach args="data: getRegion('wrap-area'), as: '$col'" >
+                <render args="$col.getBody()"></render>
+            </fastForEach>
+            <div class="product-items widget-product-grid owl-carousel" data-role="product-owlCarousel" attr="'data-mage-init': carouselOptions">
+                <div class="product-item-info" repeat="foreach: filteredRows, item: '$row'">
+                    <div if="regionHasElements('general-area')" class="product-grid__image-wrapper">
+                        <fastForEach args="data: getRegion('general-area'), as: '$col'" >
+                            <render args="$col.getBody()"></render>
+                        </fastForEach>
+                        <div class="product-item-inner">
+                            <div if="regionHasElements('action-secondary-area')"
+                                    class="actions-secondary"
+                                    data-role="add-to-links">
+                                <fastForEach args="data: getRegion('action-secondary-area'), as: '$col'" >
+                                    <render args="$col.getBody()"></render>
+                                </fastForEach>
+                            </div>
+                            <fastForEach args="data: getRegion('product-item-inner-area'), as: '$col'" >
+                                <render args="$col.getBody()"></render>
+                            </fastForEach>
+                        </div>                            
+                    </div>
+                    <div class="product-grid-overlay"></div>
+                    <div class="product-item-details">
+                        <fastForEach args="data: getRegion('details-area'), as: '$col'" >
+                            <render args="$col.getBody()"></render>
+                        </fastForEach>
+                        <div if="regionHasElements('description-area')"
+                                class="product description product-item-description">
+                            <fastForEach args="data: getRegion('description-area'), as: '$col'" >
+                                <render args="$col.getBody()"></render>
+                            </fastForEach>
+                        </div>
+                        <div class="product actions product-item-actions">
+                            <div class="actions-primary" if="regionHasElements('action-primary-area')">
+                                <fastForEach args="data: getRegion('action-primary-area'), as: '$col'" >
+                                    <render args="$col.getBody()"></render>
+                                </fastForEach>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

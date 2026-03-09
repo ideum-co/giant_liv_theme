@@ -1,0 +1,20 @@
+<?php
+
+use \Nwdthemes\Revslider\Model\FrameworkAdapter as FA;
+
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "rs6loader": {
+                "scripts": <?= json_encode(FA::getRequiredScripts()); ?>
+            }
+        }
+    }
+</script>
+<?php
+FA::do_action('wp_footer');
+FA::do_action('wp_print_footer_scripts');
+echo FA::getInlineStylesHTML();
+echo FA::includeEnqueuedAssets();
+echo FA::getLocalizeScriptsHtml();

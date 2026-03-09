@@ -1,0 +1,52 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/*
+Below commit was igrnored. Tabs visibility controlled via css in theme.
+https://github.com/magento/magento2/commit/af55d2be15f0f0e25cd2629a2d6907181fde4a2f
+*/
+use Magento\Catalog\Block\Product\View\Details;
+
+$theme_settings = $this->helper( 'Olegnax\Athlete2\Helper\Helper' )->getConfig( 'athlete2_settings/product' );
+$tabsClosed     = '';
+if( $theme_settings[ 'product_tabs_accordion' ] ) {
+	$tabType = 'accordion';
+	$tabsClosed = $theme_settings[ 'product_tabs_closed' ] ? ',"active":false' : '';
+} else {
+	$tabType = 'tabs';
+}
+/** @var Details $block */
+?>
+<?php if ($detailedInfoGroup = $block->getGroupSortedChildNames('detailed_info', 'getChildHtml')): ?>
+	<div class="product info detailed">
+		<?php $layout = $block->getLayout(); ?>
+		<div class="product data items <?= $tabType ?>" data-mage-init='{"<?= $tabType ?>":{"openedState":"active"<?= $tabsClosed ?>}}'>
+			<?php foreach ($detailedInfoGroup as $name): ?>
+				<?php
+                $html = (string)$layout->renderElement($name);
+                if (!$html || !trim($html)) {
+                    continue;
+                }
+                $alias = $layout->getElementAlias($name);
+                $label = $block->getChildData($alias, 'title');
+                ?>
+				<div class="data item title"
+					data-role="collapsible" id="tab-label-<?= $block->escapeHtmlAttr($alias) ?>">
+					<a class="data switch"
+					   tabindex="-1"
+					   data-toggle="trigger"
+					   href="#<?= $block->escapeUrl($alias) ?>"
+					   id="tab-label-<?= $block->escapeHtmlAttr($alias) ?>-title">
+						<?= /* @noEscape */ $label ?>
+					</a>
+				</div>
+				<div class="data item content"
+					 aria-labelledby="tab-label-<?= $block->escapeHtmlAttr($alias) ?>-title" id="<?= $block->escapeHtmlAttr($alias) ?>" data-role="content">
+					<?= /* @noEscape */ $html ?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+<?php endif; ?>

@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="style-src">
+            <values>
+                <value id="self" type="host">self</value>
+                <value id="unsafe-inline" type="host">unsafe-inline</value>
+                <value id="adobe" type="host">*.adobe.com</value>
+                <value id="braintree" type="host">assets.braintreegateway.com</value>
+                <value id="google-fonts" type="host">https://fonts.googleapis.com</value>
+                <value id="google-fonts-http" type="host">http://fonts.googleapis.com</value>
+                <value id="giant-static" type="host">https://static.giant-bicycles.com</value>
+                <value id="cdn-jsdelivr" type="host">https://cdn.jsdelivr.net</value>
+                <value id="unpkg" type="host">https://unpkg.com</value>
+                <value id="fontawesome" type="host">https://use.fontawesome.com</value>
+                <!-- Agrega aquí las URLs adicionales para las hojas de estilos -->
+            </values>
+        </policy>
+        <policy id="img-src">
+            <values>
+                <value id="self" type="host">self</value>
+                <value id="data" type="host">data:</value>
+                <value id="adobedtm" type="host">assets.adobedtm.com</value>
+                <value id="adobe" type="host">*.adobe.com</value>
+                <value id="giant-images" type="host">https://images2.giant-bicycles.com</value>
+                <value id="giant-static" type="host">https://static.giant-bicycles.com</value>
+                <value id="wistia" type="host">https://embed-ssl.wistia.com</value>
+                <value id="cdn-giant" type="host">https://dk8nafk1kle6o.cloudfront.net</value>
+                <!-- Agrega aquí las URLs adicionales para las imágenes -->
+            </values>
+        </policy>
+        <policy id="font-src">
+            <values>
+                <value id="self" type="host">self</value>
+                <value id="data" type="host">data:</value>
+                <value id="giant-static" type="host">https://static.giant-bicycles.com</value>
+                <value id="fontawesome" type="host">https://use.fontawesome.com</value>
+                <value id="fonts-gstatic" type="host">https://fonts.gstatic.com</value>
+                <value id="cdn-giant" type="host">https://dk8nafk1kle6o.cloudfront.net</value>
+                <!-- Agrega aquí las URLs adicionales para las fuentes -->
+            </values>
+        </policy>
+        <policy id="script-src">
+            <values>
+                <value id="self" type="host">self</value>
+                <value id="unsafe-inline" type="host">unsafe-inline</value>
+                <value id="unsafe-eval" type="host">unsafe-eval</value>
+                <value id="adobedtm" type="host">assets.adobedtm.com</value>
+                <value id="adobe" type="host">*.adobe.com</value>
+                <value id="googleads" type="host">www.googleadservices.com</value>
+                <value id="google-analytics" type="host">www.google-analytics.com</value>
+                <value id="doubleclick" type="host">googleads.g.doubleclick.net</value>
+                <value id="analytics" type="host">analytics.google.com</value>
+                <value id="gtm" type="host">www.googletagmanager.com</value>
+                <value id="newrelic" type="host">*.newrelic.com</value>
+                <value id="nr-data" type="host">*.nr-data.net</value>
+                <value id="cardinalcommerce" type="host">geostag.cardinalcommerce.com</value>
+                <value id="cardinalcommerce-api" type="host">geoapi.cardinalcommerce.com</value>
+                <value id="paypal" type="host">www.paypal.com</value>
+                <value id="sandbox-paypal" type="host">www.sandbox.paypal.com</value>
+                <value id="paypal-objects" type="host">www.paypalobjects.com</value>
+                <value id="ytimg" type="host">s.ytimg.com</value>
+                <value id="googleapis" type="host">www.googleapis.com</value>
+                <value id="vimeo" type="host">vimeo.com</value>
+                <value id="vimeo-cdn" type="host">*.vimeocdn.com</value>
+                <value id="youtube" type="host">*.youtube.com</value>
+                <value id="gstatic-recaptcha" type="host">www.gstatic.com/recaptcha/</value>
+                <value id="google-recaptcha" type="host">www.google.com/recaptcha/</value>
+                <value id="addthis" type="host">s7.addthis.com</value>
+                <value id="braintree-js" type="host">js.braintreegateway.com</value>
+                <value id="braintree" type="host">assets.braintreegateway.com</value>
+                <value id="pay-google" type="host">pay.google.com</value>
+                <value id="braintree-api" type="host">api.braintreegateway.com</value>
+                <value id="braintree-sandbox-api" type="host">api.sandbox.braintreegateway.com</value>
+                <value id="braintree-analytics" type="host">client-analytics.braintreegateway.com</value>
+                <value id="braintree-sandbox-analytics" type="host">client-analytics.sandbox.braintreegateway.com</value>
+                <value id="cdn-jsdelivr" type="host">cdn.jsdelivr.net</value>
+                <value id="unpkg" type="host">unpkg.com</value>
+                <value id="giant-static" type="host">static.giant-bicycles.com</value>
+                <!-- Agrega aquí las URLs adicionales para los scripts -->
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>

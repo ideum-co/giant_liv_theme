@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Content\Uploader">
+        <plugin name="nwdrevslider_cms_block_adminhtml_wWysiwyg_images_content_uploader_plugin" type="Nwdthemes\Revslider\Plugin\Cms\Block\Adminhtml\Wysiwyg\Images\Content\UploaderPlugin" sortOrder="10" />
+    </type>
+    <type name="Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Content">
+        <plugin name="nwdrevslider_cms_block_adminhtml_wWysiwyg_images_content_plugin" type="Nwdthemes\Revslider\Plugin\Cms\Block\Adminhtml\Wysiwyg\Images\ContentPlugin" sortOrder="10" />
+    </type>
+    <type name="Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Tree">
+        <plugin name="nwdrevslider_cms_block_adminhtml_wWysiwyg_images_tree_plugin" type="Nwdthemes\Revslider\Plugin\Cms\Block\Adminhtml\Wysiwyg\Images\TreePlugin" sortOrder="10" />
+    </type>
+    <type name="Magento\Cms\Controller\Adminhtml\Wysiwyg\Images\OnInsert">
+        <plugin name="nwdrevslider_cms_controller_adminhtml_wysiwyg_images_oninsert_plugin" type="Nwdthemes\Revslider\Plugin\Cms\Controller\Adminhtml\Wysiwyg\Images\OnInsertPlugin" sortOrder="10" />
+    </type>
+    <type name="Magento\Cms\Controller\Adminhtml\Wysiwyg\Images\Thumbnail">
+        <plugin name="nwdrevslider_cms_controller_adminhtml_wysiwyg_images_thumbnail_plugin" type="Nwdthemes\Revslider\Plugin\Cms\Controller\Adminhtml\Wysiwyg\Images\ThumbnailPlugin" sortOrder="10" />
+    </type>
+    <preference for="Magento\Cms\Model\Wysiwyg\Images\Storage" type="Nwdthemes\Revslider\Model\Gallery\Storage" />
+    <type name="Magento\Cms\Helper\Wysiwyg\Images">
+        <plugin name="nwdrevslider_cms_helper_wWysiwyg_images_plugin" type="Nwdthemes\Revslider\Plugin\Cms\Helper\Wysiwyg\ImagesPlugin" sortOrder="10" />
+    </type>
+
+    <type name="Magento\Cms\Model\Wysiwyg\Images\Storage">
+        <arguments>
+            <argument name="dirs" xsi:type="array">
+                <item name="include" xsi:type="array">
+                    <item name="nwdthemes_revslider" xsi:type="array">
+                        <item name="regexp" xsi:type="boolean">true</item>
+                        <item name="name" xsi:type="string">
+                            pub[/\\]+media[/\\]+revslider[/\\]*$
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Nwdthemes\Revslider\Model\Gallery\Storage">
+        <arguments>
+            <argument name="dirs" xsi:type="array">
+                <item name="include" xsi:type="array">
+                    <item name="nwdthemes_revslider" xsi:type="array">
+                        <item name="regexp" xsi:type="boolean">true</item>
+                        <item name="name" xsi:type="string">
+                            pub[/\\]+media[/\\]+revslider[/\\]*$
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Design\FileResolution\Fallback\TemplateFile">
+        <plugin name="nwdrevslider_templatefile_plugin" type="Nwdthemes\Revslider\Plugin\TemplateFilePlugin" sortOrder="10" />
+    </type>
+</config>

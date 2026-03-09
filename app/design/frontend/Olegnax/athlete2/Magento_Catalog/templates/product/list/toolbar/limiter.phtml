@@ -1,0 +1,45 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+
+?>
+<?php
+/**
+ * Product list toolbar
+ *
+ * @var \Magento\Catalog\Block\Product\ProductList\Toolbar $block
+ * @var LocaleFormatter $localeFormatter
+ */
+use Magento\Catalog\Model\Product\ProductList\Toolbar;
+use Magento\Framework\Locale\LocaleFormatter;
+
+?>
+<div class="field limiter js-toolbar-switch">
+    <label class="label" for="limiter">
+        <span><?= $block->escapeHtml(__('Show')) ?></span>
+			<?php foreach ($block->getAvailableLimit() as $_key => $_limit):
+				if ($block->isLimitCurrent($_key)): ?>
+                <span class="current">
+                    <?= $block->escapeHtml($_limit) ?>
+                </span>
+            <?php endif;
+			endforeach; ?>
+			<span class="limiter-text"><?= $block->escapeHtml(__('per page')) ?></span>
+    </label>
+	<div id="limiter" class="limiter-options js-toolbar-dropdown">
+		<?php foreach ($block->getAvailableLimit() as $_key => $_limit): ?>
+			<div data-role="limiter" data-value="<?= $block->escapeHtmlAttr($_key) ?>"<?php if ($block->isLimitCurrent($_key)): ?>
+				selected="selected"<?php endif ?>>
+				<?php /* AC-6384: Fix for empty catalog page issue after Admin config change
+				https://github.com/magento/magento2/commit/bb55549cd3016987663272e7ffe3f452c8d6e40d
+				*/ ?>
+				<?= $block->escapeHtml(
+                        is_numeric($_limit) ? $localeFormatter->formatNumber((int) $_limit) : $_limit
+                    ) ?>
+			</div>
+		<?php endforeach; ?>
+	</div>
+</div>

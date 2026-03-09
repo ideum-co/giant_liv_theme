@@ -1,0 +1,76 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Magento\Search\Helper\Data;
+use Magento\Search\ViewModel\AdditionalSearchFormData;
+use Magento\Search\ViewModel\ConfigProvider;
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+?>
+<?php
+/** @var $block Template */
+/** @var $helper Data */
+/** @var $escaper Escaper */
+
+/** @var $configProvider ConfigProvider */
+$configProvider = $block->getData('configProvider');
+/** @var $versionManager AdditionalSearchFormData */
+$additionalSearchFormData = $block->getData('additionalSearchFormData');
+/** @var $helper Data */
+$helper = $configProvider->getSearchHelperData();
+$search_icon = '<span class="search-icon-wrapper"><svg data-name="search-icon-small 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15"><rect x="11.73223" y="10.52513" width="2" height="4.41421" transform="translate(-5.27386 12.73223) rotate(-45)"></rect><path d="M7,0a7,7,0,1,0,7,7A7,7,0,0,0,7,0ZM7,12a5,5,0,1,1,5-5A5,5,0,0,1,7,12Z"></path></svg></span>';
+$placeholderText = $escaper->escapeHtml(__('Search'));
+?>
+<div class="header__item-search">
+	<form class="form minisearch" id="search_mini_form_mobile" action="<?= $escaper->escapeUrl($helper->getResultUrl()) ?>" method="get">
+        <?php  if (!empty($queryParams = $additionalSearchFormData->getFormData())): ?>
+            <?php foreach ($queryParams as $param): ?>
+                <input type="hidden" name="<?= $escaper->escapeHtmlAttr($param['name']) ?>"
+                       value="<?= $escaper->escapeHtmlAttr($param['value']) ?>"/>
+            <?php endforeach; ?>
+        <?php endif; ?>
+		<div class="field search">
+			<div class="control">
+				<input id="search"
+					   data-mage-init='{"quickSearch":{
+					   "formSelector":"#search_mini_form_mobile",
+					   "url":"<?= $escaper->escapeUrl($helper->getSuggestUrl()) ?>",
+					   "destinationSelector":"#search_autocomplete_mobile"}
+					   }'
+					   type="text"
+					   name="<?= $escaper->escapeHtmlAttr($helper->getQueryParamName()) ?>"
+					   value="<?= /* @noEscape */ $helper->getEscapedQueryText() ?>"
+					   placeholder="<?= $escaper->escapeHtmlAttr($placeholderText) ?>"
+					   class="input-text"
+					   maxlength="<?= $escaper->escapeHtmlAttr($helper->getMaxQueryLength()) ?>"
+					   role="combobox"
+					   aria-haspopup="false"
+					   aria-autocomplete="both"
+					   autocomplete="off"
+					   aria-expanded="false"/>
+				<div id="search_autocomplete_mobile" class="search-autocomplete"></div>
+				<div class="label">
+					<div class="wrap">
+						<label class="inner" for="search" data-role="minisearch-label"><?= $escaper->escapeHtml($placeholderText) ?></label>
+					</div>
+				</div>
+                <?= $block->getChildHtml() ?>
+			</div>
+		</div>
+		<div class="actions">
+			<button type="submit"
+					title="<?= $escaper->escapeHtml(__('Search')) ?>"
+					class="action search"
+					aria-label="Search"
+			>
+                <?= $search_icon ?>
+				<span><?= $escaper->escapeHtml(__('Search')) ?></span>
+			</button>
+		</div>
+	</form>
+</div>

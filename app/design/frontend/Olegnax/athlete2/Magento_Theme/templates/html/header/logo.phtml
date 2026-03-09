@@ -1,0 +1,101 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// @codingStandardsIgnoreFile
+
+/**
+ * @var \Magento\Theme\Block\Html\Header\Logo $block
+ */
+/** @var array $at_settings */
+
+use Magento\Theme\ViewModel\Block\Html\Header\LogoSizeResolverInterface;
+use Olegnax\Athlete2\Helper\CssFiles;
+use Olegnax\Athlete2\Helper\Helper;
+use Olegnax\Athlete2\Model\Config\Backend\Image\Logo;
+
+$at_settings = $this->helper( Helper::class)->getModuleConfig('logo');
+/** @var CssFiles $_helper */
+$_helper = $this->helper( CssFiles::class);
+$OxlogoImage = '';
+if (isset($at_settings['logo_upload']) && !empty($at_settings['logo_upload'])) {
+    $OxlogoImage = $_helper->getBaseMediaUrl( Logo::UPLOAD_DIR) . "/" .
+                   $at_settings['logo_upload'];
+} else {
+    $OxlogoImage = $block->getLogoSrc();
+}
+$OxRetinalogoImage = '';
+if (isset($at_settings['logo_upload_retina']) && !empty($at_settings['logo_upload_retina'])) {
+    $OxRetinalogoImage = $_helper->getBaseMediaUrl( Logo::UPLOAD_DIR) . "/" . $at_settings['logo_upload_retina'];
+}
+$OxPrintlogoImage = $OxlogoImage;
+if (isset($at_settings['logo_upload_print']) && !empty($at_settings['logo_upload_print'])) {
+    $OxPrintlogoImage = $_helper->getBaseMediaUrl( Logo::UPLOAD_DIR) . "/" . $at_settings['logo_upload_print'];
+}
+
+/**
+ * @var LogoSizeResolverInterface|null $logoSizeResolver
+ */
+$logoSizeResolver = $block->getLogoSizeResolver();
+$logoWidth = $logoSizeResolver !== null && $logoSizeResolver->getWidth()
+    ? $logoSizeResolver->getWidth()
+    : $block->getLogoWidth();
+$logoHeight = $logoSizeResolver !== null && $logoSizeResolver->getHeight()
+    ? $logoSizeResolver->getHeight()
+    : $block->getLogoHeight();
+
+$logo_width = !empty($at_settings['logo_img_width']) ? $at_settings['logo_img_width'] : $logoWidth;
+$logo_height = !empty($at_settings['logo_img_height']) ? $at_settings['logo_img_height'] : $logoHeight;
+
+$OxLogoStyle = '';
+if ($logo_width || $logo_height) {
+    if ($logo_width) {
+        $OxLogoStyle .= 'max-width: ' . $block->escapeHtmlAttr($logo_width) . 'px;';
+    }
+    if ($logo_height) {
+        $OxLogoStyle .= 'max-height:' . $block->escapeHtmlAttr($logo_height) . 'px;';
+    }
+    if ($OxLogoStyle) {
+        $OxLogoStyle = 'style="' . $OxLogoStyle . '"';
+    }
+}
+$storeName = $block->getThemeName() ? $block->getThemeName() : $block->getLogoAlt();
+?>
+<a
+		class="logo"
+		href="<?= $block->escapeUrl($block->getUrl('')) ?>"
+		title="<?= $block->escapeHtmlAttr($storeName) ?>"
+		aria-label="store logo">
+
+	<img src="<?= $block->escapeUrl($OxlogoImage) ?>"
+		 title="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+		 alt="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+		<?= $OxLogoStyle ?>
+		<?= $logo_width ? 'width="' . $block->escapeHtmlAttr($logo_width) . '"' : '' ?>
+		<?= $logo_height ? 'height="' . $block->escapeHtmlAttr($logo_height) . '"' : '' ?>
+	/>
+	<?php if ($OxRetinalogoImage) {
+			 ?>
+		<img class="retina" src="<?= $block->escapeUrl($OxRetinalogoImage) ?>"
+			 title="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+			 alt="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+			<?= $OxLogoStyle ?>
+			<?= $logo_width ? 'width="' . $block->escapeHtmlAttr($logo_width) . '"' : '' ?>
+			<?= $logo_height ? 'height="' . $block->escapeHtmlAttr($logo_height) . '"' : '' ?>
+		/>
+		<?php
+		 } ?>
+	<?php if ($OxPrintlogoImage) {
+			 ?>
+		<img class="print-logo" src="<?= $block->escapeUrl($OxPrintlogoImage) ?>"
+			 data-ox-image
+			 title="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+			 alt="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+			<?= $OxLogoStyle ?>
+			<?= $logo_width ? 'width="' . $block->escapeHtmlAttr($logo_width) . '"' : '' ?>
+			<?= $logo_height ? 'height="' . $block->escapeHtmlAttr($logo_height) . '"' : '' ?>
+		/>
+		<?php
+		 } ?>
+</a>

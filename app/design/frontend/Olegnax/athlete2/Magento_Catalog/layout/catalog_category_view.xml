@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Athlete2 Theme
+ *
+ * @author      Olegnax
+ * @package     Olegnax_Athlete2
+ * @copyright   Copyright (c) 2023 Olegnax (https://olegnax.com). All rights reserved.
+ * @license     https://www.olegnax.com/license
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="before.body.end">
+                <block class="Magento\Framework\View\Element\Template" name="ox_catalog_js" template="Magento_Catalog::product/js.phtml"/>
+                <block class="Magento\Framework\View\Element\Template" name="sticky-sidebar.js" as="sticky-sidebar.js" template="Magento_Catalog::product/sticky-sidebar.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="category.products.list">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="helper" helper="Olegnax\Athlete2\Helper\UpdaterTemplate::setProductsLayout"/>
+            </action>
+        </referenceBlock>
+    </body>
+</page>
