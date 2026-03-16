@@ -1,0 +1,60 @@
+<?php
+/** @var $block \Giant\Checkout\Block\Product\SimilarProducts */
+$products = $block->getSimilarProducts();
+if (count($products) === 0) {
+    return;
+}
+$items = [];
+foreach ($products as $product) {
+    $items[] = $product;
+}
+if (empty($items)) {
+    return;
+}
+$imageHelper = $this->helper(\Magento\Catalog\Helper\Image::class);
+$priceHelper = $this->helper(\Magento\Framework\Pricing\Helper\Data::class);
+?>
+<div class="giant-similar-products">
+    <h3 class="giant-similar-products__title">Productos Similares</h3>
+    <div class="giant-similar-products__carousel-wrapper">
+        <button type="button" class="giant-similar-products__arrow giant-similar-products__arrow--prev"
+                onclick="var t=this.parentNode.querySelector('.giant-similar-products__track');var c=t.querySelector('.giant-similar-products__card');if(c){t.scrollLeft=Math.max(0,t.scrollLeft-(c.offsetWidth+12));}"
+                aria-label="Anterior">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#222"/><path d="M14 8l-4 4 4 4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="giant-similar-products__track">
+            <?php foreach ($items as $product): ?>
+                <?php
+                $productUrl = $product->getProductUrl();
+                $productImage = $imageHelper->init($product, 'category_page_list')->getUrl();
+                $productName = $block->escapeHtml($product->getName());
+                $subcategory = $block->escapeHtml($block->getProductSubcategory($product));
+                $price = $priceHelper->currency($product->getFinalPrice(), true, false);
+                ?>
+                <a href="<?= $block->escapeUrl($productUrl) ?>" class="giant-similar-products__card">
+                    <div class="giant-similar-products__card-image">
+                        <img src="<?= $block->escapeUrl($productImage) ?>"
+                             alt="<?= $productName ?>"
+                             loading="lazy"
+                             width="200" height="200" />
+                    </div>
+                    <div class="giant-similar-products__card-info">
+                        <?php if ($subcategory): ?>
+                            <div class="giant-similar-products__card-subcategory">
+                                <span class="giant-similar-products__card-subcategory-label">Subcategoría:</span>
+                                <span class="giant-similar-products__card-subcategory-name"><?= $subcategory ?></span>
+                            </div>
+                        <?php endif; ?>
+                        <div class="giant-similar-products__card-name"><?= $productName ?></div>
+                        <div class="giant-similar-products__card-price"><?= /* @noEscape */ $price ?></div>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        </div>
+        <button type="button" class="giant-similar-products__arrow giant-similar-products__arrow--next"
+                onclick="var t=this.parentNode.querySelector('.giant-similar-products__track');var c=t.querySelector('.giant-similar-products__card');if(c){t.scrollLeft=t.scrollLeft+(c.offsetWidth+12);}"
+                aria-label="Siguiente">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#222"/><path d="M10 8l4 4-4 4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+    </div>
+</div>

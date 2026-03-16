@@ -1,0 +1,15 @@
+<?php
+/** @var $block \Magento\Catalog\Block\Product\View */
+$product = $block->getProduct();
+$sku = $product->getSku();
+$isAvailable = $product->isAvailable();
+?>
+<div class="giant-stock-sku">
+    <span class="giant-stock-sku__product">Producto # <?= $block->escapeHtml($sku) ?></span>
+    <span class="giant-stock-sku__separator">|</span>
+    <?php if ($isAvailable): ?>
+        <span class="giant-stock-sku__status giant-stock-sku__status--available">EN STOCK: DISPONIBLE DE 3 A 7 DÍAS HÁBILES.</span>
+    <?php else: ?>
+        <span class="giant-stock-sku__status giant-stock-sku__status--unavailable">AGOTADO</span>
+    <?php endif; ?>
+</div>

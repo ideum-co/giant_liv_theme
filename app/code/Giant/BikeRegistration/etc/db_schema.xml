@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="giant_bike_registration" resource="default" engine="innodb" comment="Giant Bike Registration">
+        <column xsi:type="int" name="registration_id" unsigned="true" nullable="false" identity="true" comment="Registration ID"/>
+        <column xsi:type="varchar" name="full_name" nullable="false" length="255" comment="Full Name or Business Name"/>
+        <column xsi:type="varchar" name="document_type" nullable="false" length="50" comment="Document Type"/>
+        <column xsi:type="varchar" name="document_number" nullable="false" length="50" comment="Document Number"/>
+        <column xsi:type="varchar" name="address" nullable="true" length="500" comment="Residential Address"/>
+        <column xsi:type="varchar" name="gender" nullable="true" length="30" comment="Gender"/>
+        <column xsi:type="varchar" name="phone" nullable="false" length="30" comment="Phone"/>
+        <column xsi:type="varchar" name="email" nullable="false" length="255" comment="Email"/>
+        <column xsi:type="date" name="birthday" nullable="true" comment="Birthday"/>
+        <column xsi:type="varchar" name="department_city" nullable="false" length="255" comment="Department/City"/>
+        <column xsi:type="varchar" name="store_name" nullable="false" length="255" comment="Store Name"/>
+        <column xsi:type="varchar" name="purchase_city" nullable="false" length="255" comment="Purchase City/Department"/>
+        <column xsi:type="date" name="purchase_date" nullable="false" comment="Purchase Date"/>
+        <column xsi:type="varchar" name="bike_reference" nullable="false" length="255" comment="Bike Reference"/>
+        <column xsi:type="varchar" name="serial_number" nullable="false" length="100" comment="Frame Serial Number"/>
+        <column xsi:type="decimal" name="amount_paid" scale="2" precision="12" unsigned="false" nullable="false" comment="Amount Paid"/>
+        <column xsi:type="varchar" name="invoice_number" nullable="false" length="100" comment="Invoice Number"/>
+        <column xsi:type="varchar" name="invoice_file" nullable="true" length="500" comment="Invoice File Path"/>
+        <column xsi:type="varchar" name="download_token" nullable="true" length="64" comment="Download Token for PDF"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="20" default="pending" comment="Registration Status"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="registration_id"/>
+        </constraint>
+        <index referenceId="GIANT_BIKE_REG_EMAIL" indexType="btree">
+            <column name="email"/>
+        </index>
+        <index referenceId="GIANT_BIKE_REG_SERIAL" indexType="btree">
+            <column name="serial_number"/>
+        </index>
+    </table>
+</schema>

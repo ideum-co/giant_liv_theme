@@ -1,0 +1,421 @@
+<?php
+/** @var \Giant\Checkout\Block\Checkout $block */
+declare(strict_types=1);
+
+$hasBicycle       = $block->hasBicycleInCart();
+$showPriceWarning = $block->showPriceWarning();
+$isLoggedIn       = $block->isLoggedIn();
+$cartItems        = $block->getCartItems();
+$checkoutConfig   = $block->getCheckoutConfig();
+
+$paymentStepNum    = $hasBicycle ? 4 : 3;
+$distributorNum    = 3;
+?>
+<div class="giant-checkout-wrapper" id="giant-checkout-app">
+
+    <header class="giant-checkout-header">
+        <a href="<?= $block->escapeUrl($block->getBaseUrl()) ?>" class="giant-header-logo-link" aria-label="Giant Bicycles">
+            <img src="<?= $block->escapeUrl($block->getBaseUrl()) ?>media/athlete2/default/logo-giant.png"
+                 alt="Giant Bicycles" class="giant-header-logo-img" />
+        </a>
+    </header>
+
+    <main class="giant-checkout-main">
+
+        <div class="giant-checkout-steps-col">
+            <h1 class="giant-checkout-title"><?= __('PROCESO DE COMPRA') ?></h1>
+
+            <div class="giant-steps" id="giant-steps-container">
+
+                <div class="giant-step giant-step--active" id="giant-step-1" data-step="1">
+                    <div class="giant-step__header" role="button" tabindex="0" aria-expanded="true"
+                         aria-controls="giant-step-1-body">
+                        <span class="giant-step__num" aria-hidden="true">1</span>
+                        <span class="giant-step__title"><?= __('Información personal') ?></span>
+                        <span class="giant-step__edit-link" style="display:none"><?= __('Editar') ?></span>
+                    </div>
+
+                    <div class="giant-step__body" id="giant-step-1-body">
+                        <div class="giant-login-grid">
+
+                            <div class="giant-login-existing">
+                                <h3 class="giant-login-subtitle"><?= __('¿Ya tienes cuenta?') ?></h3>
+                                <p class="giant-login-desc"><?= __('Por favor inicia sesión.') ?></p>
+
+                                <form id="giant-login-form" novalidate>
+                                    <div class="giant-field-wrap">
+                                        <input type="email"
+                                               id="giant-login-email"
+                                               name="username"
+                                               autocomplete="email"
+                                               required
+                                               placeholder=" "
+                                               class="giant-input"/>
+                                        <label for="giant-login-email" class="giant-label">
+                                            <?= __('Correo electrónico') ?>&nbsp;<span class="giant-required" aria-hidden="true">*</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="giant-field-wrap">
+                                        <input type="password"
+                                               id="giant-login-pass"
+                                               name="password"
+                                               autocomplete="current-password"
+                                               required
+                                               placeholder=" "
+                                               class="giant-input"/>
+                                        <label for="giant-login-pass" class="giant-label">
+                                            <?= __('Contraseña') ?>&nbsp;<span class="giant-required" aria-hidden="true">*</span>
+                                        </label>
+                                    </div>
+
+                                    <a href="<?= $block->escapeUrl($block->getForgotPasswordUrl()) ?>"
+                                       class="giant-link giant-forgot-link">
+                                        <?= __('¿Olvidaste la contraseña?') ?>
+                                    </a>
+
+                                    <div class="giant-form-error" id="giant-login-error" role="alert" style="display:none"></div>
+
+                                    <button type="submit" class="giant-btn giant-btn--primary giant-login-btn">
+                                        <svg class="giant-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
+                                            <path d="M8 1a4 4 0 1 1 0 8A4 4 0 0 1 8 1zm0 9c-4 0-7 2-7 3v1h14v-1c0-1-3-3-7-3z" fill="currentColor"/>
+                                        </svg>
+                                        <?= __('Iniciar sesión') ?>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="giant-login-divider" aria-hidden="true"></div>
+
+                            <div class="giant-login-new">
+                                <h3 class="giant-login-subtitle"><?= __('¿Aún no tienes cuenta?') ?></h3>
+                                <p class="giant-login-desc"><?= __('Completa tu información de contacto.') ?></p>
+
+                                <button type="button"
+                                        class="giant-btn giant-btn--primary giant-btn--arrow"
+                                        id="giant-guest-btn">
+                                    <?= __('Continuar sin cuenta') ?>
+                                    <svg class="giant-btn-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
+                                        <path d="M8 0L6.6 1.4 12.2 7H0v2h12.2l-5.6 5.6L8 16l8-8z" fill="currentColor"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="giant-guest-form-container" style="display:none" class="giant-guest-form">
+                            <h3 class="giant-login-subtitle"><?= __('Información de contacto') ?></h3>
+                            <form id="giant-guest-contact-form" novalidate>
+                                <div class="giant-fields-row">
+                                    <div class="giant-field-wrap">
+                                        <input type="text" id="giant-guest-firstname" name="firstname"
+                                               required placeholder=" " class="giant-input"/>
+                                        <label for="giant-guest-firstname" class="giant-label">
+                                            <?= __('Nombre') ?>&nbsp;<span class="giant-required">*</span>
+                                        </label>
+                                    </div>
+                                    <div class="giant-field-wrap">
+                                        <input type="text" id="giant-guest-lastname" name="lastname"
+                                               required placeholder=" " class="giant-input"/>
+                                        <label for="giant-guest-lastname" class="giant-label">
+                                            <?= __('Apellidos') ?>&nbsp;<span class="giant-required">*</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="giant-field-wrap">
+                                    <input type="email" id="giant-guest-email" name="email"
+                                           required placeholder=" " class="giant-input"/>
+                                    <label for="giant-guest-email" class="giant-label">
+                                        <?= __('Correo electrónico') ?>&nbsp;<span class="giant-required">*</span>
+                                    </label>
+                                </div>
+                                <div class="giant-field-wrap">
+                                    <input type="tel" id="giant-guest-phone" name="telephone"
+                                           placeholder=" " class="giant-input"/>
+                                    <label for="giant-guest-phone" class="giant-label">
+                                        <?= __('Teléfono') ?>
+                                    </label>
+                                </div>
+
+                                <h4 class="giant-address-subtitle"><?= __('Dirección de envío') ?></h4>
+
+                                <div class="giant-field-wrap">
+                                    <input type="text" id="giant-guest-street" name="street"
+                                           required placeholder=" " class="giant-input"/>
+                                    <label for="giant-guest-street" class="giant-label">
+                                        <?= __('Dirección') ?>&nbsp;<span class="giant-required">*</span>
+                                    </label>
+                                </div>
+                                <div class="giant-fields-row">
+                                    <div class="giant-field-wrap">
+                                        <select id="giant-guest-department" name="department"
+                                                required class="giant-input giant-select">
+                                            <option value=""><?= __('-- Seleccionar departamento --') ?></option>
+                                            <?php foreach (\Giant\Checkout\Model\Config\Source\Departments::getDepartments() as $dept): ?>
+                                            <option value="<?= $block->escapeHtmlAttr($dept) ?>"><?= $block->escapeHtml($dept) ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label for="giant-guest-department" class="giant-label giant-label--select">
+                                            <?= __('Departamento') ?>&nbsp;<span class="giant-required">*</span>
+                                        </label>
+                                    </div>
+                                    <div class="giant-field-wrap">
+                                        <input type="text" id="giant-guest-city" name="city"
+                                               required placeholder=" " class="giant-input"/>
+                                        <label for="giant-guest-city" class="giant-label">
+                                            <?= __('Ciudad') ?>&nbsp;<span class="giant-required">*</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="giant-field-wrap">
+                                    <input type="text" id="giant-guest-postcode" name="postcode"
+                                           placeholder=" " class="giant-input"/>
+                                    <label for="giant-guest-postcode" class="giant-label">
+                                        <?= __('Código postal') ?>
+                                    </label>
+                                </div>
+
+                                <div class="giant-form-error" id="giant-guest-error" role="alert" style="display:none"></div>
+                                <button type="submit" class="giant-btn giant-btn--primary giant-btn--arrow">
+                                    <?= __('Continuar') ?>
+                                    <svg class="giant-btn-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
+                                        <path d="M8 0L6.6 1.4 12.2 7H0v2h12.2l-5.6 5.6L8 16l8-8z" fill="currentColor"/>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="giant-step" id="giant-step-2" data-step="2">
+                    <div class="giant-step__header" role="button" tabindex="0" aria-expanded="false"
+                         aria-controls="giant-step-2-body">
+                        <span class="giant-step__num" aria-hidden="true">2</span>
+                        <span class="giant-step__title"><?= __('Opciones de envío') ?></span>
+                        <span class="giant-step__edit-link" style="display:none"><?= __('Editar') ?></span>
+                    </div>
+
+                    <div class="giant-step__body" id="giant-step-2-body" style="display:none">
+                        <div id="giant-shipping-methods-container">
+                            <div class="giant-loading">
+                                <span class="giant-loading__spinner" aria-hidden="true"></span>
+                                <?= __('Cargando opciones de envío…') ?>
+                            </div>
+                        </div>
+                        <div class="giant-step__actions">
+                            <button type="button"
+                                    class="giant-btn giant-btn--primary giant-btn--arrow"
+                                    id="giant-shipping-continue"
+                                    disabled>
+                                <?= __('Continuar') ?>
+                                <svg class="giant-btn-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
+                                    <path d="M8 0L6.6 1.4 12.2 7H0v2h12.2l-5.6 5.6L8 16l8-8z" fill="currentColor"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <?php if ($hasBicycle): ?>
+                <div class="giant-step" id="giant-step-3" data-step="3">
+                    <div class="giant-step__header" role="button" tabindex="0" aria-expanded="false"
+                         aria-controls="giant-step-3-body">
+                        <span class="giant-step__num" aria-hidden="true"><?= (int) $distributorNum ?></span>
+                        <span class="giant-step__title"><?= __('Selecciona un distribuidor Giant') ?></span>
+                        <span class="giant-step__edit-link" style="display:none"><?= __('Editar') ?></span>
+                    </div>
+
+                    <div class="giant-step__body" id="giant-step-3-body" style="display:none">
+                        <div class="giant-department-filter" id="giant-department-filter">
+                            <div class="giant-field-wrap">
+                                <select id="giant-department-select" name="department" class="giant-input giant-select">
+                                    <option value=""><?= __('-- Seleccionar departamento --') ?></option>
+                                    <?php foreach (\Giant\Checkout\Model\Config\Source\Departments::getDepartments() as $dept): ?>
+                                    <option value="<?= $block->escapeHtmlAttr($dept) ?>"><?= $block->escapeHtml($dept) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <label for="giant-department-select" class="giant-label giant-label--select">
+                                    <?= __('Tu departamento') ?>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="giant-distributors-container">
+                            <p class="giant-no-options giant-dept-hint"><?= __('Selecciona tu departamento para ver los distribuidores disponibles.') ?></p>
+                        </div>
+                        <div class="giant-form-error" id="giant-distributor-error" role="alert" style="display:none"></div>
+                        <div class="giant-step__actions">
+                            <button type="button"
+                                    class="giant-btn giant-btn--primary giant-btn--arrow"
+                                    id="giant-distributor-continue"
+                                    disabled>
+                                <?= __('Continuar') ?>
+                                <svg class="giant-btn-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
+                                    <path d="M8 0L6.6 1.4 12.2 7H0v2h12.2l-5.6 5.6L8 16l8-8z" fill="currentColor"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <div class="giant-step" id="giant-step-payment" data-step="<?= (int) $paymentStepNum ?>">
+                    <div class="giant-step__header" role="button" tabindex="0" aria-expanded="false"
+                         aria-controls="giant-step-payment-body">
+                        <span class="giant-step__num" aria-hidden="true"><?= (int) $paymentStepNum ?></span>
+                        <span class="giant-step__title"><?= __('Forma de Pago') ?></span>
+                        <span class="giant-step__edit-link" style="display:none"><?= __('Editar') ?></span>
+                    </div>
+
+                    <div class="giant-step__body" id="giant-step-payment-body" style="display:none">
+                        <div id="giant-payment-methods-container">
+                            <div class="giant-loading">
+                                <span class="giant-loading__spinner" aria-hidden="true"></span>
+                                <?= __('Cargando métodos de pago…') ?>
+                            </div>
+                        </div>
+                        <div class="giant-form-error" id="giant-payment-error" role="alert" style="display:none"></div>
+                        <div class="giant-step__actions">
+                            <button type="button"
+                                    class="giant-btn giant-btn--primary giant-btn--place-order"
+                                    id="giant-place-order"
+                                    disabled>
+                                <?= __('Realizar pedido') ?>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <aside class="giant-order-summary-col" aria-label="<?= __('Resumen del pedido') ?>">
+            <div class="giant-order-summary" id="giant-order-summary">
+
+                <h2 class="giant-summary__title"><?= __('TU PEDIDO') ?></h2>
+
+                <div class="giant-summary__items" id="giant-summary-items">
+                    <?php foreach ($cartItems as $item): ?>
+                    <?php
+                        $itemOptions  = $block->getItemOptions($item);
+                        $rowTotal     = (float) $item->getRowTotal();
+                        $origPrice    = (float) $item->getProduct()->getPrice();
+                        $hasDiscount  = $origPrice > ($rowTotal / max($item->getQty(), 1));
+                    ?>
+                    <div class="giant-summary__item" data-item-id="<?= (int) $item->getId() ?>" data-is-bicycle="<?= $block->isItemBicycle($item) ? '1' : '0' ?>">
+                        <div class="giant-summary__item-info">
+                            <span class="giant-summary__item-name">
+                                <?= $block->escapeHtml($item->getName()) ?>
+                            </span>
+                            <?php foreach ($itemOptions as $opt): ?>
+                            <span class="giant-summary__item-option">
+                                <?= $block->escapeHtml($opt) ?>
+                            </span>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <span class="giant-summary__item-qty"><?= (int) $item->getQty() ?></span>
+
+                        <div class="giant-summary__item-price">
+                            <?php if ($hasDiscount): ?>
+                            <span class="giant-price--original">
+                                <?= /* @noEscape */ $block->formatPrice($origPrice * $item->getQty()) ?>
+                            </span>
+                            <?php endif; ?>
+                            <span class="giant-price--current">
+                                <?= /* @noEscape */ $block->formatPrice($rowTotal) ?>
+                            </span>
+                        </div>
+
+                        <button type="button"
+                                class="giant-summary__item-remove"
+                                data-item-id="<?= (int) $item->getId() ?>"
+                                aria-label="<?= __('Eliminar %1', $block->escapeHtmlAttr($item->getName())) ?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M2 4h12v1H2zm2-2h8v1H4zm1 3h1v8H5zm3 0h1v8H8zm3 0h1v8h-1zM3 5l1 9h8l1-9H3z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <div class="giant-summary__divider"></div>
+
+                <div class="giant-summary__row" id="giant-summary-shipping-row">
+                    <span id="giant-summary-shipping-label"><?= __('Envío') ?></span>
+                    <span id="giant-summary-shipping-price"><?= __('Calculando…') ?></span>
+                </div>
+
+                <div class="giant-summary__divider"></div>
+
+                <div class="giant-summary__row giant-summary__row--total">
+                    <strong><?= __('Total') ?></strong>
+                    <strong id="giant-summary-total">
+                        <?= /* @noEscape */ $block->formatPrice($block->getQuoteGrandTotal()) ?>
+                    </strong>
+                </div>
+
+                <?php if ($showPriceWarning): ?>
+                <p class="giant-summary__vat-note"><?= __('(IVA incluido)') ?></p>
+                <?php endif; ?>
+
+                <div class="giant-coupon">
+                    <button type="button" class="giant-coupon__toggle giant-link" id="giant-coupon-toggle"
+                            aria-expanded="false" aria-controls="giant-coupon-form">
+                        <?= __('¿Tienes un cupón?') ?>
+                    </button>
+                    <div class="giant-coupon__form" id="giant-coupon-form" style="display:none">
+                        <div class="giant-fields-row">
+                            <div class="giant-field-wrap">
+                                <input type="text"
+                                       id="giant-coupon-code"
+                                       name="coupon_code"
+                                       placeholder=" "
+                                       class="giant-input"/>
+                                <label for="giant-coupon-code" class="giant-label">
+                                    <?= __('Código de cupón') ?>
+                                </label>
+                            </div>
+                            <button type="button" class="giant-btn giant-btn--secondary" id="giant-apply-coupon">
+                                <?= __('Aplicar') ?>
+                            </button>
+                        </div>
+                        <div class="giant-form-error" id="giant-coupon-error" role="alert" style="display:none"></div>
+                        <div class="giant-form-success" id="giant-coupon-success" role="status" style="display:none"></div>
+                    </div>
+                </div>
+
+                <?php if ($showPriceWarning): ?>
+                <div class="giant-price-warning" role="note">
+                    <?= __('Los precios en tienda pueden variar según las ofertas, métodos de pago, comisiones o cargos de cada distribuidor.') ?>
+                </div>
+                <?php endif; ?>
+
+            </div>
+        </aside>
+
+    </main>
+
+    <footer class="giant-checkout-footer">
+        <div class="giant-footer__logo">
+            <img src="<?= $block->escapeUrl($block->getBaseUrl()) ?>media/athlete2/default/logo-giant.png"
+                 alt="Giant Bicycles" />
+        </div>
+        <nav class="giant-footer__links" aria-label="<?= __('Legal') ?>">
+            <a href="<?= $block->escapeUrl($block->getUrl('privacy-policy-cookie-restriction-mode')) ?>" class="giant-footer__link">
+                <?= __('Política de Privacidad') ?>
+            </a>
+            <span class="giant-footer__sep" aria-hidden="true">|</span>
+            <a href="<?= $block->escapeUrl($block->getUrl('condiciones-generales')) ?>" class="giant-footer__link">
+                <?= __('Condiciones Generales de Venta') ?>
+            </a>
+        </nav>
+        <p class="giant-footer__copy">
+            Copyright &copy; <?= (int) date('Y') ?> | Giant Bicycles
+        </p>
+    </footer>
+
+</div>
+
+<script>
+window.GIANT_CHECKOUT_CONFIG = <?= /* @noEscape */ $checkoutConfig ?>;
+</script>
+<script type="text/javascript" src="<?= $block->escapeUrl($block->getViewFileUrl('Giant_Checkout::js/giant-checkout.js')) ?>"></script>

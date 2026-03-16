@@ -1,0 +1,66 @@
+<?php
+/** @var \Giant\Checkout\Block\Product\BicycleInfo $block */
+if (!$block->isBicycle()) {
+    return;
+}
+?>
+<div class="giant-pdp-service-bar">
+    <button type="button" class="giant-service-item" onclick="document.getElementById('giant-modal-servicio').style.display='flex'">
+        <span class="giant-service-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 3V11.5H12.5V7L9.5 9.07036V14.1716L14 18V27H12V18.8284L7.5 15L7.5 8L14.5 3ZM17.5 3L24.5 8V15L20 18.8284V27H18V18L22.5 14.1716V9.07036L19.5 7V13.5H13L16.5 11.5H17.5V3Z" fill="currentColor"></path></svg>
+        </span>
+        <span class="giant-service-label"><?= $block->escapeHtml(__('SERVICIO')) ?></span>
+    </button>
+    <button type="button" class="giant-service-item" onclick="document.getElementById('giant-modal-registra').style.display='flex'">
+        <span class="giant-service-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M27 26H8.5L12 24V15.9316H19.9785V24H25.0215L25.0059 12.6631C24.5468 12.8795 24.0354 13 23.5 13C22.5457 13 21.6517 12.6063 21.0059 11.9541C20.3645 12.6061 19.4713 13 18.5 13C17.5457 13 16.6517 12.6063 16.0059 11.9541C15.3645 12.6061 14.4713 13 13.5 13C12.5457 13 11.6517 12.6063 11.0059 11.9541C10.3645 12.6061 9.47126 13 8.5 13C7.96242 13 7.4444 12.874 6.97852 12.6484V26H5V6H27V26ZM13.9785 24H18V18H13.9785V24ZM7 9.5C7 10.3975 7.60254 11 8.5 11C9.32197 11 9.91284 10.4943 10.0068 9.71973C10.0024 9.6472 10 9.57395 10 9.5V8H6.98828L7 9.5ZM12 9.5C12 10.3975 12.6025 11 13.5 11C14.322 11 14.9128 10.4943 15.0068 9.71973C15.0024 9.6472 15 9.57395 15 9.5V8H12V9.5ZM17 9.5C17 10.3975 17.6025 11 18.5 11C19.322 11 19.9128 10.4943 20.0068 9.71973C20.0024 9.6472 20 9.57395 20 9.5V8H17V9.5ZM22 9.5C22 10.3975 22.6025 11 23.5 11C24.3081 11 24.893 10.5112 25.002 9.75879L25 8H22V9.5Z" fill="currentColor"></path></svg>
+        </span>
+        <span class="giant-service-label"><?= $block->escapeHtml(__('REGISTRA TU BICI')) ?></span>
+    </button>
+    <button type="button" class="giant-service-item" onclick="document.getElementById('giant-modal-armado').style.display='flex'">
+        <span class="giant-service-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M28.7261 8.68775L12.8707 25.424L3.30225 16.1008L4.69798 14.6684L12.8137 22.576L27.2742 7.31226L28.7261 8.68775Z" fill="currentColor"></path></svg>
+        </span>
+        <span class="giant-service-label"><?= $block->escapeHtml(__('ARMADO INCLUIDO')) ?></span>
+    </button>
+</div>
+
+<div class="giant-pdp-modal" id="giant-modal-servicio" style="display:none">
+    <div class="giant-pdp-modal__overlay" onclick="this.parentNode.style.display='none'"></div>
+    <div class="giant-pdp-modal__content">
+        <button type="button" class="giant-pdp-modal__close" onclick="this.closest('.giant-pdp-modal').style.display='none'" aria-label="<?= $block->escapeHtmlAttr(__('Cerrar')) ?>">&times;</button>
+        <h3 class="giant-pdp-modal__title"><?= $block->escapeHtml(__('Servicio')) ?></h3>
+        <h4 class="giant-pdp-modal__subtitle"><?= $block->escapeHtml(__('POR QUÉ ES IMPORTANTE DARLE SERVICIO A TU BICICLETA')) ?></h4>
+        <p><?= $block->escapeHtml(__('El servicio de bicicletas ayuda a garantizar que todo funcione de manera óptima, lo que hace que tus rodadas sean más seguras, cómodas y puedas recibir el mejor rendimiento de tu bici.')) ?></p>
+        <p><?= $block->escapeHtml(__('Además, prolonga el tiempo de vida útil de tu bicicleta y de sus componentes; te brinda seguridad y confianza para que sólo te preocupes por rodar; y te evita gastos innecesarios por la reparación y ajustes mayores de tu bicicleta.')) ?></p>
+        <p><?= $block->escapeHtml(__('Es importante dar un mantenimiento regular y no esperar a que sucedan las complicaciones para acudir al taller de bicicletas de tu preferencia.')) ?></p>
+        <p><?= $block->escapeHtml(__('Aprende más sobre los intervalos de servicios recomendamos por Giant')) ?> <a href="<?= $block->escapeUrl($block->getUrl('servicio')) ?>"><?= $block->escapeHtml(__('aquí')) ?></a>.</p>
+        <p><?= $block->escapeHtml(__('RESERVA el servicio de tu bici')) ?> <a href="<?= $block->escapeUrl($block->getUrl('servicio')) ?>"><?= $block->escapeHtml(__('aquí')) ?></a>.</p>
+    </div>
+</div>
+
+<div class="giant-pdp-modal" id="giant-modal-registra" style="display:none">
+    <div class="giant-pdp-modal__overlay" onclick="this.parentNode.style.display='none'"></div>
+    <div class="giant-pdp-modal__content">
+        <button type="button" class="giant-pdp-modal__close" onclick="this.closest('.giant-pdp-modal').style.display='none'" aria-label="<?= $block->escapeHtmlAttr(__('Cerrar')) ?>">&times;</button>
+        <h3 class="giant-pdp-modal__title"><?= $block->escapeHtml(__('Registra tu bici')) ?></h3>
+        <h4 class="giant-pdp-modal__subtitle"><?= $block->escapeHtml(__('Registra tu bici para facilitar cualquier trámite relacionado con servicio posventa y/o garantía')) ?></h4>
+        <p><?= $block->escapeHtml(__('Registra tu producto para mantener tu información actualizada, facilitar cualquier trámite relacionado con tu garantía limitada y recibir soporte futuro si lo necesitas. Esto te permitirá conocer con claridad los alcances y beneficios incluidos en nuestra política de garantías, tales como:')) ?></p>
+        <p><?= $block->escapeHtml(__('Garantía limitada de por vida en el cuadro de la bicicleta.')) ?><br>
+        <?= $block->escapeHtml(__('3 años de garantía para los modelos diseñados para descenso.')) ?><br>
+        <?= $block->escapeHtml(__('1 año de garantía en los componentes originales Giant/Liv.')) ?></p>
+        <p><?= $block->escapeHtml(__('Para realizar tu registro, da click')) ?> <a href="<?= $block->escapeUrl($block->getUrl('bikeregistration')) ?>"><?= $block->escapeHtml(__('aquí')) ?></a>.</p>
+        <p><?= $block->escapeHtml(__('Para conocer más detalles de nuestra Política de Garantías, da click')) ?> <a href="<?= $block->escapeUrl($block->getUrl('garantias')) ?>"><?= $block->escapeHtml(__('aquí')) ?></a>.</p>
+    </div>
+</div>
+
+<div class="giant-pdp-modal" id="giant-modal-armado" style="display:none">
+    <div class="giant-pdp-modal__overlay" onclick="this.parentNode.style.display='none'"></div>
+    <div class="giant-pdp-modal__content">
+        <button type="button" class="giant-pdp-modal__close" onclick="this.closest('.giant-pdp-modal').style.display='none'" aria-label="<?= $block->escapeHtmlAttr(__('Cerrar')) ?>">&times;</button>
+        <h3 class="giant-pdp-modal__title"><?= $block->escapeHtml(__('Armado incluido')) ?></h3>
+        <p><?= $block->escapeHtml(__('Las bicicletas compradas en la plataforma Click & Collect se entregarán completamente ensambladas a través de un distribuidor Giant autorizado. Los pedidos pueden estar disponibles dentro de los siguientes 7 días hábiles.')) ?></p>
+        <p><?= $block->escapeHtml(__('El precio de su bicicleta incluye el ensamble profesional por parte de un distribuidor Giant autorizado.')) ?></p>
+        <p><?= $block->escapeHtml(__('Para más información, consulta nuestros')) ?> <a href="<?= $block->escapeUrl($block->getUrl('condiciones-generales')) ?>"><?= $block->escapeHtml(__('Términos y Condiciones')) ?></a>.</p>
+    </div>
+</div>

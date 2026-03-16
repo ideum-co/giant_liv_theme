@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <giant_checkout>
+            <general>
+                <!-- Comma-separated category IDs for bicycle detection -->
+                <bicycle_category_ids></bicycle_category_ids>
+                <!-- Product attribute used as alternative bicycle detection -->
+                <bicycle_attribute_code>product_type_giant</bicycle_attribute_code>
+                <bicycle_attribute_value>bicycle</bicycle_attribute_value>
+                <!-- Show "prices may vary" warning in order summary -->
+                <show_price_warning>0</show_price_warning>
+            </general>
+        </giant_checkout>
+    </default>
+</config>

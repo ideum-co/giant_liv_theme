@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product.info.social">
+            <block class="Giant\Checkout\Block\Product\BicycleInfo"
+                   name="giant.pdp.price.warning"
+                   template="Giant_Checkout::product/price-warning.phtml"
+                   after="-"/>
+            <block class="Giant\Checkout\Block\Product\SimilarProducts"
+                   name="giant.pdp.similar.products"
+                   template="Giant_Checkout::product/similar-products.phtml"
+                   after="giant.pdp.price.warning"/>
+            <block class="Giant\Checkout\Block\Product\BicycleInfo"
+                   name="giant.pdp.service.bar"
+                   template="Giant_Checkout::product/service-bar.phtml"
+                   after="giant.pdp.similar.products"/>
+        </referenceContainer>
+        <referenceContainer name="product.info.main">
+            <block class="Giant\Checkout\Block\Product\BicycleInfo"
+                   name="giant.pdp.sizing.guide"
+                   template="Giant_Checkout::product/sizing-guide.phtml"/>
+            <block class="Magento\Catalog\Block\Product\View"
+                   name="giant.pdp.stock.sku"
+                   template="Giant_Checkout::product/stock-sku.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,81 @@
+<?php
+/** @var \Giant\Dealers\Block\DealerList $block */
+$dealers = $block->getDealers();
+$mediaUrl = $block->getMediaUrl();
+$dealersJson = $block->getDealersJson();
+?>
+<div class="giant-dealers-banner">
+    <div class="giant-dealers-banner-overlay">
+        <h1>DISTRIBUIDORES</h1>
+    </div>
+</div>
+
+<div class="giant-dealers-container">
+    <div class="giant-dealers-intro">
+        <p>Encuentra tu distribuidor autorizado <strong>GIANT / LIV</strong> más cercano. Nuestros distribuidores cuentan con personal capacitado para asesorarte en la elección de tu bicicleta ideal.</p>
+    </div>
+
+    <div class="giant-dealers-layout">
+        <div class="giant-dealers-list">
+            <?php if ($dealers->getSize() > 0): ?>
+                <?php foreach ($dealers as $dealer): ?>
+                    <div class="giant-dealer-card" data-dealer-id="<?= $block->escapeHtmlAttr($dealer->getId()) ?>" data-lat="<?= $block->escapeHtmlAttr($dealer->getData('latitude')) ?>" data-lng="<?= $block->escapeHtmlAttr($dealer->getData('longitude')) ?>">
+                        <div class="giant-dealer-card-header">
+                            <?php if ($dealer->getData('logo')): ?>
+                                <img class="giant-dealer-logo" src="<?= $block->escapeUrl($mediaUrl . $dealer->getData('logo')) ?>" alt="<?= $block->escapeHtmlAttr($dealer->getData('name')) ?>" loading="lazy"/>
+                            <?php endif; ?>
+                            <div class="giant-dealer-name-city">
+                                <h3><?= $block->escapeHtml($dealer->getData('name')) ?></h3>
+                                <span class="giant-dealer-city"><?= $block->escapeHtml($dealer->getData('city')) ?></span>
+                            </div>
+                        </div>
+                        <div class="giant-dealer-card-body">
+                            <div class="giant-dealer-info-row">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" fill="currentColor"/></svg>
+                                <span><?= $block->escapeHtml($dealer->getData('address')) ?></span>
+                            </div>
+                            <?php if ($dealer->getData('phones')): ?>
+                            <div class="giant-dealer-info-row">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.21 2.2z" fill="currentColor"/></svg>
+                                <span><?= $block->escapeHtml($dealer->getData('phones')) ?></span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if ($dealer->getData('email')): ?>
+                            <div class="giant-dealer-info-row">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/></svg>
+                                <a href="mailto:<?= $block->escapeHtmlAttr($dealer->getData('email')) ?>"><?= $block->escapeHtml($dealer->getData('email')) ?></a>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php if ($dealer->getData('latitude') && $dealer->getData('longitude')): ?>
+                        <div class="giant-dealer-card-footer">
+                            <button class="giant-dealer-map-btn" data-lat="<?= $block->escapeHtmlAttr($dealer->getData('latitude')) ?>" data-lng="<?= $block->escapeHtmlAttr($dealer->getData('longitude')) ?>" data-name="<?= $block->escapeHtmlAttr($dealer->getData('name')) ?>">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="currentColor"/></svg>
+                                Ver en mapa
+                            </button>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="giant-dealers-empty">
+                    <p>No hay distribuidores disponibles en este momento.</p>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="giant-dealers-map-container">
+            <div id="giant-dealers-map"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "#giant-dealers-map": {
+            "Giant_Dealers/js/dealers-map": {
+                "dealers": <?= $dealersJson ?>
+            }
+        }
+    }
+</script>

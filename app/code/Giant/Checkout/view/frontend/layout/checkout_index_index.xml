@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="checkout"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+
+    <head>
+        <css src="Giant_Checkout::css/giant-checkout.css"/>
+    </head>
+
+    <body>
+        <attribute name="class" value="giant-checkout-page"/>
+
+        <referenceBlock name="checkout.root" remove="true"/>
+        <referenceBlock name="checkout.progress.wrapper" remove="true"/>
+        <referenceBlock name="minicart" remove="true"/>
+        <referenceBlock name="authentication-popup" remove="true"/>
+        <referenceBlock name="sidebar" remove="true"/>
+        <referenceBlock name="athlete2_header_checkout" remove="true"/>
+
+        <referenceContainer name="content">
+            <block class="Giant\Checkout\Block\Checkout"
+                   name="giant.checkout"
+                   template="Giant_Checkout::checkout.phtml"
+                   cacheable="false"/>
+        </referenceContainer>
+    </body>
+</page>

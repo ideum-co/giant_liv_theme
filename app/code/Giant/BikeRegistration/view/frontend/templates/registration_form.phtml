@@ -1,0 +1,331 @@
+<?php
+/** @var \Giant\BikeRegistration\Block\RegistrationForm $block */
+$formAction = $block->getSaveUrl();
+$downloadUrl = $block->getDownloadUrl();
+$formKey = $block->getFormKey();
+?>
+<div class="giant-reg-banner">
+    <div class="giant-reg-banner-overlay">
+        <h1>REGISTRO DE PRODUCTO</h1>
+    </div>
+</div>
+
+<div class="giant-reg-container">
+    <div class="giant-reg-intro">
+        <p>Felicitaciones por la adquisición de tu nueva bicicleta <strong>GIANT/LIV</strong>, el mayor fabricante de bicicletas a nivel mundial. Comprendemos tu ansiedad por ponerla a prueba y salir a rodar. Sin embargo, antes de hacerlo, te instamos cordialmente a registrarla completando el formulario disponible a continuación. Este proceso requerirá solo unos pocos minutos de tu tiempo.</p>
+        <p>Al registrar tu bicicleta, nos ayudarás a proporcionarte una atención eficiente ante cualquier eventualidad que pueda surgir. Además, este registro activará automáticamente tu <strong>póliza de seguro</strong>. Es fundamental destacar que, en caso de omitir este registro, la marca no podrá asumir responsabilidad por las condiciones de la cobertura del seguro contra robo y accidentes, ya que no se activará tu póliza.</p>
+        <p>Por último, este procedimiento nos permitirá personalizar tu experiencia, ofreciéndote acceso exclusivo a información de la marca, promociones y eventos especiales.</p>
+        <p class="giant-reg-terms-note">Al completar y enviar el siguiente formulario, usted acepta los <a href="#">términos y condiciones</a>, en lo que se refiere al tratamiento de la base de datos y las condiciones de garantía de su nueva bicicleta. <strong>¡GRACIAS POR PREFERIR GIANT / LIV!</strong></p>
+    </div>
+
+    <form id="giant-registration-form" enctype="multipart/form-data" novalidate>
+        <input name="form_key" type="hidden" value="<?= $block->escapeHtmlAttr($formKey) ?>" />
+
+        <div class="giant-reg-section" data-section="1">
+            <div class="giant-reg-section-header active" data-step="1">
+                <span class="giant-reg-step-number">1</span>
+                <span class="giant-reg-step-title">Información Personal</span>
+                <span class="giant-reg-step-toggle"></span>
+            </div>
+            <div class="giant-reg-section-body" style="display: block;">
+                <div class="giant-reg-row">
+                    <div class="giant-reg-field giant-reg-full">
+                        <label for="reg_full_name">Nombres y Apellidos Completos o Razón Social <span class="req">*</span></label>
+                        <input type="text" id="reg_full_name" name="full_name" required />
+                    </div>
+                </div>
+                <div class="giant-reg-row">
+                    <div class="giant-reg-field">
+                        <label for="reg_document_type">Tipo de Documento <span class="req">*</span></label>
+                        <select id="reg_document_type" name="document_type" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
+                            <option value="Cédula de Extranjería">Cédula de Extranjería</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                            <option value="NIT">NIT</option>
+                        </select>
+                    </div>
+                    <div class="giant-reg-field">
+                        <label for="reg_document_number">Número de Documento <span class="req">*</span></label>
+                        <input type="text" id="reg_document_number" name="document_number" required />
+                    </div>
+                </div>
+                <div class="giant-reg-row">
+                    <div class="giant-reg-field giant-reg-full">
+                        <label for="reg_address">Dirección de Residencia</label>
+                        <input type="text" id="reg_address" name="address" />
+                    </div>
+                </div>
+                <div class="giant-reg-row">
+                    <div class="giant-reg-field">
+                        <label for="reg_gender">Género</label>
+                        <select id="reg_gender" name="gender">
+                            <option value="">Seleccionar...</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Prefiero no especificar">Prefiero no especificar</option>
+                        </select>
+                    </div>
+                    <div class="giant-reg-field">
+                        <label for="reg_phone">Teléfono Fijo o Celular <span class="req">*</span></label>
+                        <input type="tel" id="reg_phone" name="phone" required />
+                    </div>
+                </div>
+                <div class="giant-reg-row">
+                    <div class="giant-reg-field">
+                        <label for="reg_email">Email <span class="req">*</span></label>
+                        <input type="email" id="reg_email" name="email" required />
+                    </div>
+                    <div class="giant-reg-field">
+                        <label for="reg_birthday">Fecha de Cumpleaños</label>
+                        <input type="date" id="reg_birthday" name="birthday" />
+                    </div>
+                </div>
+                <div class="giant-reg-row">
+                    <div class="giant-reg-field giant-reg-full">
+                        <label for="reg_department_city">Departamento / Ciudad de Residencia <span class="req">*</span></label>
+                        <input type="text" id="reg_department_city" name="department_city" required placeholder="Ej: Antioquia / Medellín" />
+                    </div>
+                </div>
+                <div class="giant-reg-nav">
+                    <button type="button" class="giant-reg-btn giant-reg-next" data-next="2">Continuar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="giant-reg-section" data-section="2">
+            <div class="giant-reg-section-header" data-step="2">
+                <span class="giant-reg-step-number">2</span>
+                <span class="giant-reg-step-title">Información de la Compra</span>
+                <span class="giant-reg-step-toggle"></span>
+            </div>
+            <div class="giant-reg-section-body" style="display: none;">
+                <div class="giant-reg-row">
+                    <div class="giant-reg-field">
+                        <label for="reg_store_name">Nombre del Establecimiento <span class="req">*</span></label>
+                        <input type="text" id="reg_store_name" name="store_name" required />
+                    </div>
+                    <div class="giant-reg-field">
+                        <label for="reg_purchase_city">Ciudad / Departamento de Compra <span class="req">*</span></label>
+                        <input type="text" id="reg_purchase_city" name="purchase_city" required />
+                    </div>
+                </div>
+                <div class="giant-reg-row">
+                    <div class="giant-reg-field">
+                        <label for="reg_purchase_date">Fecha de Compra <span class="req">*</span></label>
+                        <input type="date" id="reg_purchase_date" name="purchase_date" required />
+                    </div>
+                    <div class="giant-reg-field">
+                        <label for="reg_bike_reference">Referencia de la Bicicleta <span class="req">*</span></label>
+                        <input type="text" id="reg_bike_reference" name="bike_reference" required placeholder="Ej: TCR Advanced Pro 1" />
+                    </div>
+                </div>
+                <div class="giant-reg-row">
+                    <div class="giant-reg-field giant-reg-full">
+                        <label for="reg_serial_number">Serial del Marco <span class="req">*</span></label>
+                        <input type="text" id="reg_serial_number" name="serial_number" required />
+                        <div class="giant-reg-serial-help">
+                            <p class="giant-reg-serial-note">El número de serial se encuentra grabado en la parte inferior del cuadro (bottom bracket). Consulte las imágenes de referencia.</p>
+                            <div class="giant-reg-serial-images">
+                                <div class="giant-reg-serial-img">
+                                    <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="300" height="180" fill="#f5f5f5" rx="8"/>
+                                        <path d="M60 140 L120 50 L180 50 L220 140 Z" fill="none" stroke="#333" stroke-width="2.5"/>
+                                        <path d="M120 50 L150 140" fill="none" stroke="#333" stroke-width="2.5"/>
+                                        <circle cx="60" cy="140" r="25" fill="none" stroke="#999" stroke-width="1.5"/>
+                                        <circle cx="220" cy="140" r="25" fill="none" stroke="#999" stroke-width="1.5"/>
+                                        <circle cx="150" cy="140" r="8" fill="#0a0a5c" stroke="#0a0a5c" stroke-width="2"/>
+                                        <line x1="150" y1="155" x2="150" y2="170" stroke="#c00" stroke-width="2"/>
+                                        <text x="120" y="178" font-size="10" fill="#c00" font-weight="bold">SERIAL AQUÍ</text>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="giant-reg-row">
+                    <div class="giant-reg-field">
+                        <label for="reg_amount_paid">Valor Pagado (COP) <span class="req">*</span></label>
+                        <input type="text" id="reg_amount_paid" name="amount_paid" required placeholder="Ej: 3500000" />
+                    </div>
+                    <div class="giant-reg-field">
+                        <label for="reg_invoice_number">Número de la Factura <span class="req">*</span></label>
+                        <input type="text" id="reg_invoice_number" name="invoice_number" required />
+                    </div>
+                </div>
+                <div class="giant-reg-row">
+                    <div class="giant-reg-field giant-reg-full">
+                        <label for="reg_invoice_file">Adjuntar Factura (PDF, DOC, JPG, PNG, TIF - máx. 10MB)</label>
+                        <div class="giant-reg-file-upload">
+                            <input type="file" id="reg_invoice_file" name="invoice_file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.tif,.tiff" />
+                            <span class="giant-reg-file-label">Seleccionar archivo...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="giant-reg-nav">
+                    <button type="button" class="giant-reg-btn giant-reg-back" data-prev="1">Anterior</button>
+                    <button type="button" class="giant-reg-btn giant-reg-next" data-next="3">Continuar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="giant-reg-section" data-section="3">
+            <div class="giant-reg-section-header" data-step="3">
+                <span class="giant-reg-step-number">3</span>
+                <span class="giant-reg-step-title">Confirmación</span>
+                <span class="giant-reg-step-toggle"></span>
+            </div>
+            <div class="giant-reg-section-body" style="display: none;">
+                <div class="giant-reg-confirm-box">
+                    <label class="giant-reg-checkbox-label">
+                        <input type="checkbox" id="reg_terms" name="terms" required />
+                        <span>Acepto los <a href="#" target="_blank">términos y condiciones</a> y autorizo el tratamiento de mis datos personales conforme a la política de privacidad.</span>
+                    </label>
+                </div>
+                <div class="giant-reg-nav">
+                    <button type="button" class="giant-reg-btn giant-reg-back" data-prev="2">Anterior</button>
+                    <button type="submit" class="giant-reg-btn giant-reg-submit">Registrar Bicicleta</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="giant-reg-success" class="giant-reg-success" style="display: none;">
+        <div class="giant-reg-success-icon">✓</div>
+        <h2>¡Registro Exitoso!</h2>
+        <p>Tu bicicleta ha sido registrada correctamente. Tu póliza de seguro ha sido activada.</p>
+        <p class="giant-reg-success-id">Número de Registro: <strong id="giant-reg-id"></strong></p>
+        <a id="giant-reg-download" href="#" class="giant-reg-btn giant-reg-download-btn">Descargar Tarjeta de Propiedad (PDF)</a>
+        <a href="<?= $this->escapeUrl($this->getUrl('')) ?>" class="giant-reg-btn giant-reg-home-btn">Volver al Inicio</a>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('giant-registration-form');
+    var successDiv = document.getElementById('giant-reg-success');
+
+    document.querySelectorAll('.giant-reg-section-header').forEach(function(header) {
+        header.addEventListener('click', function() {
+            var step = parseInt(this.getAttribute('data-step'));
+            toggleSection(step);
+        });
+    });
+
+    document.querySelectorAll('.giant-reg-next').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var nextStep = parseInt(this.getAttribute('data-next'));
+            var currentStep = nextStep - 1;
+            if (validateSection(currentStep)) {
+                openSection(nextStep);
+            }
+        });
+    });
+
+    document.querySelectorAll('.giant-reg-back').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var prevStep = parseInt(this.getAttribute('data-prev'));
+            openSection(prevStep);
+        });
+    });
+
+    var fileInput = document.getElementById('reg_invoice_file');
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            var label = this.parentNode.querySelector('.giant-reg-file-label');
+            label.textContent = this.files.length ? this.files[0].name : 'Seleccionar archivo...';
+        });
+    }
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (!validateSection(3)) return;
+        if (!document.getElementById('reg_terms').checked) {
+            alert('Debe aceptar los términos y condiciones.');
+            return;
+        }
+
+        var submitBtn = form.querySelector('.giant-reg-submit');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '<?= $this->escapeJs($formAction) ?>', true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+        xhr.onload = function() {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Registrar Bicicleta';
+            try {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    form.style.display = 'none';
+                    document.querySelector('.giant-reg-intro').style.display = 'none';
+                    successDiv.style.display = 'block';
+                    document.getElementById('giant-reg-id').textContent = 'GCO-' + String(response.registration_id).padStart(6, '0');
+                    document.getElementById('giant-reg-download').href = '<?= $this->escapeJs($downloadUrl) ?>?id=' + response.registration_id + '&token=' + response.download_token;
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                } else {
+                    alert(response.message || 'Error al enviar el formulario.');
+                }
+            } catch(err) {
+                alert('Error al procesar la respuesta del servidor.');
+            }
+        };
+
+        xhr.onerror = function() {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Registrar Bicicleta';
+            alert('Error de conexión. Intente nuevamente.');
+        };
+
+        xhr.send(formData);
+    });
+
+    function toggleSection(step) {
+        var section = document.querySelector('[data-section="' + step + '"]');
+        var body = section.querySelector('.giant-reg-section-body');
+        var header = section.querySelector('.giant-reg-section-header');
+        var isOpen = body.style.display !== 'none';
+        if (isOpen) {
+            body.style.display = 'none';
+            header.classList.remove('active');
+        } else {
+            openSection(step);
+        }
+    }
+
+    function openSection(step) {
+        document.querySelectorAll('.giant-reg-section-body').forEach(function(b) { b.style.display = 'none'; });
+        document.querySelectorAll('.giant-reg-section-header').forEach(function(h) { h.classList.remove('active'); });
+        var section = document.querySelector('[data-section="' + step + '"]');
+        section.querySelector('.giant-reg-section-body').style.display = 'block';
+        section.querySelector('.giant-reg-section-header').classList.add('active');
+        section.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+
+    function validateSection(step) {
+        var section = document.querySelector('[data-section="' + step + '"]');
+        if (!section) return true;
+        var inputs = section.querySelectorAll('[required]');
+        var valid = true;
+        inputs.forEach(function(input) {
+            input.classList.remove('giant-reg-error');
+            if (!input.value.trim()) {
+                input.classList.add('giant-reg-error');
+                valid = false;
+            }
+            if (input.type === 'email' && input.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
+                input.classList.add('giant-reg-error');
+                valid = false;
+            }
+        });
+        if (!valid) {
+            var firstError = section.querySelector('.giant-reg-error');
+            if (firstError) firstError.focus();
+        }
+        return valid;
+    }
+});
+</script>

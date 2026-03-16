@@ -1,7 +1,7 @@
 <?php
 return [
     'backend' => [
-        'frontName' => 'admin'
+        'frontName' => 'admin_giant'
     ],
     'cache' => [
         'graphql' => [
@@ -9,8 +9,7 @@ return [
         ],
         'frontend' => [
             'default' => [
-                'id_prefix' => '000_',
-                'backend' => 'Magento\\Framework\\Cache\\Backend\\File'
+                'id_prefix' => '000_'
             ],
             'page_cache' => [
                 'id_prefix' => '000_'
@@ -31,10 +30,10 @@ return [
         'table_prefix' => '',
         'connection' => [
             'default' => [
-                'host' => 'mysql',
+                'host' => '127.0.0.1:3307',
                 'dbname' => 'magento',
-                'username' => 'magento',
-                'password' => 'magento',
+                'username' => 'root',
+                'password' => '',
                 'model' => 'mysql4',
                 'engine' => 'innodb',
                 'initStatements' => 'SET NAMES utf8;',
@@ -50,15 +49,15 @@ return [
             'connection' => 'default'
         ]
     ],
-    'x-frame-options' => 'SAMEORIGIN',
-    'MAGE_MODE' => 'developer',
+    'x-frame-options' => 'ALLOWALL',
+    'MAGE_MODE' => 'production',
     'session' => [
         'save' => 'files'
     ],
     'lock' => [
         'provider' => 'file',
         'config' => [
-            'path' => '/var/www/html/var/lock'
+            'path' => '/home/runner/workspace/var/locks'
         ]
     ],
     'directories' => [

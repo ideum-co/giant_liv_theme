@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">giant_bikeregistration_listing.giant_bikeregistration_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>giant_bikeregistration_columns</spinner>
+        <deps>
+            <dep>giant_bikeregistration_listing.giant_bikeregistration_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="giant_bikeregistration_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Giant_BikeRegistration::registration</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="giant_bikeregistration_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>registration_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filterSearch name="fulltext"/>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="giant_bikeregistration_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>registration_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="registration_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+        <column name="full_name">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Nombre Completo</label>
+            </settings>
+        </column>
+        <column name="document_type">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Tipo Documento</label>
+            </settings>
+        </column>
+        <column name="document_number">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Número Documento</label>
+            </settings>
+        </column>
+        <column name="email">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Email</label>
+            </settings>
+        </column>
+        <column name="phone">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Teléfono</label>
+            </settings>
+        </column>
+        <column name="department_city">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Ciudad/Departamento</label>
+            </settings>
+        </column>
+        <column name="bike_reference">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Referencia Bicicleta</label>
+            </settings>
+        </column>
+        <column name="serial_number">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Serial</label>
+            </settings>
+        </column>
+        <column name="store_name">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Tienda</label>
+            </settings>
+        </column>
+        <column name="amount_paid">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Valor Pagado</label>
+            </settings>
+        </column>
+        <column name="invoice_number">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Nº Factura</label>
+            </settings>
+        </column>
+        <column name="purchase_date" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Fecha Compra</label>
+            </settings>
+        </column>
+        <column name="status">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Estado</label>
+            </settings>
+        </column>
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Fecha Registro</label>
+            </settings>
+        </column>
+    </columns>
+</listing>

@@ -1,0 +1,204 @@
+<?php
+/** @var \Giant\Checkout\Block\Product\BicycleInfo $block */
+if (!$block->isBicycle()) {
+    return;
+}
+$product = $block->getProduct();
+$productName = $block->escapeHtml($product->getName());
+$imageHelper = $this->helper(\Magento\Catalog\Helper\Image::class);
+$productImage = $imageHelper->init($product, 'product_page_image_large')->getUrl();
+$pImgUrl = $block->escapeUrl($productImage);
+?>
+<div class="giant-sizing-trigger">
+    <span class="giant-sizing-trigger__label">ELIGE TU TALLA</span>
+    <a href="#" class="giant-sizing-trigger__link"
+       onclick="document.getElementById('giantSizingOverlay').style.display='flex';return false;"><i class="glyphicon glyphicon-question-sign" style="margin-right: 5px;"></i> ¿Cuál es mi talla?</a>
+</div>
+
+<div id="giantSizingOverlay" class="giant-sizing-overlay" style="display:none"
+     onclick="if(event.target===this){this.style.display='none';}">
+    <div class="giant-sizing-modal" onclick="event.stopPropagation();">
+        <div class="giant-sizing-header">
+            <div class="giant-sizing-steps" id="gszStepNav">
+                <span class="giant-sizing-step-num active" id="gszNav1">1</span>
+                <span class="giant-sizing-step-num" id="gszNav2">2</span>
+                <span class="giant-sizing-step-num" id="gszNav3">3</span>
+                <span class="giant-sizing-step-num" id="gszNav4">4</span>
+                <span class="giant-sizing-step-num" id="gszNav5">5</span>
+            </div>
+            <div class="giant-sizing-actions">
+                <button type="button" class="giant-sizing-action-btn"
+                        onclick="document.getElementById('giantSizingOverlay').style.display='none';"
+                        aria-label="Cerrar">&#10005;</button>
+                <button type="button" class="giant-sizing-action-btn"
+                        onclick="var h=document.getElementById('gszHeight');h.value=170;document.getElementById('gszShoe').value=42;var r=document.querySelectorAll('input[name=gsz_gender]');for(var i=0;i<r.length;i++)r[i].checked=(r[i].value==='male');document.getElementById('gszGender').value='male';document.getElementById('gszHeightUnit').textContent='cm';document.getElementById('gszUnitCm').classList.add('active');document.getElementById('gszUnitIn').classList.remove('active');h.min=100;h.max=220;window._gszUnit='cm';for(var s=2;s<=5;s++){var m=document.getElementById('gszStep'+s+'Main');var w=document.getElementById('gszStep'+s+'How');if(m)m.style.display='';if(w)w.style.display='none';}for(var i=1;i<=5;i++){document.getElementById('gszStep'+i).style.display=(i===1)?'':'none';}document.getElementById('gszStepResult').style.display='none';document.getElementById('gszNav1').className='giant-sizing-step-num active';for(var i=2;i<=5;i++)document.getElementById('gszNav'+i).className='giant-sizing-step-num';document.getElementById('gszIllust1').classList.add('active');for(var i=2;i<=5;i++)document.getElementById('gszIllust'+i).classList.remove('active');document.getElementById('gszHelpIcon').style.display='none';document.querySelector('.giant-sizing-illust').style.display='';document.getElementById('gszBtnBack').style.display='none';var nb=document.getElementById('gszBtnNext');nb.style.display='';nb.textContent='SIGUIENTE \u2192';window._gszStep=1;"
+                        aria-label="Reiniciar">&#8635;</button>
+            </div>
+        </div>
+
+        <div class="giant-sizing-body">
+            <div class="giant-sizing-form">
+                <!-- STEP 1 -->
+                <div class="gsz-step" id="gszStep1">
+                    <h3 class="gsz-product-name"><?= $productName ?></h3>
+                    <p class="gsz-subtitle">Encuentra la talla de cuadro perfecta para ti.</p>
+                    <div class="gsz-field">
+                        <label class="gsz-label">¿Cuál es tu género?</label>
+                        <div class="gsz-radio-group">
+                            <label class="gsz-radio-box">
+                                <input type="radio" name="gsz_gender" value="male" checked
+                                       onchange="document.getElementById('gszGender').value='male';">
+                                <span>Hombre</span>
+                            </label>
+                            <label class="gsz-radio-box">
+                                <input type="radio" name="gsz_gender" value="female"
+                                       onchange="document.getElementById('gszGender').value='female';">
+                                <span>Mujer</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="gsz-field">
+                        <label class="gsz-label">Altura</label>
+                        <p class="gsz-hint">Determina tu altura de forma precisa. Colócate de pie y erguido contra una pared, descalzo o con calcetines.</p>
+                        <div class="gsz-input-unit">
+                            <input type="number" id="gszHeight" value="170" min="100" max="220" class="gsz-input">
+                            <span class="gsz-unit" id="gszHeightUnit">cm</span>
+                        </div>
+                        <div class="gsz-toggle-group">
+                            <button type="button" class="gsz-toggle active" id="gszUnitCm"
+                                    onclick="if(window._gszUnit==='inch'){var h=document.getElementById('gszHeight');h.value=Math.round(parseFloat(h.value)*2.54);document.getElementById('gszHeightUnit').textContent='cm';this.classList.add('active');document.getElementById('gszUnitIn').classList.remove('active');h.min=100;h.max=220;window._gszUnit='cm';}">cm</button>
+                            <button type="button" class="gsz-toggle" id="gszUnitIn"
+                                    onclick="if(window._gszUnit!=='inch'){var h=document.getElementById('gszHeight');h.value=Math.round(parseFloat(h.value)/2.54*10)/10;document.getElementById('gszHeightUnit').textContent='inch';this.classList.add('active');document.getElementById('gszUnitCm').classList.remove('active');h.min=39;h.max=87;window._gszUnit='inch';}">Inch</button>
+                        </div>
+                    </div>
+                    <div class="gsz-field">
+                        <label class="gsz-label">¿Cuál es tu talla de calzado?</label>
+                        <div class="gsz-input-unit gsz-input-unit--small">
+                            <input type="number" id="gszShoe" value="42" min="20" max="55" class="gsz-input">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2 -->
+                <div class="gsz-step" id="gszStep2" style="display:none">
+                    <div id="gszStep2Main">
+                        <h3 class="gsz-product-name"><?= $productName ?></h3>
+                        <p class="gsz-measure-text" id="gszStep2Text"></p>
+                        <div class="gsz-input-unit">
+                            <input type="number" id="gszInseam" class="gsz-input" step="0.1"
+                                   oninput="document.getElementById('gszInseamSlider').value=this.value;">
+                            <span class="gsz-unit">CM</span>
+                        </div>
+                        <input type="range" id="gszInseamSlider" class="gsz-slider" min="60" max="100" step="0.1"
+                               oninput="document.getElementById('gszInseam').value=this.value;">
+                        <p class="gsz-adjust-hint">¿Tienes piernas más cortas o largas de lo que estimamos? Mídete y cambia los valores.</p>
+                        <button type="button" class="gsz-how-btn" onclick="document.getElementById('gszStep2Main').style.display='none';document.getElementById('gszStep2How').style.display='';">CÓMO MEDIRSE</button>
+                    </div>
+                    <div id="gszStep2How" style="display:none">
+                        <h3 class="gsz-how-title">Longitud de la entrepierna</h3>
+                        <p class="gsz-how-text">Para medir tu entrepierna, ponte de pie con los pies separados a la anchura de los hombros. Coloca un libro entre las piernas presionando hacia arriba como si fuera un sillín de bicicleta. Mide desde el borde superior del libro hasta el suelo.</p>
+                        <button type="button" class="gsz-how-btn" onclick="document.getElementById('gszStep2How').style.display='none';document.getElementById('gszStep2Main').style.display='';">REGRESAR</button>
+                    </div>
+                </div>
+
+                <!-- STEP 3 -->
+                <div class="gsz-step" id="gszStep3" style="display:none">
+                    <div id="gszStep3Main">
+                        <h3 class="gsz-product-name"><?= $productName ?></h3>
+                        <p class="gsz-measure-text" id="gszStep3Text"></p>
+                        <div class="gsz-input-unit">
+                            <input type="number" id="gszFemur" class="gsz-input" step="0.1"
+                                   oninput="document.getElementById('gszFemurSlider').value=this.value;">
+                            <span class="gsz-unit">CM</span>
+                        </div>
+                        <input type="range" id="gszFemurSlider" class="gsz-slider" min="40" max="75" step="0.1"
+                               oninput="document.getElementById('gszFemur').value=this.value;">
+                        <p class="gsz-adjust-hint">¿Tienes diferente longitud de fémur? Mídete y cambia los valores.</p>
+                        <button type="button" class="gsz-how-btn" onclick="document.getElementById('gszStep3Main').style.display='none';document.getElementById('gszStep3How').style.display='';">CÓMO MEDIRSE</button>
+                    </div>
+                    <div id="gszStep3How" style="display:none">
+                        <h3 class="gsz-how-title">Longitud de fémur</h3>
+                        <p class="gsz-how-text">Para medir la longitud de tu fémur, siéntate en una superficie plana. Mide desde el centro de la rótula hasta el pliegue de la cadera (donde la pierna se une al torso).</p>
+                        <button type="button" class="gsz-how-btn" onclick="document.getElementById('gszStep3How').style.display='none';document.getElementById('gszStep3Main').style.display='';">REGRESAR</button>
+                    </div>
+                </div>
+
+                <!-- STEP 4 -->
+                <div class="gsz-step" id="gszStep4" style="display:none">
+                    <div id="gszStep4Main">
+                        <h3 class="gsz-product-name"><?= $productName ?></h3>
+                        <p class="gsz-measure-text" id="gszStep4Text"></p>
+                        <div class="gsz-input-unit">
+                            <input type="number" id="gszTorso" class="gsz-input" step="0.1"
+                                   oninput="document.getElementById('gszTorsoSlider').value=this.value;">
+                            <span class="gsz-unit">CM</span>
+                        </div>
+                        <input type="range" id="gszTorsoSlider" class="gsz-slider" min="35" max="70" step="0.1"
+                               oninput="document.getElementById('gszTorso').value=this.value;">
+                        <p class="gsz-adjust-hint">¿Tienes diferente ancho de torso? Mídete y cambia los valores.</p>
+                        <button type="button" class="gsz-how-btn" onclick="document.getElementById('gszStep4Main').style.display='none';document.getElementById('gszStep4How').style.display='';">CÓMO MEDIRSE</button>
+                    </div>
+                    <div id="gszStep4How" style="display:none">
+                        <h3 class="gsz-how-title">Longitud del torso</h3>
+                        <p class="gsz-how-text">La longitud del torso determina en parte la posición del manubrio. Para medir la longitud de tu torso, siéntate en una superficie plana, como una silla o una caja sólida, con la espalda recta contra la pared. Mide la longitud desde la superficie en la que estás sentado hasta la parte superior de tu esternón (la pequeña hendidura justo debajo del cuello).</p>
+                        <button type="button" class="gsz-how-btn" onclick="document.getElementById('gszStep4How').style.display='none';document.getElementById('gszStep4Main').style.display='';">REGRESAR</button>
+                    </div>
+                </div>
+
+                <!-- STEP 5 -->
+                <div class="gsz-step" id="gszStep5" style="display:none">
+                    <div id="gszStep5Main">
+                        <h3 class="gsz-product-name"><?= $productName ?></h3>
+                        <p class="gsz-measure-text" id="gszStep5Text"></p>
+                        <div class="gsz-input-unit">
+                            <input type="number" id="gszArm" class="gsz-input" step="0.1"
+                                   oninput="document.getElementById('gszArmSlider').value=this.value;">
+                            <span class="gsz-unit">CM</span>
+                        </div>
+                        <input type="range" id="gszArmSlider" class="gsz-slider" min="45" max="85" step="0.1"
+                               oninput="document.getElementById('gszArm').value=this.value;">
+                        <p class="gsz-adjust-hint">¿Tienes diferente longitud de brazos? Mídete y cambia los valores.</p>
+                        <button type="button" class="gsz-how-btn" onclick="document.getElementById('gszStep5Main').style.display='none';document.getElementById('gszStep5How').style.display='';">CÓMO MEDIRSE</button>
+                    </div>
+                    <div id="gszStep5How" style="display:none">
+                        <h3 class="gsz-how-title">Longitud de brazo</h3>
+                        <p class="gsz-how-text">Para medir la longitud de tu brazo, párate derecho con el brazo estirado hacia adelante. Mide desde el centro del hombro hasta el centro de tu puño cerrado.</p>
+                        <button type="button" class="gsz-how-btn" onclick="document.getElementById('gszStep5How').style.display='none';document.getElementById('gszStep5Main').style.display='';">REGRESAR</button>
+                    </div>
+                </div>
+
+                <!-- RESULT -->
+                <div class="gsz-step" id="gszStepResult" style="display:none">
+                    <h3 class="gsz-product-name gsz-product-name--center"><?= $productName ?></h3>
+                    <div id="gszResultContent"></div>
+                    <div class="gsz-result-image">
+                        <img src="<?= $pImgUrl ?>" alt="<?= $productName ?>" loading="lazy">
+                    </div>
+                </div>
+            </div>
+
+            <div class="giant-sizing-illust">
+                <div class="gsz-help-icon" id="gszHelpIcon" style="display:none"
+                     onclick="var s=window._gszStep||2;var m=document.getElementById('gszStep'+s+'Main');var w=document.getElementById('gszStep'+s+'How');if(m&&w){m.style.display='none';w.style.display='';}">?</div>
+                <img src="https://static.giant-bicycles.com/Images/Giant/Sizing/sizingtool_body.png"
+                     id="gszIllust1" class="gsz-illust active" alt="Cuerpo completo">
+                <img src="https://static.giant-bicycles.com/Images/Giant/Sizing/sizingtool_innerleg.png"
+                     id="gszIllust2" class="gsz-illust" alt="Entrepierna">
+                <img src="https://static.giant-bicycles.com/Images/Giant/Sizing/sizingtool_femur.png"
+                     id="gszIllust3" class="gsz-illust" alt="Fémur">
+                <img src="https://static.giant-bicycles.com/Images/Giant/Sizing/sizingtool_torso.png"
+                     id="gszIllust4" class="gsz-illust" alt="Torso">
+                <img src="https://static.giant-bicycles.com/Images/Giant/Sizing/sizingtool_arm.png"
+                     id="gszIllust5" class="gsz-illust" alt="Brazo">
+            </div>
+        </div>
+
+        <div class="giant-sizing-footer">
+            <button type="button" class="gsz-btn gsz-btn--back" id="gszBtnBack" style="display:none"
+                    onclick="var s=window._gszStep||1;if(s===6)s=5;else if(s>1)s=s-1;else return;window._gszStep=s;for(var i=1;i<=5;i++){document.getElementById('gszStep'+i).style.display=(i===s)?'':'none';}document.getElementById('gszStepResult').style.display='none';for(var i=1;i<=5;i++){var n=document.getElementById('gszNav'+i);n.className='giant-sizing-step-num';if(i===s)n.className+=' active';else if(i<s)n.className+=' done';}for(var i=1;i<=5;i++){var il=document.getElementById('gszIllust'+i);if(il)il.className=(i===s)?'gsz-illust active':'gsz-illust';}document.getElementById('gszHelpIcon').style.display=(s>=2)?'':'none';document.querySelector('.giant-sizing-illust').style.display='';var nb=document.getElementById('gszBtnNext');nb.style.display='';nb.textContent=(s===5)?'VER RECOMENDACIÓN \u2192':'SIGUIENTE \u2192';this.style.display=(s===1)?'none':'';">&#8592; VOLVER</button>
+            <button type="button" class="gsz-btn gsz-btn--next" id="gszBtnNext"
+                    onclick="var s=window._gszStep||1;if(s===1){var hv=parseFloat(document.getElementById('gszHeight').value)||170;if(window._gszUnit==='inch')hv=hv*2.54;var shoe=parseFloat(document.getElementById('gszShoe').value)||42;var g=document.getElementById('gszGender').value;var isMale=(g==='male');var ins,fem,tor,arm;if(isMale){var es=(hv-100)/1.6+24;ins=hv*0.464+(shoe-es)*0.15;fem=hv*0.338;tor=hv*0.311;arm=hv*0.378;}else{var es=(hv-100)/1.7+22;ins=hv*0.457+(shoe-es)*0.15;fem=hv*0.333;tor=hv*0.305;arm=hv*0.370;}ins=Math.round(ins*10)/10;fem=Math.round(fem*10)/10;tor=Math.round(tor*10)/10;arm=Math.round(arm*10)/10;document.getElementById('gszInseam').value=ins;document.getElementById('gszInseamSlider').value=ins;document.getElementById('gszFemur').value=fem;document.getElementById('gszFemurSlider').value=fem;document.getElementById('gszTorso').value=tor;document.getElementById('gszTorsoSlider').value=tor;document.getElementById('gszArm').value=arm;document.getElementById('gszArmSlider').value=arm;var gl=isMale?'hombres':'mujeres';var hr=Math.round(hv);var b='Los '+gl+' con altura '+hr+' cm y talla de calzado '+Math.round(shoe)+' tienen en promedio una ';document.getElementById('gszStep2Text').innerHTML=b+'<strong>longitud de la entrepierna</strong> de:';document.getElementById('gszStep3Text').innerHTML=b+'<strong>longitud de fémur</strong> de:';document.getElementById('gszStep4Text').innerHTML=b+'<strong>longitud del torso</strong> de:';document.getElementById('gszStep5Text').innerHTML=b+'<strong>longitud de brazo</strong> de:';s=2;}else if(s<5){s=s+1;}else if(s===5){var hv2=parseFloat(document.getElementById('gszHeight').value)||170;if(window._gszUnit==='inch')hv2=hv2*2.54;var g2=document.getElementById('gszGender').value;var ins2=parseFloat(document.getElementById('gszInseam').value);var sz='';if(g2==='male'){if(hv2<160)sz='XS';else if(hv2<168)sz='S';else if(hv2<176)sz='M';else if(hv2<184)sz='L';else sz='XL';if(ins2<72&&(sz==='M'||sz==='L'))sz='S';if(ins2>86&&(sz==='M'||sz==='L'))sz='XL';}else{if(hv2<153)sz='XS';else if(hv2<161)sz='S';else if(hv2<169)sz='M';else if(hv2<177)sz='L';else sz='XL';if(ins2<69&&(sz==='M'||sz==='L'))sz='S';if(ins2>83&&(sz==='M'||sz==='L'))sz='XL';}document.getElementById('gszResultContent').innerHTML='<p class=gsz-result-text>Según tus medidas corporales, tu talla de cuadro recomendada es:</p><div class=gsz-result-size>'+sz+'</div><p class=gsz-result-note>Esta es una estimación general. Te recomendamos visitar a tu distribuidor más cercano para un ajuste personalizado.</p>';s=6;}window._gszStep=s;for(var i=1;i<=5;i++){document.getElementById('gszStep'+i).style.display=(i===s)?'':'none';}document.getElementById('gszStepResult').style.display=(s===6)?'':'none';for(var i=1;i<=5;i++){var n=document.getElementById('gszNav'+i);n.className='giant-sizing-step-num';if(i===s)n.className+=' active';else if(i<s)n.className+=' done';}for(var i=1;i<=5;i++){var il=document.getElementById('gszIllust'+i);if(il)il.className=(i===Math.min(s,5))?'gsz-illust active':'gsz-illust';}document.getElementById('gszHelpIcon').style.display=(s>=2&&s<=5)?'':'none';document.querySelector('.giant-sizing-illust').style.display=(s===6)?'none':'';document.getElementById('gszBtnBack').style.display=(s===1)?'none':'';this.style.display=(s===6)?'none':'';this.textContent=(s===5)?'VER RECOMENDACIÓN \u2192':'SIGUIENTE \u2192';">SIGUIENTE &#8594;</button>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="gszGender" value="male">

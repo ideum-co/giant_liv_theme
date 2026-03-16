@@ -1,0 +1,240 @@
+.giant-dealers-banner {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    height: 280px;
+    background: linear-gradient(135deg, #0a0a5c 0%, #1a1a8c 50%, #0a0a5c 100%);
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    margin-top: -20px;
+}
+
+.giant-dealers-banner-overlay {
+    width: 100%;
+    padding: 0 50px 40px;
+}
+
+.giant-dealers-banner h1 {
+    color: #fff;
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.giant-dealers-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+}
+
+.giant-dealers-intro {
+    margin-bottom: 40px;
+    max-width: 800px;
+}
+
+.giant-dealers-intro p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #333;
+}
+
+.giant-dealers-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.giant-dealers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 700px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.giant-dealers-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.giant-dealers-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.giant-dealers-list::-webkit-scrollbar-thumb {
+    background: #0a0a5c;
+    border-radius: 2px;
+}
+
+.giant-dealer-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.giant-dealer-card:hover {
+    border-color: #0a0a5c;
+    box-shadow: 0 2px 12px rgba(10, 10, 92, 0.1);
+}
+
+.giant-dealer-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.giant-dealer-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    padding: 4px;
+    background: #fff;
+}
+
+.giant-dealer-name-city h3 {
+    margin: 0 0 4px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #0a0a5c;
+}
+
+.giant-dealer-city {
+    font-size: 13px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.giant-dealer-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.giant-dealer-info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+}
+
+.giant-dealer-info-row svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: #0a0a5c;
+}
+
+.giant-dealer-info-row a {
+    color: #0a0a5c;
+    text-decoration: none;
+}
+
+.giant-dealer-info-row a:hover {
+    text-decoration: underline;
+}
+
+.giant-dealer-card-footer {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+}
+
+.giant-dealer-map-btn {
+    background: #06038d;
+    background: linear-gradient(to right, #06038d 25%, #00a3e1 100%);
+    border: none;
+    color: #fff;
+    padding: 0 35px;
+    line-height: 35px;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    font-family: 'Overpass', Arial, sans-serif;
+    text-decoration: none;
+}
+
+.giant-dealer-map-btn:hover {
+    background: #2421b3;
+    color: #fff;
+}
+
+.giant-dealers-map-container {
+    position: sticky;
+    top: 100px;
+}
+
+#giant-dealers-map {
+    width: 100%;
+    height: 600px;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+    z-index: 1;
+}
+
+.giant-dealers-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+@media (max-width: 992px) {
+    .giant-dealers-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .giant-dealers-list {
+        max-height: none;
+        overflow-y: visible;
+    }
+
+    .giant-dealers-map-container {
+        position: relative;
+        top: 0;
+        order: -1;
+    }
+
+    #giant-dealers-map {
+        height: 400px;
+    }
+
+    .giant-dealers-banner h1 {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 576px) {
+    .giant-dealers-banner {
+        height: 200px;
+    }
+
+    .giant-dealers-banner-overlay {
+        padding: 0 20px 25px;
+    }
+
+    .giant-dealers-banner h1 {
+        font-size: 24px;
+    }
+
+    .giant-dealer-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

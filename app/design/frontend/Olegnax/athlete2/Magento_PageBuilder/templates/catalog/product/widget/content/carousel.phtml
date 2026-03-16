@@ -1,0 +1,52 @@
+<?php
+use Magento\Catalog\Block\Product\ReviewRendererInterface;
+use Olegnax\Athlete2\Helper\ProductImage;
+use Olegnax\Athlete2\Helper\ProductList;
+
+/** @var \Magento\CatalogWidget\Block\Product\ProductsList $block */
+?>
+<?php if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())): ?>
+<?php
+    $theme_helper = $this->helper(ProductList::class);
+    $at_settings = $this->helper('Olegnax\Athlete2\Helper\Helper')->getConfig('athlete2_settings/product_images');
+    $width  = $at_settings['listing_image_width'];
+    $height = $at_settings['listing_image_height'];
+
+    $type  = 'widget-product-carousel';
+    $image = 'new_products_content_widget_grid';
+    $image_hover = 'category_page_grid_hover';
+    $items = $block->getProductCollection()->getItems();
+    $templateType = ReviewRendererInterface::SHORT_VIEW;
+    $preloaderEnabled = $at_settings['products_listing']['preloader_enabled'] ?? false;
+    $preloaderClasses = $preloaderEnabled ? 'lazy-loader' : '';
+?>
+    <ol class="product-items <?= /* @noEscape */ $type ?>">
+        <?php $iterator = 1; ?>
+        <?php foreach ($items as $_item): ?>
+            <?= /* @noEscape */ ($iterator++ == 1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
+            <div class="product-item-info">
+                <div class="product-grid__image-wrapper">
+                    <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="product photo product-item-photo <?= $preloaderClasses ?>">
+                        <?= $this->helper(ProductImage::class)->getResizedImageHover($_item, $image, $image_hover, [$width, $height])->toHtml(); ?>
+                    </a>
+                    <?php if ($theme_helper->isActivePlugin('Olegnax_ProductLabel')) {
+                        echo $this->helper('Olegnax\ProductLabel\Helper\Helper')->showLabels($_item);
+                    } ?>
+                </div>
+                <div class="product details product-item-details">
+                    <strong class="product name product-item-name">
+                        <a class="product-item-link" title="<?= $block->escapeHtmlAttr($_item->getName()) ?>" href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>">
+                            <?= $block->escapeHtml($_item->getName()) ?>
+                        </a>
+                    </strong>
+                    <?= /* @noEscape */ $block->getProductPriceHtml($_item, $type) ?>
+                    <?= $block->getProductDetailsHtml($_item) ?>
+                    <?php if ($templateType): ?>
+                        <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?= ($iterator == count($items) + 1) ? '</li>' : '' ?>
+        <?php endforeach ?>
+    </ol>
+<?php endif; ?>

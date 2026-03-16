@@ -1,0 +1,9 @@
+<?php
+/** @var \Giant\Checkout\Block\Product\BicycleInfo $block */
+if (!$block->isBicycle()) {
+    return;
+}
+?>
+<div class="giant-pdp-price-warning">
+    <p><?= $block->escapeHtml(__('Todas las especificaciones están sujetas a cambios sin previo aviso.')) ?></p>
+</div>

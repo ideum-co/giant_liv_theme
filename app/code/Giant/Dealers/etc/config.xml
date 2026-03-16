@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <dealerpickup>
+                <active>1</active>
+                <title>Recoger en Distribuidor</title>
+                <name>Recoger en Distribuidor</name>
+                <price>0</price>
+                <model>Giant\Dealers\Model\Carrier\DealerPickup</model>
+                <specificerrmsg>Este método de envío no está disponible.</specificerrmsg>
+                <sallowspecific>0</sallowspecific>
+                <bicycle_category_id>4</bicycle_category_id>
+                <sort_order>10</sort_order>
+            </dealerpickup>
+        </carriers>
+    </default>
+</config>

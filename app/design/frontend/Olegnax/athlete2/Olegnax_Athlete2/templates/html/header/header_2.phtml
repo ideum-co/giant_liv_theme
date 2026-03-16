@@ -2,74 +2,149 @@
 $theme_helper = $this->helper('Olegnax\Athlete2\Helper\Helper');
 $at_settings = $block->getConfig('athlete2_settings');
 $header_classes = 'header--layout-2';
-$menu_position	 = $at_settings['header']['menu_position'];
-$sticky_header	 = $at_settings['header']['sticky_header'];
+$menu_position   = $at_settings['header']['menu_position'];
+$sticky_header   = $at_settings['header']['sticky_header'];
 $header_classes .= ' header__menu--position-' . $menu_position;
 $show_toplinks = $at_settings['header']['show_top_links'];
 $disable_topline = $at_settings['header']['disable_topline'];
 $topline_block_left = $theme_helper->getBlockTemplateProcessor( $at_settings['header']['top_left_static'] );
 $topline_block_right = $theme_helper->getBlockTemplateProcessor( $at_settings['header']['top_right_static'] );
 if( $at_settings['header']['header_fullwidth'] ) {
-	$header_classes .= ' header--full-width';
+        $header_classes .= ' header--full-width';
 }
 $toggleNavText = $at_settings['mobile_header']['mobile_header_menu_text'];
 if( $toggleNavText ) {
-	$toggleNavText = '<span>' . $block->escapeHtml($toggleNavText) . '</span>';	
+        $toggleNavText = '<span>' . $block->escapeHtml($toggleNavText) . '</span>';     
 }
 $sticky_allowed = $block->getData("sticky_allowed");
 $search_below_mobile = $at_settings['mobile_header']['search_mobile_below'];
 if($search_below_mobile){
-	$header_classes .= ' mobile-search--below';
+        $header_classes .= ' mobile-search--below';
 }
 ?>
 <div class="page-header <?php echo $block->escapeHtmlAttr($header_classes) ?>"<?php if( $sticky_header && $sticky_allowed!= 'no' ) { echo ' data-role="OXsticky" data-mage-init=\'{"OXsticky":{}}\''; } ?>>
-	<div class="sticky-wrapper">
-	<div class="container">
-		<div class="row">
-			<div class="col header__content-wrapper">
-				<?php if( ! $disable_topline ){ ?>
-					<?php echo $this->getChildHtml( 'athlete2_topline' ); ?>
-				<?php } ?>
-				<div class="header__content">
-					<div class="logo__container">
-							<?php echo $this->getChildHtml( "logo" ); ?>
-					</div>
-					<div class="flex-left flex-row modal__left" data-move-mobile="header.main.left" data-move-sticky="header.main.left">
-						<div data-action="toggle-mobile-nav" class="action slide-out-menu--mobile"><div class="hamburger-menu-icon-small" aria-label="<?= $block->escapeHtml(__('Menu')) ?>"><span></span><span></span><span></span></div><?= $toggleNavText ?></div>
-						<?php if ( $menu_position == 1 ) echo $this->getChildHtml( 'top.menu' ); ?>
-						<?php if ( $menu_position == 2 ) : ?>
-							<div class="header__additional-content">
-								<?php echo $block->getLayout()->createBlock( 'Magento\Cms\Block\Block' )->setBlockId( 'athlete2-header-text' )->toHtml(); ?>
-							</div>
-						<?php endif ?>
-					</div>
-					<div class="flex-right flex-row modal__right" data-move-mobile="header.main.right">								
-						<?php echo $this->getChildHtml( 'top.search' ) ?>
-						<?php
-							if($at_settings['header']['account_position'] == 'main') {
-								echo $this->getChildHtml("header_account");
-							}
-							if($at_settings['header']['compare_position'] == 'main') {
-								echo $this->getChildHtml("header_compare");
-							}
-							if($at_settings['header']['wishlist_position'] == 'main') {
-								echo $this->getChildHtml("header_wishlist");
-							}
-							if($theme_helper->isActivePlugin( 'Amasty_RequestQuote' )){
-								echo $this->getChildHtml( 'quotecart' );
-							}
-							echo $this->getChildHtml( 'minicart' );
-						?>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<?php if ( $menu_position == 2 ) : ?>
-		<div class="header-nav-wide"><?php echo $this->getChildHtml( 'top.menu' );  ?></div>
-	<?php endif ?>
-	<?php if ( $search_below_mobile ) : ?>
-		<div class="header__search-below block-search hide-on-desktop"><?php echo $this->getChildHtml( 'top.search.panel.mobile' );  ?></div>
-	<?php endif ?>
+        <div class="sticky-wrapper">
+        <div class="container">
+                <div class="row">
+                        <div class="col header__content-wrapper">
+                                <?php if( ! $disable_topline ){ ?>
+                                        <?php echo $this->getChildHtml( 'athlete2_topline' ); ?>
+                                <?php } ?>
+                                <div class="header__content">
+                                        <div class="logo__container">
+                                                        <?php echo $this->getChildHtml( "logo" ); ?>
+                                        </div>
+                                        <div class="flex-left flex-row modal__left" data-move-mobile="header.main.left" data-move-sticky="header.main.left">
+                                                <div class="giant-hamburger" aria-label="Menu"><svg class="burger-icon_svg" fill="none" height="20" viewBox="0 0 40 20" width="40" xmlns="http://www.w3.org/2000/svg"><path d="M10 4V2H30V4H10Z" fill="currentColor"></path><path d="M10 18V16H30V18H10Z" fill="currentColor"></path><path class="burger-icon_pseudoLine" d="M0.5 11L4 9H19.5L16 11H0.5Z" fill="currentColor"></path><path class="burger-icon_mainLine" d="M0.5 11L4 9H19.5L16 11H0.5Z" fill="currentColor"></path><path class="burger-icon_mainLine" d="M20.5 11L24 9H39.5L36 11H20.5Z" fill="currentColor"></path></svg></div>
+                                                <div class="giant-nav-links">
+                                                    <a href="/bicicletas.html">Bicicletas</a>
+                                                    <a href="/accesorios.html">Accesorios</a>
+                                                    <a href="/ofertas.html">Ofertas</a>
+                                                    <a href="/distribuidores">Distribuidores</a>
+                                                </div>
+                                                <div data-action="toggle-mobile-nav" class="action slide-out-menu--mobile" style="display:none"><div class="hamburger-menu-icon-small" aria-label="<?= $block->escapeHtml(__('Menu')) ?>"><span></span><span></span><span></span></div><?= $toggleNavText ?></div>
+                                                <?php if ( $menu_position == 1 ) echo $this->getChildHtml( 'top.menu' ); ?>
+                                                <?php if ( $menu_position == 2 ) : ?>
+                                                        <div class="header__additional-content">
+                                                                <?php echo $block->getLayout()->createBlock( 'Magento\Cms\Block\Block' )->setBlockId( 'athlete2-header-text' )->toHtml(); ?>
+                                                        </div>
+                                                <?php endif ?>
+                                        </div>
+                                        <div class="flex-right flex-row modal__right" data-move-mobile="header.main.right">
+                                                <a href="javascript:void(0)" class="giant-search-btn" onclick="var hc=this.closest('.header__content');if(hc){hc.classList.add('giant-search-open');document.body.classList.add('giant-search-active');var fw=hc.querySelector('.giant-search-form-wrap');if(fw){fw.style.display='block';var si=fw.querySelector('input[type=text]');if(si)setTimeout(function(){si.focus();},100);}}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="2"/><path d="M11 11L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>BUSCAR</span></a>
+                                                <?php echo $this->getChildHtml( 'top.search' ) ?>
+                                                <?php
+                                                        if($at_settings['header']['account_position'] == 'main') {
+                                                                echo $this->getChildHtml("header_account");
+                                                        }
+                                                        if($at_settings['header']['compare_position'] == 'main') {
+                                                                echo $this->getChildHtml("header_compare");
+                                                        }
+                                                        if($at_settings['header']['wishlist_position'] == 'main') {
+                                                                echo $this->getChildHtml("header_wishlist");
+                                                        }
+                                                        if($theme_helper->isActivePlugin( 'Amasty_RequestQuote' )){
+                                                                echo $this->getChildHtml( 'quotecart' );
+                                                        }
+                                                        echo $this->getChildHtml( 'minicart' );
+                                                ?>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+        <?php if ( $menu_position == 2 ) : ?>
+                <div class="header-nav-wide"><?php echo $this->getChildHtml( 'top.menu' );  ?></div>
+        <?php endif ?>
+        <?php if ( $search_below_mobile ) : ?>
+                <div class="header__search-below block-search hide-on-desktop"><?php echo $this->getChildHtml( 'top.search.panel.mobile' );  ?></div>
+        <?php endif ?>
 </div>
+<script>
+(function(){
+    var imgs = document.querySelectorAll('.page-header .logo__container img.lazy, .page-header .top-bar img.lazy');
+    for(var i=0;i<imgs.length;i++){
+        var orig=imgs[i].getAttribute('data-original');
+        if(orig){imgs[i].setAttribute('src',orig);imgs[i].classList.remove('lazy');}
+    }
+
+    var header = document.querySelector('.page-header');
+    if (header) {
+        var scrollThreshold = 50;
+        var ticking = false;
+        function onScroll() {
+            if (!ticking) {
+                window.requestAnimationFrame(function() {
+                    if (window.scrollY > scrollThreshold) {
+                        header.classList.add('giant-scrolled');
+                    } else {
+                        header.classList.remove('giant-scrolled');
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+        window.addEventListener('scroll', onScroll, {passive: true});
+        onScroll();
+    }
+
+    var _gsc = function(){
+        var wraps = document.querySelectorAll('.search_form_wrap');
+        for(var w=0;w<wraps.length;w++){
+            (function(wrap){
+                var si = wrap.querySelector('input[type="text"]');
+                var cb = wrap.querySelector('.giant-search-clear');
+                if(!si||!cb) return;
+                si.addEventListener('input', function(){
+                    cb.style.display = si.value.length > 0 ? 'flex' : 'none';
+                });
+                si.addEventListener('focus', function(){
+                    cb.style.display = si.value.length > 0 ? 'flex' : 'none';
+                });
+            })(wraps[w]);
+        }
+    };
+    window._giantCloseSearch = function(){
+        var hc=document.querySelector('.header__content.giant-search-open');
+        if(hc){
+            hc.classList.remove('giant-search-open');
+            var fw=hc.querySelector('.giant-search-form-wrap');
+            if(fw)fw.style.display='none';
+        }
+        document.body.classList.remove('giant-search-active');
+    };
+    document.addEventListener('keydown', function(e){
+        if(e.key==='Escape') window._giantCloseSearch();
+    });
+    var _ov = document.createElement('div');
+    _ov.className = 'giant-search-overlay';
+    _ov.onclick = function(){ if(window._giantCloseSearch) window._giantCloseSearch(); };
+    var pw = document.querySelector('.page-wrapper');
+    if(pw) pw.insertBefore(_ov, pw.firstChild);
+
+    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){setTimeout(_gsc,800);});}
+    else{setTimeout(_gsc,800);}
+})();
+</script>
 </div>

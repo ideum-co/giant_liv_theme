@@ -1,0 +1,431 @@
+.giant-reg-banner {
+    width: 100%;
+    min-height: 300px;
+    background-color: #0a0a5c;
+    background-image: url('https://static.giant-bicycles.com/Images/US/2024/Registration/Registration_Banner.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    margin: -20px 0 0;
+}
+
+.giant-reg-banner-overlay {
+    width: 100%;
+    padding: 40px 50px 50px;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+    min-height: 300px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.giant-reg-banner-overlay h1 {
+    color: #fff;
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.giant-reg-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+}
+
+.giant-reg-intro {
+    margin-bottom: 40px;
+    line-height: 1.7;
+    color: #333;
+    font-size: 15px;
+}
+
+.giant-reg-intro p {
+    margin-bottom: 16px;
+}
+
+.giant-reg-terms-note {
+    background: #f0f4ff;
+    padding: 16px 20px;
+    border-left: 4px solid #0a0a5c;
+    border-radius: 4px;
+}
+
+.giant-reg-terms-note a {
+    color: #0a0a5c;
+    text-decoration: underline;
+}
+
+.giant-reg-section {
+    margin-bottom: 2px;
+    border: 1px solid #e0e0e0;
+    border-radius: 0;
+}
+
+.giant-reg-section-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+    background: #fff;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    transition: background 0.2s;
+}
+
+.giant-reg-section-header:hover {
+    background: #f9f9f9;
+}
+
+.giant-reg-section-header.active {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.giant-reg-step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #0a0a5c;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.giant-reg-step-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    flex: 1;
+}
+
+.giant-reg-step-toggle {
+    width: 12px;
+    height: 12px;
+    border-right: 2px solid #666;
+    border-bottom: 2px solid #666;
+    transform: rotate(45deg);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.giant-reg-section-header.active .giant-reg-step-toggle {
+    transform: rotate(-135deg);
+}
+
+.giant-reg-section-body {
+    padding: 30px 24px;
+    background: #fff;
+}
+
+.giant-reg-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.giant-reg-field {
+    flex: 1;
+}
+
+.giant-reg-field.giant-reg-full {
+    flex: 1 1 100%;
+}
+
+.giant-reg-field label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.giant-reg-field label .req {
+    color: #c00;
+}
+
+.giant-reg-field input[type="text"],
+.giant-reg-field input[type="email"],
+.giant-reg-field input[type="tel"],
+.giant-reg-field input[type="date"],
+.giant-reg-field input[type="number"],
+.giant-reg-field select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+    color: #333;
+    background: #fff;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.giant-reg-field input:focus,
+.giant-reg-field select:focus {
+    border-color: #0a0a5c;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(10,10,92,0.1);
+}
+
+.giant-reg-field input.giant-reg-error,
+.giant-reg-field select.giant-reg-error {
+    border-color: #c00;
+    background: #fff5f5;
+}
+
+.giant-reg-file-upload {
+    position: relative;
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.giant-reg-file-upload:hover {
+    border-color: #0a0a5c;
+}
+
+.giant-reg-file-upload input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.giant-reg-file-label {
+    color: #666;
+    font-size: 14px;
+}
+
+.giant-reg-serial-help {
+    margin-top: 12px;
+}
+
+.giant-reg-serial-note {
+    font-size: 13px;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.giant-reg-serial-images {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.giant-reg-serial-img {
+    width: 250px;
+}
+
+.giant-reg-serial-img svg {
+    width: 100%;
+    height: auto;
+}
+
+.giant-reg-nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.giant-reg-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 35px;
+    line-height: 42px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    font-family: 'Overpass', Arial, sans-serif;
+}
+
+.giant-reg-btn:active {
+    transform: scale(0.98);
+}
+
+.giant-reg-next,
+.giant-reg-submit {
+    background: #06038d;
+    background: linear-gradient(to right, #06038d 25%, #00a3e1 100%);
+    color: #fff;
+}
+
+.giant-reg-next:hover,
+.giant-reg-submit:hover {
+    background: #2421b3;
+}
+
+.giant-reg-back {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.giant-reg-back:hover {
+    background: #d0d0d0;
+}
+
+.giant-reg-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.giant-reg-confirm-box {
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.giant-reg-checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+    cursor: pointer;
+}
+
+.giant-reg-checkbox-label input[type="checkbox"] {
+    margin-top: 3px;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+}
+
+.giant-reg-checkbox-label a {
+    color: #0a0a5c;
+    text-decoration: underline;
+}
+
+.giant-reg-success {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.giant-reg-success-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #0a0a5c;
+    color: #fff;
+    font-size: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.giant-reg-success h2 {
+    font-size: 28px;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+}
+
+.giant-reg-success p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.giant-reg-success-id {
+    font-size: 18px;
+    color: #0a0a5c;
+    margin: 20px 0 30px;
+}
+
+.giant-reg-download-btn {
+    background: #06038d;
+    background: linear-gradient(to right, #06038d 25%, #00a3e1 100%);
+    color: #fff;
+    margin-right: 12px;
+}
+
+.giant-reg-download-btn:hover {
+    background: #2421b3;
+    color: #fff;
+    text-decoration: none;
+}
+
+.giant-reg-home-btn {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.giant-reg-home-btn:hover {
+    background: #d0d0d0;
+    color: #333;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .giant-reg-banner-overlay h1 {
+        font-size: 28px;
+    }
+
+    .giant-reg-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .giant-reg-section-body {
+        padding: 20px 16px;
+    }
+
+    .giant-reg-nav {
+        flex-direction: column;
+    }
+
+    .giant-reg-btn {
+        width: 100%;
+    }
+
+    .giant-reg-success .giant-reg-btn {
+        display: block;
+        margin: 8px auto;
+    }
+}
+
+.page-layout-1column .page-main .page-title-wrapper {
+    display: none;
+}
+
+.bikeregistration-index-index .page-main {
+    padding: 0;
+    max-width: 100%;
+}
+
+.bikeregistration-index-index .columns .column.main {
+    padding: 0;
+}
+
+.bikeregistration-index-index .page-title-wrapper {
+    display: none;
+}
+
+.bikeregistration-index-index .breadcrumbs {
+    display: none;
+}
