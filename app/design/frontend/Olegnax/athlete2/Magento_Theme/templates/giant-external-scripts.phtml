@@ -1,0 +1,175 @@
+<?php
+/**
+ * Giant external scripts - loads Giant Global product content JS
+ * Exposes jQuery, _, Cookies, and culture globally before Giant scripts
+ * Uses a proxy define() to filter out Giant CDN anonymous AMD calls
+ * while allowing Magento RequireJS modules to continue working normally.
+ */
+$locale = $block->getLocale ?? 'es_CO';
+$culture = str_replace('_', '-', strtolower($locale));
+?>
+<script>
+(function() {
+    if (typeof window.Cookies === 'undefined') {
+        window.Cookies = {
+            get: function(name) {
+                var escaped = name.replace(/([.*+?^${}()|[\]\\])/g, '\\$1');
+                var m = document.cookie.match('(?:^|;)\\s*' + escaped + '\\s*=\\s*([^;]+)');
+                return m ? decodeURIComponent(m.pop()) : undefined;
+            },
+            set: function(name, value, opts) {
+                opts = opts || {};
+                var s = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+                if (opts.expires) {
+                    if (typeof opts.expires === 'number') {
+                        var d = new Date(); d.setTime(d.getTime() + opts.expires * 864e5);
+                        s += ';expires=' + d.toUTCString();
+                    } else {
+                        s += ';expires=' + opts.expires.toUTCString();
+                    }
+                }
+                s += ';path=' + (opts.path || '/');
+                if (opts.domain) s += ';domain=' + opts.domain;
+                if (opts.secure) s += ';secure';
+                if (opts.sameSite) s += ';samesite=' + opts.sameSite;
+                document.cookie = s;
+            },
+            remove: function(name, opts) {
+                opts = opts || {};
+                opts.expires = -1;
+                this.set(name, '', opts);
+            }
+        };
+    }
+
+    if (typeof window.culture === 'undefined') {
+        window.culture = '<?= /* @noEscape */ $culture ?>';
+    }
+    if (typeof window.cultureFull === 'undefined') {
+        window.cultureFull = '<?= /* @noEscape */ $culture ?>';
+    }
+
+    if (typeof require !== 'undefined') {
+        require(['jquery', 'underscore'], function($, _underscore) {
+            window.jQuery = $;
+            window.$ = $;
+            window._ = _underscore;
+
+            var _origDefine = window.define;
+            var _giantLoading = false;
+
+            function installDefineProxy() {
+                if (_giantLoading) return;
+                _giantLoading = true;
+                _origDefine = window.define;
+                window.define = function() {
+                    var cs = document.currentScript;
+                    if (cs && cs.src && cs.src.indexOf('giant-bicycles.com') !== -1) {
+                        return;
+                    }
+                    if (cs && cs.src && cs.src.indexOf('jsdelivr.net') !== -1) {
+                        return;
+                    }
+                    return _origDefine.apply(this, arguments);
+                };
+                window.define.amd = _origDefine.amd;
+            }
+
+            function removeDefineProxy() {
+                if (!_giantLoading) return;
+                _giantLoading = false;
+                window.define = _origDefine;
+            }
+
+            function loadScript(url, callback, critical) {
+                var s = document.createElement('script');
+                s.src = url;
+                s.crossOrigin = 'anonymous';
+                s.onload = function() {
+                    if (callback) callback();
+                };
+                s.onerror = function() {
+                    console.warn('[Giant] Failed to load: ' + url);
+                    if (critical) {
+                        removeDefineProxy();
+                        return;
+                    }
+                    if (callback) callback();
+                };
+                document.body.appendChild(s);
+            }
+
+            function loadScriptsSequentially(list, idx, done) {
+                if (idx >= list.length) {
+                    if (done) done();
+                    return;
+                }
+                var entry = list[idx];
+                var url = typeof entry === 'string' ? entry : entry.url;
+                var critical = typeof entry === 'string' ? false : !!entry.critical;
+                loadScript(url, function() {
+                    loadScriptsSequentially(list, idx + 1, done);
+                }, critical);
+            }
+
+            function initGiantSwipers() {
+                if (typeof Swiper === 'undefined') return;
+                try {
+                    var galleryEl = document.querySelector('.swiper-gallery');
+                    if (galleryEl) {
+                        new Swiper('.swiper-gallery', {
+                            direction: 'horizontal',
+                            slidesPerView: 3,
+                            breakpoints: {
+                                320: { slidesPerView: 1, spaceBetween: 20 },
+                                480: { slidesPerView: 2, spaceBetween: 30 },
+                                640: { slidesPerView: 3, spaceBetween: 40 }
+                            },
+                            spaceBetween: 30,
+                            pagination: { el: '.swiper-pagination-gallery', clickable: true },
+                            navigation: { nextEl: '.swiper-button-next-gallery', prevEl: '.swiper-button-prev-gallery' }
+                        });
+                    }
+                } catch(e) {}
+                try {
+                    document.querySelectorAll('[id^="swiper-"]').forEach(function(el) {
+                        new Swiper('#' + el.id, {
+                            direction: 'horizontal',
+                            slidesPerView: 1,
+                            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+                            pagination: { el: '.swiper-pagination', clickable: true }
+                        });
+                    });
+                } catch(e) {}
+            }
+
+            var giantScripts = [
+                {url: 'https://static.giant-bicycles.com/SharedBundles/js/common.d8545941e3f068f2.js', critical: true},
+                'https://static.giant-bicycles.com/SharedBundles/js/common-async.5acb38a3e7d30df0.js',
+                'https://static.giant-bicycles.com/SharedBundles/js/custom.695385ca06de4b58.js'
+            ];
+
+            var swiperScripts = [
+                'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
+                'https://static.giant-bicycles.com/SharedBundles/js/swiper.dfee150b85b3e689.js'
+            ];
+
+            installDefineProxy();
+
+            loadScriptsSequentially(giantScripts, 0, function() {
+                if (typeof Swiper === 'undefined') {
+                    loadScriptsSequentially(swiperScripts, 0, function() {
+                        removeDefineProxy();
+                        initGiantSwipers();
+                    });
+                } else {
+                    loadScript(swiperScripts[1], function() {
+                        removeDefineProxy();
+                        initGiantSwipers();
+                    });
+                }
+            });
+        });
+    }
+})();
+</script>
