@@ -1,57 +1,143 @@
-# Giant LIV Theme - Magento 2
+# Giant LIV - Magento 2 on Northflank
 
-## Northflank Deployment Info
+Deployment automatizado de Magento 2 con el tema Giant LIV en Northflank, incluyendo MySQL, Elasticsearch y Redis.
 
-### Services
-| Service | Image | Port |
-|---------|-------|------|
-| giant-magento | shinsenter/magento:php8.3-nginx | 8080 (HTTP), 8443 (TCP) |
-| nginx | library/nginx:latest | 80 (HTTP) |
-| giant-elasticsearch | bitnami/elasticsearch:7 | 9200, 9300 |
+## Arquitectura
 
-### Database
-- **Type:** MySQL 8.0.36
-- **Host:** primary.database--nkp6gnv9hqh9.addon.code.run:3306
-- **Database name:** magento
-- **Volume:** magento-data (60GB SSD)
-
-### Credentials (Northflank Secret: `credentials`)
-- MAGENTO_USERNAME: user
-- MAGENTO_EMAIL: user@example.com
-- ELASTICSEARCH_HOST: giant-elasticsearch
-- ELASTICSEARCH_PORT_NUMBER: 9200
-
-## Database Dump
-The database dump is located at `db/magento-db-dump.sql.gz`.
-
-To restore:
-```bash
-gunzip < db/magento-db-dump.sql.gz | mysql -u <user> -p magento
+```
+┌─────────────────────────────────────────────┐
+│                 Northflank                   │
+│                                              │
+│  ┌──────────────┐    ┌──────────────────┐   │
+│  │  Build Svc   │───▶│  Deploy Service  │   │
+│  │  (Dockerfile) │    │  (Magento 2 App) │   │
+│  └──────────────┘    └───────┬──────────┘   │
+│        │                     │               │
+│        │              ┌──────┴──────┐        │
+│  ┌─────▼─────┐   ┌───▼────┐  ┌────▼─────┐  │
+│  │  GitHub    │   │ MySQL  │  │ Elastic  │  │
+│  │  Repo      │   │ 8.0   │  │ 7.17     │  │
+│  └───────────┘   └────────┘  └──────────┘  │
+│                       │                      │
+│                  ┌────▼─────┐                │
+│                  │  Redis   │                │
+│                  │  7.0     │                │
+│                  └──────────┘                │
+└──────────────────────────────────────────────┘
 ```
 
-## Setup
-1. Install dependencies:
+## Requisitos Previos
+
+1. **Cuenta en Northflank** con un API token ([crear aquí](https://app.northflank.com/account/api))
+2. **GitHub** conectado como integración en Northflank (Settings > Integrations)
+3. **Magento Auth Keys** de [repo.magento.com](https://commercemarketplace.adobe.com/customer/accessKeys/)
+4. `curl`, `python3` y `bash` instalados localmente
+
+## Inicio Rápido
+
+### 1. Configurar variables de entorno
+
 ```bash
-composer install
+cp .env.example .env
+# Editar .env con tus valores:
+#   - NORTHFLANK_API_TOKEN
+#   - MAGENTO_PUBLIC_KEY / MAGENTO_PRIVATE_KEY
+#   - Datos de admin de Magento
 ```
 
-2. Import database dump
+### 2. Ejecutar setup completo
 
-3. Generate static content:
 ```bash
-php bin/magento setup:static-content:deploy
+chmod +x scripts/*.sh
+./scripts/northflank-setup.sh
 ```
 
-4. Compile DI:
+Esto crea automáticamente en Northflank:
+- Proyecto
+- Addon MySQL 8.0
+- Addon Elasticsearch 7.17
+- Addon Redis 7.0
+- Secret Group con todas las variables
+- Build Service (desde GitHub + Dockerfile)
+- Deployment Service con puerto público
+
+### 3. Trigger del primer build
+
 ```bash
-php bin/magento setup:di:compile
+./scripts/northflank-trigger-build.sh
 ```
 
-5. Update `app/etc/env.php` with your database credentials
+### 4. Verificar estado
 
-## Excluded from repo (regenerable)
-- `vendor/` — run `composer install`
-- `generated/` — run `setup:di:compile`
-- `pub/static/` — run `setup:static-content:deploy`
-- `var/` — cache, logs, sessions
-- `pub/media/catalog/` — product images (2.3GB, not included)
+```bash
+./scripts/northflank-status.sh
+```
+
+## Scripts Disponibles
+
+| Script | Descripción |
+|--------|-------------|
+| `scripts/northflank-setup.sh` | Crea toda la infraestructura en Northflank |
+| `scripts/northflank-trigger-build.sh` | Dispara un nuevo build |
+| `scripts/northflank-status.sh` | Muestra el estado de todos los recursos |
+| `scripts/northflank-destroy.sh` | **⚠️ Elimina todo** el proyecto de Northflank |
+
+## Desarrollo Local
+
+Para desarrollo local con Docker Compose:
+
+```bash
+cp .env.example .env
+# Configurar MAGENTO_PUBLIC_KEY y MAGENTO_PRIVATE_KEY
+docker-compose up -d
+```
+
+Acceder a: `http://localhost:8080`
+Admin: `http://localhost:8080/admin`
+
+## Estructura del Proyecto
+
+```
+├── Dockerfile                    # Build multi-stage para Magento 2
+├── docker-compose.yml            # Desarrollo local
+├── docker/
+│   ├── entrypoint.sh            # Script de inicio (install/upgrade)
+│   ├── nginx/
+│   │   ├── nginx.conf           # Configuración principal de Nginx
+│   │   └── magento.conf         # Virtual host de Magento
+│   ├── php/
+│   │   ├── magento.ini          # PHP settings optimizados
+│   │   └── php-fpm.conf         # Pool de PHP-FPM
+│   └── supervisor/
+│       └── supervisord.conf     # Supervisor (nginx + php-fpm + cron)
+├── scripts/
+│   ├── northflank-setup.sh      # Setup completo via API
+│   ├── northflank-trigger-build.sh
+│   ├── northflank-status.sh
+│   └── northflank-destroy.sh
+├── .env.example                  # Template de configuración
+└── .gitignore
+```
+
+## Notas Importantes
+
+- **GitHub Integration**: Debe estar conectado en Northflank *antes* de ejecutar el setup
+- **Magento Keys**: Son obligatorias para instalar dependencias de `repo.magento.com`
+- **Primera instalación**: Puede tomar 10-15 minutos mientras compila assets
+- **Base URL**: Actualizar `MAGENTO_BASE_URL` con el dominio asignado por Northflank
+- **Plan de Northflank**: Los addons usan `nf-compute-20` (ajustar en el script según tu plan)
+
+## Solución de Problemas
+
+```bash
+# Ver logs del deployment
+curl -s -H "Authorization: Bearer $NORTHFLANK_API_TOKEN" \
+  https://api.northflank.com/v1/projects/<PROJECT_ID>/services/<SERVICE_ID>/logs
+
+# Verificar estado de addons
+./scripts/northflank-status.sh
+
+# Recrear desde cero
+./scripts/northflank-destroy.sh
+./scripts/northflank-setup.sh
+```

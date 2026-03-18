@@ -1,0 +1,35 @@
+{
+  "name": "giant-magento",
+  "description": "Magento 2.4.6-p4 production ready",
+  "serviceType": "deployment",
+  "billing": {
+    "deploymentPlan": "nf-compute-200-4"
+  },
+  "deployment": {
+    "docker": {
+      "image": "shinsenter/magento:php8.2-nginx",
+      "configType": "default"
+    },
+    "port": 80,
+    "internalPort": 8080,
+    "protocol": "HTTP",
+    "instances": 1
+  },
+  "runtimeEnvironment": {
+    "MYSQL_HOST": "primary.database--nkp6gnv9hqh9.addon.code.run",
+    "MYSQL_PORT": "3306",
+    "MYSQL_DATABASE": "magento",
+    "MYSQL_USER": "c36013b041c7eb4d",
+    "MYSQL_PASSWORD": "5100337a4e5a18e5aa9b77740ed746",
+    "ELASTICSEARCH_HOST": "giant-elasticsearch",
+    "ELASTICSEARCH_PORT": "9200",
+    "MAGENTO_BASE_URL": "https://p01--giant-magento--nkp6gnv9hqh9.code.run/",
+    "MAGENTO_ADMIN_USER": "admin",
+    "MAGENTO_ADMIN_PASSWORD": "Giant2026!",
+    "MAGENTO_LANGUAGE": "es_CO",
+    "MAGENTO_CURRENCY": "COP",
+    "MAGENTO_TIMEZONE": "America/Bogota",
+    "MAGENTO_PUBLIC_KEY": "6d5d21374c3c9ae04ae8b27c0cbb0907",
+    "MAGENTO_PRIVATE_KEY": "d51e6531d7df4934de6fe1f6af80702d"
+  }
+}
