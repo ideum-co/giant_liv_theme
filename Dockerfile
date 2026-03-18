@@ -35,8 +35,9 @@ FROM base AS build
 ARG MAGENTO_PUBLIC_KEY
 ARG MAGENTO_PRIVATE_KEY
 
+ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer global config http-basic.repo.magento.com \
-    "${MAGENTO_PUBLIC_KEY}" "${MAGENTO_PRIVATE_KEY}"
+    "6d5d21374c3c9ae04ae8b27c0cbb0907" "d51e6531d7df4934de6fe1f6af80702d"
 
 RUN find . -maxdepth 1 -not -name '.' -exec rm -rf {} + 2>/dev/null || true \
     && composer create-project --repository-url=https://repo.magento.com/ \
