@@ -1,0 +1,208 @@
+<?php
+/** @var \Giant\SheetSync\Block\Adminhtml\SyncDashboard $block */
+$testUrl = $block->getTestConnectionUrl();
+$syncUrl = $block->getRunSyncUrl();
+$sheetUrl = $block->getSpreadsheetUrl();
+?>
+
+<style>
+    .sheetsync-wrap { max-width: 960px; font-family: 'Open Sans', sans-serif; }
+    .sheetsync-header { background: #06038d; color: #fff; padding: 24px 32px; border-radius: 8px 8px 0 0; display: flex; align-items: center; gap: 16px; }
+    .sheetsync-header h1 { margin: 0; font-size: 22px; font-weight: 600; }
+    .sheetsync-header svg { flex-shrink: 0; }
+    .sheetsync-body { background: #fff; border: 1px solid #d6d6d6; border-top: none; border-radius: 0 0 8px 8px; padding: 32px; }
+    .sheetsync-info { background: #f5f5f5; border-radius: 6px; padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .sheetsync-info a { color: #06038d; font-weight: 600; text-decoration: none; }
+    .sheetsync-info a:hover { text-decoration: underline; }
+    .sheetsync-actions { display: flex; gap: 12px; margin-bottom: 24px; }
+    .sheetsync-btn { padding: 12px 28px; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all .2s; }
+    .sheetsync-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .sheetsync-btn-primary { background: #06038d; color: #fff; }
+    .sheetsync-btn-primary:hover:not(:disabled) { background: #04026d; }
+    .sheetsync-btn-secondary { background: #e8e8e8; color: #333; }
+    .sheetsync-btn-secondary:hover:not(:disabled) { background: #d0d0d0; }
+    .sheetsync-status { margin-bottom: 24px; }
+    .sheetsync-check { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 6px; margin-bottom: 8px; font-size: 14px; }
+    .sheetsync-check.ok { background: #e6f7e6; color: #1a7a1a; }
+    .sheetsync-check.error { background: #fde8e8; color: #c00; }
+    .sheetsync-check.pending { background: #fff8e1; color: #856404; }
+    .sheetsync-check .icon { font-size: 18px; width: 24px; text-align: center; }
+    .sheetsync-results { margin-top: 24px; }
+    .sheetsync-results h3 { margin: 0 0 16px; font-size: 16px; color: #333; }
+    .sheetsync-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+    .sheetsync-stat { text-align: center; padding: 16px; border-radius: 8px; border: 1px solid #e0e0e0; }
+    .sheetsync-stat .number { font-size: 28px; font-weight: 700; display: block; }
+    .sheetsync-stat .label { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+    .sheetsync-stat.total .number { color: #06038d; }
+    .sheetsync-stat.updated .number { color: #1a7a1a; }
+    .sheetsync-stat.notfound .number { color: #e67e00; }
+    .sheetsync-stat.errors .number { color: #c00; }
+    .sheetsync-details { background: #f9f9f9; border-radius: 6px; padding: 16px; margin-top: 12px; }
+    .sheetsync-details summary { cursor: pointer; font-weight: 600; color: #333; }
+    .sheetsync-details ul { margin: 8px 0 0; padding-left: 20px; max-height: 200px; overflow-y: auto; }
+    .sheetsync-details li { font-size: 13px; color: #555; padding: 2px 0; font-family: monospace; }
+    .sheetsync-progress { display: none; margin-bottom: 20px; }
+    .sheetsync-progress.active { display: block; }
+    .sheetsync-progress-bar { height: 6px; background: #e0e0e0; border-radius: 3px; overflow: hidden; }
+    .sheetsync-progress-bar .fill { height: 100%; background: #06038d; border-radius: 3px; animation: progressPulse 1.5s ease-in-out infinite; width: 100%; }
+    .sheetsync-progress-text { font-size: 13px; color: #666; margin-top: 8px; display: flex; align-items: center; gap: 8px; }
+    .sheetsync-spinner { width: 16px; height: 16px; border: 2px solid #ccc; border-top-color: #06038d; border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes progressPulse { 0%,100% { opacity: .6; } 50% { opacity: 1; } }
+</style>
+
+<div class="sheetsync-wrap">
+    <div class="sheetsync-header">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <div>
+            <h1>Sincronización Google Sheet → Magento</h1>
+            <p style="margin:4px 0 0;opacity:.8;font-size:13px">Actualiza precios, stock y descuentos desde la hoja de cálculo</p>
+        </div>
+    </div>
+    <div class="sheetsync-body">
+        <div class="sheetsync-info">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#06038d" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span>Hoja conectada: <a href="<?= $sheetUrl ?>" target="_blank">Google Sheet de Inventario</a>
+            — Columnas: <strong>SKU, Precio, Precio Especial, Cantidad, Fecha Inicio, Fecha Fin</strong></span>
+        </div>
+
+        <div class="sheetsync-actions">
+            <button type="button" class="sheetsync-btn sheetsync-btn-secondary" id="btn-test" onclick="testConnection()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Probar Conexiones
+            </button>
+            <button type="button" class="sheetsync-btn sheetsync-btn-primary" id="btn-sync" onclick="runSync()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                Ejecutar Sincronización
+            </button>
+        </div>
+
+        <div class="sheetsync-progress" id="progress-area">
+            <div class="sheetsync-progress-bar"><div class="fill"></div></div>
+            <div class="sheetsync-progress-text">
+                <div class="sheetsync-spinner"></div>
+                <span id="progress-text">Procesando...</span>
+            </div>
+        </div>
+
+        <div class="sheetsync-status" id="status-area"></div>
+        <div class="sheetsync-results" id="results-area" style="display:none"></div>
+    </div>
+</div>
+
+<script>
+    function testConnection() {
+        var btn = document.getElementById('btn-test');
+        var statusArea = document.getElementById('status-area');
+        var progressArea = document.getElementById('progress-area');
+
+        btn.disabled = true;
+        statusArea.innerHTML = '';
+        document.getElementById('results-area').style.display = 'none';
+        progressArea.className = 'sheetsync-progress active';
+        document.getElementById('progress-text').textContent = 'Verificando conexiones...';
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '<?= $testUrl ?>');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                progressArea.className = 'sheetsync-progress';
+                btn.disabled = false;
+                try {
+                    var resp = JSON.parse(xhr.responseText);
+                    var html = '';
+                    if (resp.checks) {
+                        var labels = {
+                            google_auth: 'Autenticación Google',
+                            google_sheet: 'Lectura Google Sheet',
+                            magento_db: 'Base de datos Magento'
+                        };
+                        for (var key in resp.checks) {
+                            var c = resp.checks[key];
+                            var cls = c.status === 'ok' ? 'ok' : 'error';
+                            var icon = c.status === 'ok' ? '✓' : '✗';
+                            html += '<div class="sheetsync-check ' + cls + '"><span class="icon">' + icon + '</span><strong>' + (labels[key] || key) + ':</strong>&nbsp;' + c.message + '</div>';
+                        }
+                    }
+                    statusArea.innerHTML = html;
+                } catch(e) {
+                    statusArea.innerHTML = '<div class="sheetsync-check error"><span class="icon">✗</span>Error inesperado al probar conexiones</div>';
+                }
+            }
+        };
+        xhr.send('form_key=' + window.FORM_KEY);
+    }
+
+    function runSync() {
+        var btn = document.getElementById('btn-sync');
+        var btnTest = document.getElementById('btn-test');
+        var statusArea = document.getElementById('status-area');
+        var progressArea = document.getElementById('progress-area');
+        var resultsArea = document.getElementById('results-area');
+
+        btn.disabled = true;
+        btnTest.disabled = true;
+        statusArea.innerHTML = '';
+        resultsArea.style.display = 'none';
+        progressArea.className = 'sheetsync-progress active';
+        document.getElementById('progress-text').textContent = 'Leyendo Google Sheet y actualizando productos en Magento... Esto puede tomar varios minutos.';
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '<?= $syncUrl ?>');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.timeout = 600000;
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                progressArea.className = 'sheetsync-progress';
+                btn.disabled = false;
+                btnTest.disabled = false;
+                try {
+                    var resp = JSON.parse(xhr.responseText);
+                    if (resp.success && resp.data) {
+                        var d = resp.data;
+                        var html = '<h3>Resultados de la Sincronización</h3>';
+                        html += '<div class="sheetsync-stats">';
+                        html += '<div class="sheetsync-stat total"><span class="number">' + d.total + '</span><span class="label">Total Procesados</span></div>';
+                        html += '<div class="sheetsync-stat updated"><span class="number">' + d.updated + '</span><span class="label">Actualizados</span></div>';
+                        html += '<div class="sheetsync-stat notfound"><span class="number">' + d.not_found + '</span><span class="label">No Encontrados</span></div>';
+                        html += '<div class="sheetsync-stat errors"><span class="number">' + d.errors + '</span><span class="label">Errores</span></div>';
+                        html += '</div>';
+
+                        statusArea.innerHTML = '<div class="sheetsync-check ok"><span class="icon">✓</span>' + resp.message + '</div>';
+
+                        if (d.not_found > 0) {
+                            statusArea.innerHTML += '<div class="sheetsync-check pending" style="background:#fff8e1;color:#856404"><span class="icon">⚠</span>' + d.not_found + ' SKUs no encontrados — escritos en la hoja "SKUs no encontrados" del Google Sheet</div>';
+                        }
+
+                        if (d.sample_updated && d.sample_updated.length > 0) {
+                            html += '<details class="sheetsync-details"><summary>SKUs actualizados (muestra)</summary><ul>';
+                            d.sample_updated.forEach(function(s) { html += '<li>' + s + '</li>'; });
+                            html += '</ul></details>';
+                        }
+                        if (d.sample_not_found && d.sample_not_found.length > 0) {
+                            html += '<details class="sheetsync-details"><summary>SKUs no encontrados (muestra)</summary><ul>';
+                            d.sample_not_found.forEach(function(s) { html += '<li>' + s + '</li>'; });
+                            html += '</ul></details>';
+                        }
+                        if (d.error_details && d.error_details.length > 0) {
+                            html += '<details class="sheetsync-details"><summary>Detalles de errores</summary><ul>';
+                            d.error_details.forEach(function(e) { html += '<li>' + e + '</li>'; });
+                            html += '</ul></details>';
+                        }
+
+                        resultsArea.innerHTML = html;
+                        resultsArea.style.display = 'block';
+                    } else {
+                        statusArea.innerHTML = '<div class="sheetsync-check error"><span class="icon">✗</span>' + (resp.message || 'Error desconocido') + '</div>';
+                    }
+                } catch(e) {
+                    statusArea.innerHTML = '<div class="sheetsync-check error"><span class="icon">✗</span>Error inesperado: ' + e.message + '</div>';
+                }
+            }
+        };
+        xhr.send('form_key=' + window.FORM_KEY);
+    }
+</script>

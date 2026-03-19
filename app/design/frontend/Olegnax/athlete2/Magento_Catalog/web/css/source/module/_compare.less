@@ -1,0 +1,281 @@
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+
+    //
+    //  Compare Products Page
+    //  ---------------------------------------------
+
+    body.catalog-product-compare-index {
+        .action.print {
+            float: right;
+            margin: 15px 0;
+        }
+    }
+
+    .table-wrapper.comparison {
+        clear: both;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    .action.print {
+        font-weight: @font-weight__bold;
+        font-size: 14px;
+        text-transform: uppercase;
+        padding: 5px;
+        margin-bottom:10px;
+        display: inline-block;
+    }
+    .table-comparison {
+        table-layout: fixed;
+
+        .cell.label.remove,
+        .cell.label.product {
+            span {
+                &:extend(.abs-visually-hidden all);
+            }
+        }
+        thead{ 
+            td, th{
+                border:none!important;
+            }
+        }
+        tbody:nth-child(even) tr:hover{
+            background:#f8f8f8;
+        }
+
+        .cell:not(:last-child) {
+            border-right: @table__border-width @table__border-style @table__border-color!important;
+        }
+
+        .cell {
+            padding: 25px;
+            width: 190px;
+
+            .attribute.value {
+                overflow: hidden;
+                width: 100%;
+            }           
+            /*&.product.info,
+            &.product.label {
+                border-bottom: @table__border-width @table__border-style @table__border-color;
+            }*/
+
+            &.label {
+                .attribute.label {
+                    display: block;
+                    width: 100%;
+                    word-wrap: break-word;
+                    text-transform: uppercase;
+                    font-weight: @font-weight__black;
+                }
+            }
+
+            &.attribute {
+                .lib-font-size(13);
+                font-family: @tiny-font;
+                img {
+                    height: auto;
+                    max-width: 100%;
+                }
+            }
+        }
+
+        .product-item-photo {
+            display: block;
+            margin: 0 auto 10px;
+        }
+
+        .product-image-photo {
+            margin-left: 0;
+        }
+
+        .product-item-actions,
+        .price-box,
+        .product.rating,
+        .product-item-name {
+            display: block;
+            margin:5px 0;
+        }
+        .product-reviews-summary{
+            margin:0;
+            .reviews-actions a{
+                margin-left:5px;
+                font-size: 12px;
+                font-family: @tiny-font;
+            }
+        }
+        .price-box{
+            font-weight: @font-weight__bold;
+            font-size:14px;
+            text-transform:initial;
+        }
+        .product-item-name {
+            font-weight: @font-weight__black;
+            font-size: 14px;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .product-addto-links {
+            margin-top: 15px;
+
+            .action.split,
+            .action.toggle {
+                .lib-button-s();
+            }
+
+            .action.toggle {
+                padding: 0;
+            }
+        }
+
+        .cell.remove {
+            padding-bottom: 0;
+            padding-top: 0;
+            text-align: right;
+
+            .action.delete {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 30px;
+                height: 30px;
+                background: #000000;
+                span{
+                   .lib-visually-hidden();
+                }
+                &:hover{
+                    &:before{
+                        color: #000000;
+                    }
+                    background: @main-color;
+                }
+                &:before{
+                    font-family: "athlete2" !important;
+                    content: attr(data-icon);
+                    font-style: normal !important;
+                    font-weight: normal !important;
+                    font-variant: normal !important;
+                    text-transform: none !important;
+                    speak: none;
+                    line-height: 1;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                    font-size: 14px;
+                    transform: rotate(45deg);
+                    color: #ffffff;
+                    background:none;
+                    content: "\75";
+                }
+            }
+        }
+
+        .product-item-actions {
+            > .actions-primary {
+                + .actions-secondary {
+                    margin-top: @indent__s;
+                }
+            }
+            .actions-primary,
+            .actions-secondary{
+                display:inline-block;
+                vertical-align: top;
+            }
+        }
+
+        .action {
+            &.towishlist,
+            &.tocart {
+                .grid-actions();
+                opacity:1;
+                visibility:visible;
+                span{
+                   .lib-visually-hidden();
+                }
+                &:after{
+                    background:none!important;
+                }               
+            }
+            &.tocart {
+                padding:0;
+                &:before{
+                    font-family: "athlete2" !important;
+                    content: attr(data-icon);
+                    font-style: normal !important;
+                    font-weight: normal !important;
+                    font-variant: normal !important;
+                    text-transform: none !important;
+                    speak: none;
+                    line-height: 1;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                    font-size: 16px;
+                    content: "\67";
+                }
+            }
+        }
+    }
+
+    .comparison.headings {
+        .lib-css(background, @page__background-color);
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: auto;
+        z-index: 2;
+    }
+
+    .block-compare {
+        .block-title {
+            > strong {
+                .lib-heading(h5);
+                font-weight: @font-weight__black;
+                letter-spacing: -0.03em;
+                text-transform:uppercase;
+            }
+        }
+
+        .product-item .product-item-name {
+            margin-left: 28px;
+        }
+
+        .action {
+            &.delete {
+                &:extend(.abs-remove-button-for-blocks all);
+                left: 0;
+                position: absolute;
+                top: 0;
+            }
+
+            /*&.compare {
+                &:extend(.abs-revert-secondary-color all);
+            }*/
+        }
+
+        .counter {
+            &:extend(.abs-block-items-counter all);
+        }
+
+        .actions-toolbar {
+            margin: 23px 0 0;
+        }
+
+        .empty-compare-wrapper{
+                display: block;
+                font-size: 14px;
+                padding: 40px 0 80px;
+                text-align: center;
+                margin:auto;
+            .empty-compare-icon{
+                font-size: 106px;
+                text-align: center;
+                color: #ececec;
+                line-height:1;
+                margin-bottom: 5px;
+            }
+        }
+    }
+}

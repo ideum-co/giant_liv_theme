@@ -1,0 +1,11 @@
+<?php 
+
+$block_id = $block->getData("oxblock_id");
+
+if(!$block_id){
+    return;
+}
+?>
+<div class="product-item__banner">
+<?php echo $this->getLayout()->createBlock( 'Magento\Cms\Block\Block' )->setBlockId( $block_id )->toHtml(); ?>
+</div>

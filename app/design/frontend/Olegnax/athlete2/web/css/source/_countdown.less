@@ -1,0 +1,36 @@
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .a2-countdown{
+        display: inline-flex;
+        gap: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 1;
+        > div {
+            padding: 6px 8px 8px;
+            min-width:40px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        .separator{
+            align-self: center;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        .num {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        &:not(.inited){
+            opacity: 0;
+            visibility:hidden;
+        }
+        &.expired{
+            display: none!important;
+        }
+    }
+}

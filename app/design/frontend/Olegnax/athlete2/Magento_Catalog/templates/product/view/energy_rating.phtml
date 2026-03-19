@@ -1,0 +1,15 @@
+<?php
+    $_product = $block->getProduct();
+	if(!$_product){
+		return;
+	}
+	$attribute_name = $this->helper('Olegnax\Athlete2\Helper\Helper')->getConfig('athlete2_settings/product/energy_rating_attr') ?: 'ox_energy_rating';
+	$value = $_product->getData($attribute_name) ?? '';
+	
+	if(!$value){
+		return;
+	}
+?>
+<div class="a2-energy-rating">
+	<img src="<?= $block->escapeUrl($block->getViewFileUrl('images/energy/energy_label_' . $value . '.svg')) ?>" alt="<?php echo $block->escapeHtmlAttr(__('energy rating')); ?>" width="55" height="30">
+</div>

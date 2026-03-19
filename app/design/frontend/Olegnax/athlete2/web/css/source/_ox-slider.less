@@ -1,0 +1,35 @@
+& when (@media-common = true) {
+    .css_slider{
+        contain:paint;
+    }
+    .css_slider_items{
+        padding-bottom: 12px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        display: flex;
+        flex-wrap: nowrap!important;
+        position: relative;
+    }
+    .css_slider_item {
+        scroll-snap-align: start;
+        // margin-right:~"calc(var(--grid-margin) * 2)";
+        max-width: ~"calc(100% / var(--slider-cols, 4))";
+        flex: 0 0 ~"calc(100% / var(--slider-cols, 4))"; 
+    }
+    // .css_slider_item:last-child{
+    //     margin-right:0;
+    // }
+    .is-grabbable {
+        cursor: grab;
+        -webkit-user-select: none;
+        user-select: none
+    }
+    .is-grabbing img {
+        pointer-events: none
+    }
+    .is-grabbing {
+        cursor: grabbing;
+    }
+}

@@ -10,23 +10,21 @@
 use Magento\Checkout\Block\Cart\Sidebar;
 use Magento\Framework\View\Helper\SecureHtmlRenderer;
 
-$cartIcon      = '<svg xmlns="http://www.w3.org/2000/svg" class="minicart-icon-1" width="14" height="16" viewBox="0 0 14 16">
-  <path d="M11,3V0H3V3H0V16H14V3H11ZM5,2H9V3H5V2Zm7,12H2V5H3V7H5V5H9V7h2V5h1v9Z"></path>
-</svg>';
+$cartIcon      = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.23622 5.68945H2.10352V3.68945H5.97081L7.47081 14.1895H16.8352L18.3019 8.68945H8.10352L11.6035 6.68945H20.9051L18.3718 16.1895H5.73622L4.23622 5.68945Z"></path><path fill="currentColor" d="M9.60352 19.1895C9.60352 20.0179 8.93194 20.6895 8.10352 20.6895C7.27509 20.6895 6.60352 20.0179 6.60352 19.1895C6.60352 18.361 7.27509 17.6895 8.10352 17.6895C8.93194 17.6895 9.60352 18.361 9.60352 19.1895Z"></path><path fill="currentColor" d="M17.6035 19.1895C17.6035 20.0179 16.9319 20.6895 16.1035 20.6895C15.2751 20.6895 14.6035 20.0179 14.6035 19.1895C14.6035 18.361 15.2751 17.6895 16.1035 17.6895C16.9319 17.6895 17.6035 18.361 17.6035 19.1895Z"></path></svg>';
 $athlete       = $this->helper('Olegnax\Athlete2\Helper\Helper');
 $cartBtnText   = $athlete->getConfig( 'athlete2_settings/header/minicart_btn_text' );
 $cartAddedText = __('Product added to cart');
 $moveSticky    = '';
 
 if( $athlete->getConfig( 'athlete2_settings/header/header_layout' ) === 'header_1'){
-	$moveSticky ='ox-move-sticky ox-move-sticky-header.main.right ox-move-item ox-move-item-header.main.right';
+        $moveSticky ='ox-move-sticky ox-move-sticky-header.main.right ox-move-item ox-move-item-header.main.right';
 }
 ?>
 
 <div data-block="minicart" class="minicart-wrapper <?= $block->escapeHtmlAttr($moveSticky) ?>">
     <a class="action showcart" href="<?= $block->escapeUrl($block->getShoppingCartUrl()) ?>"
        data-bind="scope: 'minicart_content'">
-		<?= $cartIcon ?>
+                <?= $cartIcon ?>
         <span class="text"><?= $block->escapeHtml($cartBtnText) ?></span>
         <span class="counter qty">
             <span class="counter-number">
@@ -35,30 +33,30 @@ if( $athlete->getConfig( 'athlete2_settings/header/header_layout' ) === 'header_
         </span>
     </a>
     <?php if ($block->getIsNeedToDisplaySideBar()):
-		$minicart_type = $athlete->getConfig( 'athlete2_settings/header/minicart_type' );
-		?>
+                $minicart_type = $athlete->getConfig( 'athlete2_settings/header/minicart_type' );
+                ?>
         <div class="block block-minicart empty"
-			 data-role="OXmodalMinicart"
+                         data-role="OXmodalMinicart"
              data-mage-init='{"OXmodalMinicart":{
                 "triggerTarget":".showcart",
-				"overlayClass":"ox-slideout-shadow",
+                                "overlayClass":"ox-slideout-shadow",
                 "timeout": "500",
-				"closeButtonTrigger":"#btn-minicart-close",
+                                "closeButtonTrigger":"#btn-minicart-close",
                 "closeOnEscape": true,
                 "closeOnMouseLeave": <?php echo 'dropdown-hover' == $block->escapeHtmlAttr($minicart_type) ? 'true' : 'false'; ?>,
-				"hoverOpen": <?php echo 'dropdown-hover' == $block->escapeHtmlAttr($minicart_type) ? 'true' : 'false'; ?>,
-				"type": "<?php echo 'slideout' == $block->escapeHtmlAttr($minicart_type) ? 'slideout' : ''; ?>",
-				"positionSlideout": "right",
-				"htmlClass":"ox-fixed"
-			}}'>
+                                "hoverOpen": <?php echo 'dropdown-hover' == $block->escapeHtmlAttr($minicart_type) ? 'true' : 'false'; ?>,
+                                "type": "<?php echo 'slideout' == $block->escapeHtmlAttr($minicart_type) ? 'slideout' : ''; ?>",
+                                "positionSlideout": "right",
+                                "htmlClass":"ox-fixed"
+                        }}'>
             <div id="minicart-content-wrapper" data-bind="scope: 'minicart_content'">
-				<div class="message success"><span class="text"><?= $block->escapeHtml(__($cartAddedText)) ?></span></div>
-				<?php
-				$promo = $block->getLayout()->createBlock( 'Magento\Cms\Block\Block' )->setBlockId( 'athlete_cart_promotion' )->toHtml();
-				if ( !empty( $promo ) ) :
-				?>
-					<div class="athlete_cart_promotion-content"><?php echo $promo; ?></div>
-				<?php endif; ?>
+                                <div class="message success"><span class="text"><?= $block->escapeHtml(__($cartAddedText)) ?></span></div>
+                                <?php
+                                $promo = $block->getLayout()->createBlock( 'Magento\Cms\Block\Block' )->setBlockId( 'athlete_cart_promotion' )->toHtml();
+                                if ( !empty( $promo ) ) :
+                                ?>
+                                        <div class="athlete_cart_promotion-content"><?php echo $promo; ?></div>
+                                <?php endif; ?>
                 <!-- ko template: getTemplate() --><!-- /ko -->
             </div>
             <?= $block->getChildHtml('minicart.addons') ?>

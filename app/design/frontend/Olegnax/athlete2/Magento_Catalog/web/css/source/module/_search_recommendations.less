@@ -1,0 +1,29 @@
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    .a2-search-suggestions{
+        padding: 0 10px;
+        & > .block{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 0;
+            .item a{
+                background: #f4f4f4;
+                padding: 4px 10px;
+            }
+        }
+    }
+    .message{
+        .a2-search-suggestions{
+            & > .block{
+                .item a{
+                    padding: 0;
+                    background: none;
+                }
+            }
+        }
+    }
+}

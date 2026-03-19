@@ -1,0 +1,41 @@
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .page-layout-1column-fullwidth .filters-toggle-show,
+    .page-layout-1column .filters-toggle-show,
+    body:not(.page-with-filter) .filters-toggle-show,
+    body:not(.hide-sidebar) .filters-toggle-show,
+    .page-with-filter.hide-sidebar .sidebar{
+        display:none!important;
+    }
+    .page-with-filter.hide-sidebar .column.main{
+        max-width: 100%;
+        width:100%;
+    }
+    
+    .filters-toggle{
+        cursor:pointer;
+        padding-left:20px;
+        padding-right:20px;
+        .action{
+            display: flex;
+            align-items: center;
+            height: var(--a2-toolbar-height);
+            gap: 10px;
+        }
+    }
+    .sidebar .filters-toggle{
+        border-bottom: 1px solid;
+        border-top: 1px solid;
+        border-color: var(--a2-toolbar-border-color);
+        margin-bottom:20px;
+    }
+    .filters-toggle:hover .ox-close-icon:before,
+    .filters-toggle:hover .ox-close-icon:after {
+        transform: rotate(0);
+    }
+    /* hide in filters slideout */
+    .ox-dialog {
+        .filters-toggle{
+            display: none;
+        }
+    }
+}

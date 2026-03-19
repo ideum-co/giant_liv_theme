@@ -1,0 +1,19 @@
+<?php
+    $_product = $block->getProduct();
+	$attribute_name = $block->getData('attribute');
+	$text = $block->getData('text');
+	$fallback = $block->getData('fallback_text');
+	if(!$_product || !$attribute_name){
+		return;
+	}
+	$value = $_product->getData($attribute_name) ?? '';
+    
+	if($value){
+		if($text){
+			echo $text . ' ';
+		}
+		echo $block->escapeHtml($value);
+	}elseif($fallback){
+		echo $block->escapeHtml($fallback);
+	}
+?>

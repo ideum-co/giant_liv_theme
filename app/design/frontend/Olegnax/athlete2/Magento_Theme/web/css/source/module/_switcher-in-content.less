@@ -1,0 +1,28 @@
+& when (@media-common = true) {
+    .page-wrapper{
+        .switcher{
+            display: inline-block;
+            .action.toggle{
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                text-decoration: none;
+                position:relative;
+                z-index: 2;
+                strong{
+                    font-weight: normal;
+                }
+                .flag-image{
+                    line-height: 1;
+                }
+            }
+        }
+        .switcher.tiny-arrow{
+            .switcher-tiny-arrow-fn();
+        }
+        .switcher.tiny-drop{
+            .switcher-tiny-action-fn()
+        }
+    }
+}

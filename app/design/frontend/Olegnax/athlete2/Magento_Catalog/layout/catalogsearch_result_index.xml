@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="additional">
+            <container name="athlete2_search_suggestions" htmlTag="div" htmlClass="a2-search-suggestions" before="-"></container>
+        </referenceContainer>
+        <move element="search_suggestions" destination="athlete2_search_suggestions"/>
+        <move element="search_recommendations" destination="athlete2_search_suggestions"/>
+
+        <referenceBlock name="search_result_list">
+            <block class="Olegnax\Athlete2\Block\Template" name="catalog.thumb_carousel_arrows" as="thumb_carousel_arrows" template="Magento_Catalog::product/list/thumb-arrows.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" name="a2.catalog.banners" as="a2_grid_banner" template="Magento_Catalog::product/list/grid_banner.phtml"/>
+        </referenceBlock>
+    </body>
+</page>

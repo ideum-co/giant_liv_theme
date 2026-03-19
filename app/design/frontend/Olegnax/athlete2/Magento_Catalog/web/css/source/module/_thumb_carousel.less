@@ -1,0 +1,41 @@
+& when (@media-common = true) {
+    .ox-product-thumb-image-container {
+        img{
+            transition: opacity 0.6s;
+        }
+    }
+    .product-item{
+        .product-thumb-image-photo{
+            &:not(:first-of-type){
+                display: none;
+                opacity: 0;
+            }
+            &.show{
+                display: block;
+                opacity: 0;
+                animation: fadeIn 0.6s forwards;
+            }
+            &.hide{
+                display: block;
+                opacity: 0;
+            }
+        }
+    }
+    /* arrows can go outside of the product item area on animation and overlap arrows from the adjoined item. this cause flickering  */
+    // .product-item-info{
+    //     contain:paint;
+    // }
+    /* for list view */
+    .product-grid__image-wrapper{
+        // contain:paint;
+        // --a2-nav-lr: ~"calc(-1 * var(--a2-grid-item-padding, 0))";
+        > .ox-nav button{
+            z-index: 2;
+        }
+    }
+    .swatch-selected{
+        :is(.ox-dots,.ox-nav){
+            display: none!important;
+        }
+    }
+}

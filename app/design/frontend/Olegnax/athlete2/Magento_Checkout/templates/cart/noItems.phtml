@@ -10,18 +10,24 @@ use Magento\Checkout\Block\Cart;
 
 ?>
 <div class="cart-empty">
-		<?= $block->getChildHtml('checkout_cart_empty_widget') ?>
-		<div class="athlete2-icon-cart empty-cart-icon"></div>
-		<p class="cart-empty-big-text"><?= $block->escapeHtml(__('You have no items in your shopping cart.')) ?></p>
-		<p><?= $block->escapeHtml(
-			__(
-				'<a class="button" href="%1">Continue shopping.</a>',
-				$block->escapeUrl($block->getContinueShoppingUrl())
-			),
-			['a']
-		) ?>
-		</p>
-		<?= $block->getChildHtml('shopping.cart.table.after') ?>
+    <?= $block->getChildHtml('checkout_cart_empty_widget') ?>
+    <div class="giant-cart-empty-icon">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#ccc" fill-rule="evenodd" clip-rule="evenodd" d="M4.23622 5.68945H2.10352V3.68945H5.97081L7.47081 14.1895H16.8352L18.3019 8.68945H8.10352L11.6035 6.68945H20.9051L18.3718 16.1895H5.73622L4.23622 5.68945Z"></path>
+            <path fill="#ccc" d="M9.60352 19.1895C9.60352 20.0179 8.93194 20.6895 8.10352 20.6895C7.27509 20.6895 6.60352 20.0179 6.60352 19.1895C6.60352 18.361 7.27509 17.6895 8.10352 17.6895C8.93194 17.6895 9.60352 18.361 9.60352 19.1895Z"></path>
+            <path fill="#ccc" d="M17.6035 19.1895C17.6035 20.0179 16.9319 20.6895 16.1035 20.6895C15.2751 20.6895 14.6035 20.0179 14.6035 19.1895C14.6035 18.361 15.2751 17.6895 16.1035 17.6895C16.9319 17.6895 17.6035 18.361 17.6035 19.1895Z"></path>
+        </svg>
+    </div>
+    <p class="cart-empty-big-text"><?= $block->escapeHtml(__('You have no items in your shopping cart.')) ?></p>
+    <p><?= $block->escapeHtml(
+            __(
+                    '<a class="button giant-btn-back-shop" href="%1">Continue shopping.</a>',
+                    $block->escapeUrl($block->getContinueShoppingUrl())
+            ),
+            ['a']
+    ) ?>
+    </p>
+    <?= $block->getChildHtml('shopping.cart.table.after') ?>
 </div>
 <script type="text/x-magento-init">
 {

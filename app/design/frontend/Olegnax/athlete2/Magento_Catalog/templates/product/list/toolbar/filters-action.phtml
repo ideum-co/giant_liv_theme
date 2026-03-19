@@ -1,0 +1,25 @@
+<?php 
+$text =__('Filters');
+
+$helper_icons = $this->helper(Olegnax\Athlete2\Helper\Icons::class);
+$icon_option   =  'athlete2_design/appearance_toolbar/icon_';
+$icon_value = $helper_icons->getConfig($icon_option . 'filters');
+if($icon_value === 'filters2'){
+    $icon = '<span class="filter-icon"><span class="filter-icon__i1"></span><span class="filter-icon__i2"></span></span>'; 
+} else {
+    $icon = ($icon_value && $icon_value !== 'custom') ? $helper_icons->getIconHTML('filters', $icon_option) : ''; // $name, $icon_option = '', $classes = ''
+}
+?>
+<div class="filters-action">
+    <?php if($icon || $icon_value === 'custom'): ?>
+        <div class="icon" aria-label="<?= $block->escapeHtmlAttr($text) ?>">
+            <?php echo $icon ?>
+        </div>
+    <?php else: ?>
+        <div class="hamburger-menu-icon-small" aria-label="<?= $block->escapeHtmlAttr($text) ?>">
+            <span></span><span></span><span></span>
+        </div>
+    <?php endif; ?>
+    <span class="label"><?= $block->escapeHtmlAttr($text) ?></span> 
+    <span class="filter-current-count"></span>
+</div>

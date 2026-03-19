@@ -19,6 +19,7 @@
     <referenceContainer name="above_footer" remove="1" />
     <referenceBlock name="athlete2_header" remove="true"/>
     <referenceBlock name="athlete2_navigation" remove="true"/>
+    <referenceBlock name="giant.external.scripts" remove="true"/>
     
     </body>
 </page>

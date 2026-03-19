@@ -1,0 +1,104 @@
+& when (@media-common = true) {
+    .ox-banner{
+        &.ox-banner-stores{
+            overflow:visible;
+            margin-top: 15px;
+            .ox-banner-link{
+                display:block;
+                line-height:0;
+            }
+            .ox-banner-container{
+                padding: 40px;
+                .title{
+                    line-height: 0.9;
+                    display:block;
+                    &.xxl{
+                        font-size:48px;
+                    }
+                }
+                .text{
+                    line-height:1.4;
+                    display:block;
+                    font-size: 16px;
+                    font-weight: @font-weight__black;
+                    padding: 10px;
+                    margin-top: 40px;
+                }
+            }
+            .ox-banner-container.bottom{
+                bottom: 0;
+                padding: 35px;
+            }
+        }
+    }
+    @media (min-width: 768px) and (max-width: 1024px){
+        .col-md-6{
+            .ox-banner{
+                &.ox-banner-stores{
+                    .ox-banner-container{
+                        .title{
+                            &.xxl{
+                                margin-top: -62px;
+                                font-size: 50px;
+                            }
+                        }
+                        .text{
+                            margin-top: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xs) {
+    .ox-banner{
+        &.ox-banner-stores{
+            .ox-banner-container{
+                padding: 27px;
+                .title{
+                    &.xxl{
+                        font-size:32px;
+                    }
+                }
+                .text{
+                    font-size:14px;
+                    margin-top: 20px;
+                    padding: 5px;
+                }
+            }
+            .ox-banner-container.bottom{
+                padding: 20px;
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+    .ox-banner{
+        &.ox-banner-stores{
+            margin-top: 50px;
+            .ox-banner-container{
+                .title{
+                    margin-top: -70px;
+                    &.huge{
+                        margin-top: -80px;
+                    }
+                    &.xxl{
+                       margin-top: -80px;
+                       font-size: 90px;
+                    }
+                }
+                .text{
+                    font-size:18px;
+                    margin-top: 40px;
+                    padding: 10px;
+                }
+            }
+            .ox-banner-container.bottom{
+                padding: 55px;
+            }
+        }
+    }
+}

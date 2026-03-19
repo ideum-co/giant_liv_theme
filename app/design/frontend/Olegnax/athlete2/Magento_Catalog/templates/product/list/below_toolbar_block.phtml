@@ -1,0 +1,16 @@
+<?php
+/** @var Olegnax\Athlete2\ViewModel\CategoryConfigViewModel $viewModel */
+$viewModel = $block->getData('CategoryConfigViewModel');
+if($viewModel && method_exists($viewModel, 'getCategory')){
+	$category = $viewModel->getCategory();
+}
+if(!$category){
+	return;
+}
+$categoryBlock = $category->getOxBelowToolbar();
+if ( $categoryBlock ) {
+	?>
+	<div class="below-toolbar-content">
+		<?php echo $block->getBlockTemplateProcessor( $categoryBlock  ); ?>
+	</div>	
+<?php } ?>

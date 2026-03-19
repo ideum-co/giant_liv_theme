@@ -1,0 +1,6 @@
+<?php
+$promo = $block->getLayout()->createBlock( 'Magento\Cms\Block\Block' )->setBlockId( 'athlete_cart_promotion' )->toHtml();
+if ( !empty( $promo ) ) :
+?>
+<div class="athlete_cart_promotion-content"><?php echo $promo; ?></div>
+<?php endif;

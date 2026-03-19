@@ -1,0 +1,141 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block View */
+
+use Magento\Catalog\Block\Product\View;
+
+$_product = $block->getProduct();
+
+if ( !$_product->isSaleable() ) {
+    return;
+}
+
+$theme_helper = $this->helper(Olegnax\Athlete2\Helper\Icons::class);
+$at_settings	 = $theme_helper->getConfig( 'athlete2_settings/product_bar' );
+$header_settings = $theme_helper->getConfig( 'athlete2_settings/header' );
+if ( !(bool)$at_settings['enabled'] ) {
+    return;
+}
+
+$icon_option   = 'athlete2_design/appearance_icons_product/product_icon_';
+$buttonIcon = $theme_helper->getIconHTML('cart', $icon_option); // $name, $icon_option = '', $classes = ''
+$buttonTitle = __('Add to Cart');
+
+$showQty =  (bool)$at_settings['show_qty'];
+$showName = (bool)$at_settings['show_name'];
+$showWishlist = (bool)$at_settings['show_wishlist'];
+$showImage = (bool)$at_settings['show_image'];
+$showPrice = (bool)$at_settings['show_price'];
+$showRating = (bool)$at_settings['show_rating'];
+
+$contentAbove = (bool)$at_settings['show_content_above'];
+$contentBelow = (bool)$at_settings['show_content_below'];
+
+$barClasses = '';
+
+/* Mobile */
+$hideOnMobileClasses = ' hide-on-mobile';
+$leftBlockClasses = '';
+$showMobile = (bool)$at_settings['show_on_mobile'];
+
+
+$mobileLayout = (bool)$at_settings['mobile_layout'];
+$stretchBtn = (bool)$at_settings['stretch_addtocart_mobile'];
+
+$showQtyMobile =  (bool)$at_settings['show_qty_mobile'] ;
+$showNameMobile = (bool)$at_settings['show_name_mobile'];
+$showWishlistMobile = (bool)$at_settings['show_wishlist_mobile'];
+$showImageMobile = (bool)$at_settings['show_image_mobile'];
+$showPriceMobile = (bool)$at_settings['show_price_mobile'];
+$showRatingMobile = (bool)$at_settings['show_rating_mobile'];
+$contentRightMobile = (bool)$at_settings['show_content_right_mobile'];
+$contentBelowMobile = (bool)$at_settings['show_content_below_mobile'];
+$contentAboveMobile = (bool)$at_settings['show_content_above_mobile'];
+if(!$showMobile){ $barClasses .= $hideOnMobileClasses; } 
+if(!empty($mobileLayout)){ $barClasses .=' layout-' . $block->escapeHtmlAttr($mobileLayout); }
+if((($mobileLayout == '2' && !$showPriceMobile) || $mobileLayout != '2') && !$showRatingMobile && !$showImageMobile && !$showNameMobile && (!$contentBelowMobile || !$contentBelow)  && (!$contentAboveMobile || $contentAbove)){
+    $leftBlockClasses .=  $hideOnMobileClasses;
+}
+?>
+<div id="a2-product-bar" class="product-bar <?php echo $barClasses ?>"data-mage-init='{"js/ox-product-bar":{
+    "showQty": <?= (bool)$at_settings['show_qty'] ? 'true' : 'false'; ?>,
+    "stickyHeader": <?= (bool)$header_settings['sticky_header'] ? 'true' : 'false'; ?>,
+    "positionTop":  <?= (bool)$at_settings['position_top'] ? 'true' : 'false'; ?>
+    }}'>
+    <div class="container">
+        <div class="flex-row product-bar__inner">
+            <div class="flex-left flex-row product-bar__left <?php echo $leftBlockClasses ?>">
+                <?php if($showImage): ?>
+                    <div class="product-bar__thumb <?php echo $showImageMobile ? '' : $hideOnMobileClasses; ?>">
+                        <?php echo $block->getImage($_product, 'product_thumbnail_image')->toHtml();?>
+                    </div>
+                <?php endif; ?>
+                <div class="product-bar__info">
+                    <?php echo $block->getChildHtml('ox_product_bar.info.before'); ?>
+                    <?php if($at_settings['show_content_above']) : ?>
+                        <div class="product-bar__cc -cc-before <?php echo $contentAboveMobile  ? '' : $hideOnMobileClasses; ?>">
+                            <?php echo $block->getChildHtml('ox_product_bar.content.before');?>
+                        </div>
+                    <?php endif; ?>                
+                    <?php if($showName) : ?>
+                        <h5 class="product-name <?php echo $showNameMobile  ? '' : $hideOnMobileClasses; ?>"><?php echo $block->escapeHtml($_product->getName()) ?></h5>
+                    <?php endif; ?>
+                    <?php if($showRating) { echo $block->getChildHtml('ox_product_bar.info.review'); } ?> 
+                    <?php if($at_settings['show_content_below']) : ?>
+                        <div class="product-bar__cc -cc-after <?php echo $contentBelowMobile  ? '' : $hideOnMobileClasses; ?>">
+                            <?php echo $block->getChildHtml('ox_product_bar.content.after');?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <?php if($showPrice && $mobileLayout == '2') { echo $block->getChildHtml('ox_product_bar.info.price'); } ?>  
+            </div>
+            <div class="flex-right flex-row flex-nowrap product-bar__right">
+                <?php echo $block->getChildHtml('ox_product_bar.right.before'); ?>
+                <?php if($at_settings['show_content_right']) {?>
+                    <div class="product-bar__cc -cc-right <?php echo $contentRightMobile  ? '' : $hideOnMobileClasses; ?>">
+                        <?php echo $block->getChildHtml('ox_product_bar.content.right');?>
+                    </div>
+                <?php } ?> 
+                <?php if($showPrice) { echo $block->getChildHtml('ox_product_bar.info.price'); } ?>  
+                <div class="box-tocart d-flex actions--right-to-cart">
+                    <?php if($showQty && $block->shouldRenderQuantity()) : ?>
+                        <div class="field qty <?php echo $showQtyMobile ? '' : $hideOnMobileClasses; ?>">
+                            <label class="label" for="product-bar-qty"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
+                            <div class="control qty-controls-wrap">
+                                <a id="product-bar-qty-minus" class="icon-minus qty-minus"></a>
+                                <a id="product-bar-qty-plus" class="icon-plus qty-plus"></a>
+                                <input type="number"
+                                    name="qty"
+                                    id="product-bar-qty"
+                                    min="0"
+                                    value="<?= $block->escapeHtmlAttr($block->getProductDefaultQty() * 1) ?>"
+                                    title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                                    class="input-text qty"
+                                    data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+                                    />
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <button type="submit"
+                            title="<?= $block->escapeHtmlAttr($buttonTitle) ?>"
+                            class="action primary tocart"
+                            id="product-bar-product-addtocart-button">
+                        <?= /* @noEscape */ $buttonIcon ?><span><?= $block->escapeHtml($buttonTitle) ?></span>
+                    </button>
+                    <?php echo $block->getChildHtml('ox_product_bar.box-tocart.after'); ?>
+                    <?php if($showWishlist && $this->helper('Magento\Wishlist\Helper\Data')->isAllow()) { echo $block->getChildHtml('ox_product_bar.addto.wishlist'); } ?>  
+                </div>
+            </div>
+        </div>
+        <?php echo $block->getChildHtml('ox_product_bar.after'); ?>
+    </div>   
+</div>
+
+<?php echo $block->getChildHtml('ox_product_bar.css');?>
+<?php echo $block->getChildHtml('ox_product_bar.js');?>

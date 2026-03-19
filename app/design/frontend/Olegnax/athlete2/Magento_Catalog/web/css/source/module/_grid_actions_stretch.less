@@ -1,0 +1,28 @@
+& when (@media-common = true) {
+    .product-item .product-item-details.actions-stretch-2edges {
+        .product-item-actions{
+            margin-left:~"calc(-1 * var(--a2-grid-item-padding))";
+            margin-right:~"calc(-1 * var(--a2-grid-item-padding))";
+            margin-bottom:~"calc(-1 * var(--a2-grid-item-padding))";
+        }
+    }
+    // :where(.grid, .products-grid) {
+    //     .product-item .product-item-details.actions-stretch {
+    //         .product-item-actions {
+    //             margin-left:~"calc(-1 * var(--a2-grid-item-padding))";
+    //         }
+    //     }
+    // }
+    .actions-stretch {
+        .actions-secondary{
+            display: flex;
+            justify-content: center;
+        }
+        .actions-primary .tocart{
+            width:100%;
+        }
+        :is(.quick-view, .actions-primary form, .actions-secondary .action){
+            flex-grow: 1;
+        }
+    }
+}

@@ -1,0 +1,61 @@
+<?php
+/**
+ * Athlete2 Theme
+ *
+ * @author      Olegnax
+ * @package     Olegnax_Athlete2
+ * @copyright   Copyright (c) 2024 Olegnax (https://olegnax.com). All rights reserved.
+ * @license     https://www.olegnax.com/license
+ */
+
+$theme_settings = $block->getConfig('athlete2_settings/product');
+$popupEnabled = $theme_settings['gallery_popup'];
+$gallery_layout = $theme_settings['gallery_layout'];
+$galleryZoom = $theme_settings['gallery_zoom'];
+$mobile_theme = $this->helper( 'Olegnax\Core\Helper\Helper' )->isMobileTheme();
+?>
+
+<?php if($galleryZoom && !$mobile_theme): ?>
+<?php $styles = '.zoomImg{z-index: 2;}'; ?>
+<?php $scriptString = <<<script
+require([
+    'jquery',
+    'OXjquery-zoom',
+], function ($, zoom) {
+	'use strict';
+	function initZoom() {
+		$('.gallery__image-wrapper:not(.gallery__video-wrapper):not(.zoom-inited)').each(function() {
+			var _that = $(this);
+			var _img = _that.find('.zoomImg');
+			if (_img.length > 0) {
+				_that.addClass('zoom-inited');
+			} else{
+				_that.zoom({touch:	false});
+			}
+		});
+script;
+/*
+open photoswipe on click, or fotorama
+*/	
+if($gallery_layout == 'fast' || $popupEnabled):
+$scriptString .= <<<script
+	$(document).on("click", ".zoomImg", function () {
+		$(this).parent().find(".gallery__image").trigger("click");
+	});
+script;
+endif;
+$scriptString .= <<<script
+	}
+    $('body').on('contentUpdated', initZoom);
+    initZoom();
+});
+script;
+	if (isset($secureRenderer)){
+		echo /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false);
+		echo /* @noEscape */ $secureRenderer->renderTag('style', [], $styles, false);
+	} else{
+		echo /* @noEscape */ '<script>' .  $scriptString . '</script>';
+		echo /* @noEscape */ '<style>' .  $styles . '</style>';
+	}
+	?>	
+<?php endif;

@@ -36,6 +36,9 @@
         <block class="Magento\Catalog\Block\Product\View" name="product_view_category_name" template="Magento_Catalog::product/view/category-name.phtml" before="page.main.title"/>      
         <move element="product_view_category_name" destination="product.info.main" before="page.main.title"/>
         <move element="product_view_brand" destination="product.info.main" before="page.main.title"/>
+        <referenceContainer name="columns">
+            <block class="Olegnax\Athlete2\Block\Product\SalePriceDifference" name="product.view.price.difference" template="Magento_Catalog::product/view/price_difference.phtml" before="-"/>
+        </referenceContainer>
         <referenceBlock name="product.info.main">
             <block class="Olegnax\Athlete2\Block\Template" name="product_view_ox_block" template="Magento_Catalog::product/view/ox_block.phtml" after="-"/>
             <block class="Magento\Catalog\Block\Product\View" name="product.info.addto2" as="addto2" template="Magento_Catalog::product/view/addto2.phtml"/>
@@ -46,18 +49,18 @@
         <referenceBlock name="product.info.addto2">
             <block class="Magento\Catalog\Block\Product\View\AddTo\Compare" name="view.addto.compare2" after="view.addto.wishlist2"
                        template="Magento_Catalog::product/view/addto/compare.phtml" >
-				<arguments>
-					<argument name="addToCompareViewModel" xsi:type="object">Magento\Catalog\ViewModel\Product\Checker\AddToCompareAvailability</argument>
-				</arguments>
-			</block>
+                                <arguments>
+                                        <argument name="addToCompareViewModel" xsi:type="object">Magento\Catalog\ViewModel\Product\Checker\AddToCompareAvailability</argument>
+                                </arguments>
+                        </block>
         </referenceBlock>
         <referenceBlock name="product.info.addto2.additional">
             <block class="Magento\Catalog\Block\Product\View\AddTo\Compare" name="view.addto.compare2.additional" after="view.addto.wishlist2.additional"
                        template="Magento_Catalog::product/view/addto/compare.phtml" >
-				<arguments>
-					<argument name="addToCompareViewModel" xsi:type="object">Magento\Catalog\ViewModel\Product\Checker\AddToCompareAvailability</argument>
-				</arguments>
-			</block>
+                                <arguments>
+                                        <argument name="addToCompareViewModel" xsi:type="object">Magento\Catalog\ViewModel\Product\Checker\AddToCompareAvailability</argument>
+                                </arguments>
+                        </block>
         </referenceBlock>
         <move element="product.info.addto2" destination="product.info.form.content" after="-"/>
         <move element="product_view_ox_social2" destination="product.info.form.content" after="-"/>

@@ -1,0 +1,47 @@
+& when (@media-common = true) {
+    .ox-dialog{
+        .switcher {
+            :where(.action.toggle, .switcher-option){
+                strong{
+                    padding: 5px 9px;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 9px;
+                    text-transform: var(--a2-switcher-dd-tt, uppercase);
+                    font-weight: var(--a2-switcher-dd-fw, @font-weight__bold);
+                    color: var(--a2-switcher-dd-a-color, #ffffff);
+                    background-color:var(--a2-switcher-dd-a-bg, #000000);
+                    margin-left: -9px;
+                    margin-bottom: 4px;
+                }
+            }
+            .options {
+                padding-left: 10px;
+                .action.toggle{
+                    position:relative;
+                    z-index: 2;
+                }
+                ul {
+                    padding:0;
+                    list-style: none;
+                    a {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 9px;
+                        padding: 5px 0;
+                        white-space: nowrap;
+                        text-transform: var(--a2-switcher-dd-tt, uppercase);
+                        font-weight: var(--a2-switcher-dd-fw, @font-weight__bold);
+                    }
+                    &:before,
+                    &:after {
+                        content:none;
+                    }
+                    li{
+                        line-height: 18px;
+                    }
+                }
+            }
+        }
+    }
+}

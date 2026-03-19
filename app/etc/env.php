@@ -50,7 +50,7 @@ return [
         ]
     ],
     'x-frame-options' => 'ALLOWALL',
-    'MAGE_MODE' => 'production',
+    'MAGE_MODE' => 'developer',
     'session' => [
         'save' => 'files'
     ],

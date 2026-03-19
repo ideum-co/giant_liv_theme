@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * Athlete2 Theme
+ *
+ * @author      Olegnax
+ * @package     Olegnax_Athlete2
+ * @copyright   Copyright (c) 2024 Olegnax (https://olegnax.com). All rights reserved.
+ * @license     https://www.olegnax.com/license
+ */
+
+$theme_settings = $block->getConfig( 'athlete2_settings/product_quick_nav' );
+if(!$theme_settings['enabled']){
+	return;
+}
+$show_tabs = (bool)$theme_settings['show_tabs'];
+$custom_content = $theme_settings['custom_content'];
+$show_all_link = (bool)$theme_settings['show_all_link'];
+$all_info_text =  $theme_settings['all_link_text'] ?: __('All Info');
+$sticky_header = (bool)$block->getConfig( 'athlete2_settings/header/sticky_header' ) && !(bool)$block->getConfig( 'athlete2_settings/product/disable_sticky_header' );
+$hide_mobile = (bool)$theme_settings['hide_mobile'] ? ' hide-on-mobile' : '';
+$show_related_link = (bool)$theme_settings['show_related'];
+$related_link_text = $theme_settings['related_link_text'] ?: __('Related');
+?>
+<div id="a2-qn" class="a2-qn flex-row <?php echo $hide_mobile ?>">
+	<?php if($show_all_link): ?>
+		<a class="a2-qn__link -all js-a2-qn__link" href="#athlete2_product_info" data-target="#athlete2_product_info">
+			<span><?= $block->escapeHtml($all_info_text); ?></span>
+		</a>
+	<?php endif; ?>
+	<?php if($show_tabs): ?>
+		<?php echo $this->getChildHtml( 'ox_quick_nav_tabs' ); ?>
+	<?php endif; ?>
+	<?php if($show_related_link): ?>
+		<a class="a2-qn__link -related js-a2-qn__link" href="#" data-target=".related">
+			<span><?= $block->escapeHtml($related_link_text); ?></span>
+		</a>
+	<?php endif; ?>
+	<?php if(!empty($custom_content)): ?>
+		<?php echo $custom_content ?>
+	<?php endif; ?>
+</div>
+<?php $pref = $sticky_header ? '-sticky' : ''; ?>
+<script type="text/x-magento-init">{"*":{"js/ox-quicknav<?php echo $pref ?>":{}}}</script>
+
+<?php echo $block->getChildHtml('ox_quick_nav.css');?>

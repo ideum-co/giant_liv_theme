@@ -1,0 +1,467 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Magento\Framework\App\Action\Action;
+use Magento\Catalog\Block\Product\ReviewRendererInterface;
+
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+?>
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+/** @var \Magento\Catalog\Helper\Output $_helper */
+$_helper = $this->helper(\Magento\Catalog\Helper\Output::class);
+$cartIcon = '<svg version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" class="a2-icon-cart"><use xlink:href="#a2-cart-icon"></use></svg>';
+/** @var \Olegnax\Athlete2\Helper\ProductList $theme_helper */
+$theme_helper = $this->helper(\Olegnax\Athlete2\Helper\ProductList::class);
+$img_helper = $this->helper(\Olegnax\Athlete2\Helper\ProductImage::class);
+$at_settings = $theme_helper->getModuleConfig();
+$width = $at_settings[ 'product_images' ][ 'listing_image_width' ];
+$height =  $at_settings[ 'product_images' ][ 'listing_image_height' ];
+$listview_width = $at_settings[ 'product_images' ][ 'listing_listview_image_width' ];
+$listview_height =  $at_settings[ 'product_images' ][ 'listing_listview_image_height' ];
+
+$showQuickview = $at_settings['products_listing']['quickview'] && $theme_helper->isActivePlugin( 'Olegnax_Quickview' );
+// $showOutofstock = $at_settings['products_listing']['outofstock'];
+$showRating = $at_settings['products_listing']['rating'];
+$showPrice = $at_settings['products_listing']['price'];
+$showCart = $at_settings['products_listing']['add_to_cart'];
+$showCartList = $at_settings['products_listing']['add_to_cart_list'];
+$showWishlist = $at_settings['products_listing']['wishlist'];
+$showCompare = $at_settings['products_listing']['compare'];
+$showCategory = $at_settings['products_listing']['category_name'];
+$showBrand = $at_settings['products_listing']['brand'];
+$showReviewCount = $at_settings['products_listing']['review_count'];
+$alignDetailsCenter = $at_settings['products_listing']['products_layout_centered'];
+$quickviewPosition = $at_settings['products_listing']['quickview_position'];
+$quickviewBtnClass = $at_settings['products_listing']['quickview_button_style'];
+$preloaderEnabled= $at_settings['products_listing']['preloader_enabled'];
+$preloaderClasses = $preloaderEnabled ? 'lazy-loader' : '';
+if($showBrand){
+	$brandImageSize ='';
+	$altBrandImage = !$at_settings['products_listing']['brand_image_alt'];
+	$brandImageWidth = $at_settings['products_listing']['brand_image_width'];
+	$brandImageHeight = $at_settings['products_listing']['brand_image_height'] ?: $at_settings['products_listing']['brand_image_width'];
+	if($brandImageWidth && $brandImageHeight) {
+		$brandImageSize = [$brandImageWidth, $brandImageHeight];
+	}
+}
+/* 
+$thumbSlider - Thumb slider enabled globally
+$_thumbSlider - Thumb slider enabled per product / have more than one image.
+ */
+$thumbSlider = $at_settings['products_listing']['thumb_carousel'];
+if($thumbSlider){
+	$thumbsArrowsBlock = $block->getChildBlock('thumb_carousel_arrows');
+	$thumbSliderShowDots = $theme_helper->getConfig('athlete2_design/appearance_product_listing_thumbs/show_dots');
+	$thumbSliderDotsPos = $theme_helper->getConfig('athlete2_design/appearance_product_listing_thumbs/dots_position');
+	$thumbOptions['carousel'] = true;
+	$thumbOptions['selected_only'] = $at_settings['products_listing']['thumb_carousel_show_logic'] ?: '';
+	$thumbOptions['max_items'] = $at_settings['products_listing']['thumb_carousel_max_items'] ?: '';
+	$thumbOptions['min_items'] = $minThumbs = $at_settings['products_listing']['thumb_carousel_min_items'] ?: 2;
+	$img_helper->setOptions($thumbOptions);
+}
+
+$classes = [];
+$classes[] = $showReviewCount ? 'show-review-count' : '';
+$classes[] = $quickviewPosition ? ('quickview-' . $quickviewPosition) : '';
+$classes[] = $thumbSlider ? ('thumb-slider-on') : '';
+?>
+<?php if (!$_productCollection->count()) :?>
+	<div class="message info empty">
+		<div><?= $escaper->escapeHtml(__('We can\'t find products matching the selection.')) ?></div>
+	</div>
+<?php else :?>
+    <?= $block->getToolbarHtml() ?>
+    <?= $block->getAdditionalHtml() ?>
+    <?php
+    if ($block->getMode() == 'grid') {
+		$grid_classes = [];
+		$grid_classes[] = 'products-grid__layout-default';
+		$grid_classes[] = $alignDetailsCenter ? 'align-details-center' : '';
+		$grid_classes[] = 'product-columns-' . $at_settings['products_listing']['grid_columns'];
+		$grid_classes[] = 'product-columns-s-' . $at_settings['products_listing']['grid_columns_s'];
+		$grid_classes[] = 'product-columns-m-' . $at_settings['products_listing']['grid_columns_m'];
+		$grid_classes[] = 'product-columns-l-' . $at_settings['products_listing']['grid_columns_l'];
+		$classes[] = implode( ' ', $grid_classes );
+        $viewMode = 'grid';
+		$classes[] = 'products-grid__style7 products-grid__details-bottom products-grid__big-btns secondary-top-right';
+        $imageDisplayArea = 'category_page_grid';
+        $image_hover = 'category_page_grid_hover';
+        $showDescription = $at_settings['products_listing']['description_on_grid'] ?: false;
+		$descSource = $at_settings['products_listing']['description_on_grid_source'];
+		$showDescMoreLink = $at_settings['products_listing']['description_on_grid_more'];
+		$showAvailability =  $at_settings['products_listing']['stock_status'];
+        $templateType = ReviewRendererInterface::SHORT_VIEW;
+    } else {
+        $viewMode = 'list';
+		$classes[] = 'products-grid__big-btns';
+        $imageDisplayArea = 'category_page_list';
+        $image_hover = 'category_page_grid_hover';
+        $showDescription = true;
+		$descSource = $at_settings['products_listing']['description_on_grid_source'];
+		$showDescMoreLink = $at_settings['products_listing']['description_on_grid_more'];
+		$showAvailability = true;
+        $templateType = ReviewRendererInterface::FULL_VIEW;
+    }
+	$gridBannerEnabled	= false;
+	if($at_settings['products_listing_banners']['enable_grid']){
+		$bannersList = $theme_helper->getBannersData();
+		$gridBanner = $block->getChildBlock('a2_grid_banner');
+		$gridBannerEnabled = $gridBanner && is_array($bannersList) && !empty($bannersList);
+	}
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+    ?>
+    <div class="products wrapper <?= $escaper->escapeHtmlAttr( $viewMode. ' ' . implode( ' ', $classes )) ?> products-<?=  $escaper->escapeHtmlAttr( $viewMode ) ?>">
+        <?php $iterator = 1; ?>
+        <ol class="products list items product-items">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_product) :?>
+				<?php $item_classes = 'item product product-item'; ?>
+				
+				<?php if ($gridBannerEnabled): ?>
+					<?php if(array_key_exists($iterator, $bannersList)): ?>
+						<li class="<?php echo $escaper->escapeHtmlAttr($item_classes) ?> product-item-with-banner">
+							<?php echo $gridBanner->setData('oxblock_id', $bannersList[$iterator] )->toHtml(); ?>
+						</li>
+						<?php $iterator++; ?>
+					<?php endif; ?>
+				<?php endif; ?>
+				
+				<?php $_productNameStripped = $block->stripTags($_product->getName(), null, true); ?>
+				<?php $productOutOfStock = $_product->isAvailable() ? '' : ' product-item-unavailable'; ?>
+                <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="' . $escaper->escapeHtmlAttr($item_classes) . '">' : '</li><li class="' . $escaper->escapeHtmlAttr($item_classes) . '">' ?>
+				<div class="product-item-info <?= $escaper->escapeHtmlAttr($productOutOfStock) ?>"
+					 id="product-item-info_<?= /* @noEscape */ $_product->getId() ?>"
+					 data-container="product-grid">
+                    <?php
+					if($thumbSlider){
+						$productImage = $img_helper->getResizedCatalogImages($_product, $imageDisplayArea, $image_hover, [$width, $height] );
+					} else{
+						/* not necessarily anymore but left it in case some data is passed in arg for image with hover template */
+						$productImage = $img_helper->getResizedImageHover($_product, $imageDisplayArea, $image_hover, [$width, $height]);
+					}          
+					$_thumbSlider = $thumbSlider && (bool)($img_helper->getImagesCount() >= $minThumbs);
+
+                    if ($pos != null) {
+                        $position = 'left:' . $productImage->getWidth() . 'px;'
+                            . 'top:' . $productImage->getHeight() . 'px;';
+                    }
+					?>
+                    <?php // Product Image ?>
+					<?php if ($viewMode == 'grid' ){ ?>
+						<div class="product-grid__image-wrapper">
+							<a href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>" class="product photo product-item-photo <?= $preloaderClasses ?>" tabindex="-1">
+								<?= $productImage->toHtml() ?>
+							</a>
+
+							<?php if ($showWishlist || $showCompare || $_thumbSlider): ?>
+								<div class="product-item-inner">
+									<a href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>" title="<?= /* @noEscape */ $_productNameStripped ?>" aria-label="View Product" class="overlay-link"><?= /* @noEscape */ $_productNameStripped ?></a>
+									<?php if($_thumbSlider): ?>
+										<?php if($thumbSliderDotsPos != 'below'){ echo $img_helper->getThumbImageDots($thumbSliderShowDots); } ?>
+										<?php 
+										if($thumbsArrowsBlock){
+											echo $thumbsArrowsBlock->toHtml();
+										}
+										?>
+									<?php endif; ?>
+									
+									<?php if ($showWishlist || $showCompare): ?>
+										<div data-role="add-to-links" class="actions-secondary">
+                                            <?php if ($addToBlock = $block->getChildBlock('addto')):?>
+                                                <?= $addToBlock->setProduct($_product)->getChildHtml() ?>
+                                            <?php endif; ?>
+										</div>
+                                        <?= ($pos && strpos($pos, $viewMode . '-secondary')) ?
+                                            /* @noEscape */ $secureRenderer->renderStyleAsTag(
+                                                $position,
+                                                'product-item-info_' . $_product->getId() . ' div.actions-secondary'
+                                            ) : '' ?>
+									<?php endif; ?>
+								</div>
+							<?php endif; ?>
+
+							<?php if ( $theme_helper->isActivePlugin( 'Olegnax_ProductLabel' ) ) {
+								echo $this->helper( 'Olegnax\ProductLabel\Helper\Helper' )->showLabels( $_product );
+							}  ?>
+						</div>
+						<div class="product-grid-overlay"></div>
+
+						<div class="product details product-item-details -top actions-stretch">
+							<?php if( $_thumbSlider && $thumbSliderDotsPos === 'below'){ echo $img_helper->getThumbImageDots($thumbSliderShowDots); } ?>
+                            <?php if ( $showBrand && $theme_helper->isActivePlugin( 'Olegnax_BrandSlider' ) ) { ?>
+								<div class="ox-product-grid__brand-wrap">
+                                <?php echo $this->helper( 'Olegnax\BrandSlider\Helper\Helper' )->getProductBrandImage( $_product, $altBrandImage, $brandImageSize ); ?>
+								</div>
+                            <?php }?>
+							<?php if ( $showCategory && $category = $theme_helper->getLastCategory( $_product ) ) : ?>
+							<div class="ox-product-grid__categories">
+								<a href="<?= $escaper->escapeUrl($category->getUrl()); ?>" class="ox-product-grid__category-link"><?= $escaper->escapeHtml($category->getName()); ?></a>
+							</div>
+							<?php endif; ?>
+
+							<?php if ( $showRating ){ echo $block->getReviewsSummaryHtml($_product, $templateType); } ?>
+							<strong class="product name product-item-name">
+								<a class="product-item-link"
+								   href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>">
+									<?= /* @noEscape */ $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+								</a>
+							</strong>
+
+                            <?php 
+							if($descSource === 'catalog-short'){
+								$descContent = $_helper->productAttribute($_product,  $_product->getShortDescriptionCatalog(), 'short_description_catalog');
+							} else {
+								$descContent = $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description');
+							} ?>
+                            <?php if ($showDescription && !empty($descContent)):?>
+								<div class="product description product-item-description">
+                                    <?= /* @noEscape */ $descContent ?>
+									<?php if($showDescMoreLink): ?>
+									<a href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>"
+									   title="<?= /* @noEscape */ $_productNameStripped ?>"
+									   class="action more"><?= $escaper->escapeHtml(__('Learn More')) ?></a>
+									<?php endif; ?>
+								</div>
+                            <?php endif; ?>
+
+							<?php if ($_product->isAvailable()): ?>			
+								<?php if ( $showAvailability ): ?>
+									<div class="stock-info-block">
+										<div class="stock available"><span><?= $escaper->escapeHtml(__('In stock')) ?></span></div>
+									</div>
+								<?php endif; ?>
+							<?php else:?>
+								<div class="stock-info-block">
+									<div class="stock unavailable"><span><?= $escaper->escapeHtml(__('Out of stock')) ?></span></div>
+								</div>
+							<?php endif; ?>
+
+							<?= $block->getProductDetailsHtml($_product) ?>
+						</div>
+						<div class="product details product-item-details -footer actions-stretch">
+							<?php if ( $showPrice ) { echo /* @noEscape */ $block->getProductPrice($_product); } ?>
+							<?php if ($showCart || $showQuickview ): ?>
+								<div class="product actions product-item-actions show-text">
+									<div class="actions-primary flex-column">
+										<?php
+										if ( $showQuickview ) {
+											echo $this->helper( 'Olegnax\Quickview\Helper\Helper' )->getButton( $_product, 'button quick-view ' . $quickviewBtnClass );
+										}
+										?>
+										<?php if ($showCart && $_product->isSaleable()): ?>
+											<?php $postParams = $block->getAddToCartPostParams($_product); ?>
+											<form data-role="tocart-form"											
+												data-mage-init='{"catalogAddToCart": {}}'
+												data-product-sku="<?= $escaper->escapeHtml($_product->getSku()) ?>"
+												action="<?= $escaper->escapeUrl($postParams['action']) ?>"
+												method="post">
+												<?php $optionsData = $block->getData('viewModel')->getOptionsData($_product); ?>
+												<?php foreach ($optionsData as $optionItem): ?>
+													<input type="hidden"
+														name="<?= $escaper->escapeHtml($optionItem['name']) ?>"
+														value="<?= $escaper->escapeHtml($optionItem['value']) ?>">
+												<?php endforeach; ?>
+												<input type="hidden"
+													name="product"
+													value="<?= /* @noEscape */ $postParams['data']['product'] ?>">
+												<input type="hidden"
+													name="<?= /* @noEscape */ Action::PARAM_NAME_URL_ENCODED ?>"
+													value="<?=
+													/* @noEscape */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]
+													?>">
+												<?= $block->getBlockHtml('formkey') ?>
+												<button type="submit"
+														title="<?= $escaper->escapeHtmlAttr(__('Add to Cart')) ?>"
+														class="action tocart primary"
+														disabled>
+													<?= $cartIcon ?><span><?= $escaper->escapeHtml(__('Add to Cart')) ?></span>
+												</button>
+											</form>
+										<?php endif; ?>
+									</div>
+									<?= ($pos && strpos($pos, $viewMode . '-primary')) ?
+										/* @noEscape */ $secureRenderer->renderStyleAsTag(
+											$position,
+											'product-item-info_' . $_product->getId() . ' div.actions-primary'
+										) : '' ?>
+								</div>
+							<?php endif; ?>
+						</div>
+					<?php } ?>
+
+
+					<?php if ($viewMode == 'list' ): ?>
+						<?php
+						if($listview_width && $listview_height){
+							if($thumbSlider){
+								$productImage = $img_helper->getResizedCatalogImages($_product, $imageDisplayArea, $image_hover, [$listview_width, $listview_height] );
+							} else{
+								/* not necessarily anymore but left it in case some data is passed in arg for image with hover template */
+								$productImage = $img_helper->getResizedImageHover($_product, $imageDisplayArea, $image_hover, [$listview_width, $listview_height]);
+							}
+						} ?>
+						<div class="product-grid__image-wrapper">
+							<a href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>" class="product photo product-item-photo <?= $preloaderClasses ?>" tabindex="-1">
+								<?= $productImage->toHtml() ?>
+							</a>
+
+							<?php if($_thumbSlider): ?>
+								<?php echo $img_helper->getThumbImageDots($thumbSliderShowDots); ?>
+								<?php 
+									if($thumbsArrowsBlock){
+										echo $thumbsArrowsBlock->toHtml();
+									}
+								?>			
+							<?php endif; ?>
+
+							<?php if ( $theme_helper->isActivePlugin( 'Olegnax_ProductLabel' ) ) {
+								echo $this->helper( 'Olegnax\ProductLabel\Helper\Helper' )->showLabels( $_product );
+							}  ?>
+							<?php
+							// if ( $showQuickview ) {
+							// 	echo $this->helper( 'Olegnax\Quickview\Helper\Helper' )->getButton( $_product, 'button quick-view ' . $quickviewBtnClass );
+							// }
+							?>
+						</div>
+
+						<div class="product details product-item-details">
+                           <?php if ( $showBrand && $theme_helper->isActivePlugin( 'Olegnax_BrandSlider' ) ) { ?>
+								<div class="ox-product-grid__brand-wrap">
+								<?php echo $this->helper( 'Olegnax\BrandSlider\Helper\Helper' )->getProductBrandImage( $_product, $altBrandImage, $brandImageSize ); ?>
+								</div>
+							<?php }?>
+							<?php if ( $showCategory && $category = $theme_helper->getLastCategory( $_product ) ) : ?>
+							<div class="ox-product-grid__categories"><a href="<?= $category->getUrl(); ?>" class="ox-product-grid__category-link"><?= $category->getName(); ?></a></div>
+							<?php endif; ?>
+							<?php if ( $showRating ){ echo $block->getReviewsSummaryHtml($_product, $templateType); } ?>
+							<?php
+								$_productNameStripped = $block->stripTags($_product->getName(), null, true);
+							?>
+							<strong class="product name product-item-name">
+								<a class="product-item-link"
+								   href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>">
+									<?= /* @noEscape */ $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+								</a>
+							</strong>
+
+                            <?php 
+							if($descSource === 'catalog-short'){
+								$descContent = $_helper->productAttribute($_product,  $_product->getShortDescriptionCatalog(), 'short_description_catalog');
+							} else {
+								$descContent = $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description');
+							} ?>
+                            <?php if ($showDescription && !empty($descContent)):?>
+								<div class="product description product-item-description">
+                                    <?= /* @noEscape */ $descContent ?>
+									<?php if($showDescMoreLink): ?>
+									<a href="<?= $escaper->escapeUrl($_product->getProductUrl()) ?>"
+									   title="<?= /* @noEscape */ $_productNameStripped ?>"
+									   class="action more"><?= $escaper->escapeHtml(__('Learn More')) ?></a>
+									<?php endif; ?>
+								</div>
+                            <?php endif; ?>
+
+							<?php if ( $showAvailability ): ?>
+								<div class="stock-info-block">
+								<?php if ($_product->isAvailable()): ?>
+									<div class="stock available"><span><?= $escaper->escapeHtml(__('In stock')) ?></span></div>
+								<?php else: ?>
+									<div class="stock unavailable"><span><?= $escaper->escapeHtml(__('Out of stock')) ?></span></div>
+								<?php endif; ?>
+								</div>
+							<?php endif; ?>
+
+							<?= $block->getProductDetailsHtml($_product) ?>
+						</div>
+
+						<div class="product-list-view__right-wrapper">
+
+							<?php if ( $showPrice ) { echo /* @noEscape */ $block->getProductPrice($_product); } ?>
+
+							<?php if ($showCartList): ?>
+								<div class="product-item-inner">
+									<div class="product actions product-item-actions">
+										<div class="actions-primary">
+											<?php if ($_product->isSaleable()): ?>
+												<?php $postParams = $block->getAddToCartPostParams($_product); ?>
+												<form data-role="tocart-form"
+													data-mage-init='{"catalogAddToCart": {}}'
+													  data-product-sku="<?= $escaper->escapeHtml($_product->getSku()) ?>"
+													  action="<?= $escaper->escapeUrl($postParams['action']) ?>"
+													  method="post">
+                                                    <?php $optionsData = $block->getData('viewModel')->getOptionsData($_product); ?>
+                                                    <?php foreach ($optionsData as $optionItem): ?>
+														<input type="hidden"
+															   name="<?= $escaper->escapeHtml($optionItem['name']) ?>"
+															   value="<?= $escaper->escapeHtml($optionItem['value']) ?>">
+                                                    <?php endforeach; ?>
+													<input type="hidden"
+														   name="product"
+														   value="<?= /* @noEscape */ $postParams['data']['product'] ?>">
+													<input type="hidden"
+														   name="<?= /* @noEscape */ Action::PARAM_NAME_URL_ENCODED ?>"
+														   value="<?=
+                                                           /* @noEscape */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]
+                                                           ?>">
+													<?= $block->getBlockHtml('formkey') ?>
+													<button type="submit"
+															title="<?= $escaper->escapeHtmlAttr(__('Add to Cart')) ?>"
+															class="action tocart primary">
+														<?= $cartIcon ?><span><?= $escaper->escapeHtml(__('Add to Cart')) ?></span>
+													</button>
+												</form>
+											<?php endif; ?>
+										</div>
+                                        <?= ($pos && strpos($pos, $viewMode . '-primary')) ?
+                                            /* @noEscape */ $secureRenderer->renderStyleAsTag(
+                                                $position,
+                                                'product-item-info_' . $_product->getId() . ' div.actions-primary'
+                                            ) : '' ?>
+									</div>
+								</div>
+							<?php endif; ?>
+
+							<?php if ($showWishlist || $showCompare): ?>
+								<div data-role="add-to-links" class="actions-secondary">
+                                    <?php if ($addToBlock = $block->getChildBlock('addto')):?>
+                                        <?= $addToBlock->setProduct($_product)->getChildHtml() ?>
+                                    <?php endif; ?>
+								</div>
+                                <?= ($pos && strpos($pos, $viewMode . '-secondary')) ?
+                                    /* @noEscape */ $secureRenderer->renderStyleAsTag(
+                                        $position,
+                                        'product-item-info_' . $_product->getId() . ' div.actions-secondary'
+                                    ) : '' ?>
+							<?php endif; ?>
+
+						</div>
+					<?php endif; ?>
+                </div>
+                <?= ($pos && strpos($pos, $viewMode . '-actions')) ?
+                    /* @noEscape */ $secureRenderer->renderStyleAsTag(
+                        $position,
+                        'product-item-info_' . $_product->getId() . ' div.product-item-actions'
+                    ) : '' ?>
+                <?= ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+    <?= $block->getChildBlock('toolbar')->setIsBottom(true)->toHtml() ?>
+	<?php if($thumbSlider): ?>
+	<script type="text/x-magento-init">{"*":{"ox-thumb-carousel":{}}}</script> 
+	<?php endif; ?>
+<?php endif; ?>

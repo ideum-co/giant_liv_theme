@@ -1,0 +1,13 @@
+<?php 
+$images = $block->getGalleryImages()->getItems();
+$mainImage = current(array_filter($images, function ($img) use ($block) {
+	return $block->isMainImage($img);
+}));
+
+if (!empty($images) && empty($mainImage)) {
+	$mainImage = $block->getGalleryImages()->getFirstItem();
+}
+$helper = $block->getData('imageHelper');
+$mainImageData = $mainImage ? $mainImage->getData('medium_image_url') :	$helper->getDefaultPlaceholderUrl('image');
+?>
+<img src="<?= $block->escapeUrl($mainImageData) ?>" itemprop="image" style="display:none!important" aria-hidden="true" data-ox-image/>

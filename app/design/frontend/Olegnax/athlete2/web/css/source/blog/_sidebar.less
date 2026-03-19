@@ -1,0 +1,158 @@
+
+& when (@media-common = true) {
+    .page-layout-1column,
+    .page-layout-1column-fullwidth {
+        &.blog-page{
+            .sidebar-additional{
+                display:none;
+            }
+        }
+    }
+    .blog-page{
+        .sidebar,
+        .sidebar-additional {
+            .widget.block{
+                &:not(:last-child){
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+    .sidebar-additional {
+        .block{
+            .block-title{
+                margin:0;
+            }
+            &.block-categories{
+                .lib-css(color, #adadad);
+                ul{                    
+                    .lib-list-reset-styles();
+                     padding-bottom: 20px;
+                     ul{
+                        padding: 0;
+                        padding-left: 10px;
+                     }
+                }
+                li a {
+                    .link-sidebar();
+                    margin-right: 1px;                   
+                    text-transform: capitalize;
+                }
+            }
+            &.blog-custom{
+                padding: 22px 20px;
+            }
+            &.block-rss{
+                .block-title{
+                    padding: 26px 0 23px;
+                }
+            }
+            &.block-tagclaud{
+                a{
+                    font-family: @tiny-font;
+                    font-size: 13px;
+                    line-height: 16px;
+                    padding: 6px 9px 5px;
+                    margin: 1px 0 2px;
+                    display: inline-block;
+                    background-color: #000000;
+                    color:#fff;
+                    &:hover{
+                        background-color: @main-color;
+                        color:#000;
+                    }
+                }
+                .tagclaud-hld{
+                    padding-bottom: 20px;
+                }
+            }
+            &.block-recent-posts{
+                .item {
+                    > a{
+                        .link-sidebar();
+                        margin-bottom: 4px;
+                        &.with-image{
+                             margin-top:10px;
+                        }
+                    }
+                    &.with-image{
+                        margin-bottom: 20px;
+                        &:last-child{
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+
+                .post-image{
+                    a{
+                        line-height: 0;
+                        display: block;
+                        margin-bottom: 5px;
+                    }
+                }
+                .post-item-date{
+                    font-size: 13px;
+                    opacity: 0.7;
+                    margin-left: 4px;
+                }
+            }
+            &.block-archive{
+                .item a{
+                    .link-sidebar();
+                }
+            }
+            &.blog-search{
+                .block-content{
+                    padding-top: 20px;
+                    padding-bottom: 24px;
+                    form{
+                        position: relative;
+                    }
+                    .actions{
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        button{
+                            width: 38px;
+                            height: 38px;
+                            background: none;
+                            padding:0;
+                            &:after{
+                                background: none;
+                            }
+                            &:before{
+                                content: "\61";
+                                font-family: "athlete2" !important;
+                                font-style: normal !important;
+                                font-weight: normal !important;
+                                font-variant: normal !important;
+                                text-transform: none !important;
+                                speak: none;
+                                line-height: 1;
+                                -webkit-font-smoothing: antialiased;
+                                -moz-osx-font-smoothing: grayscale;
+                                color:#000;
+                            }
+                            span{
+                                display: none;
+                            }
+                        }
+                    }
+                }
+                .field.search{
+                    .label{
+                        &:extend(.abs-visually-hidden all);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .blog-page{
+        .sidebar-additional{
+            margin-top:80px;
+        }
+    }
+}

@@ -1,0 +1,22 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+   <body>
+        <referenceBlock name="minicart">
+            <container name="minicart.content.top">
+                <block class="Magento\Checkout\Block\Cart\Sidebar" name="a2-minicart-message" template="Magento_Checkout::cart/minicart_message.phtml" before="-"></block>
+                <block class="Magento\Checkout\Block\Cart\Sidebar" name="a2-minicart-promo" template="Magento_Checkout::cart/minicart_promo.phtml"></block>
+                <block class="Olegnax\Athlete2\Block\FreeShipping" name="a2-shipping-bar" template="Magento_Checkout::cart/free_shipping.phtml" ifconfig="athlete2_settings/shipping_bar/minicart_enable">
+                   <arguments>
+                       <argument name="jsLayout" xsi:type="array">
+                           <item name="components" xsi:type="array">
+                               <item name="ox-shipping-bar" xsi:type="array">
+                                   <item name="component" xsi:type="string">Magento_Checkout/js/view/ox-shipping-bar</item>
+                                   <item name="template" xsi:type="string">Magento_Checkout/ox-shipping-bar/content</item>
+                               </item>
+                           </item>
+                       </argument>
+                   </arguments>
+               </block>
+            </container>
+        </referenceBlock>
+   </body>
+</page>

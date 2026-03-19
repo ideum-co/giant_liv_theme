@@ -1,0 +1,56 @@
+<?php
+    $_product = $block->getProduct();
+	$attribute_name = $block->getData('attribute');
+	$tooltip = $block->getData('tooltip');
+	$fallback = $block->getData('fallback_text');
+	$weekends = $block->getData('weekends') ?: 1;
+	$range = $block->getData('delivery_window') ?: 2;
+	$format = $block->getData('date_format') ?: 'md';
+	$date_format = ($format == 'md' || $format == 'MD') ? 'F j' : 'j F';
+
+	if(!$_product || !$attribute_name){
+		return;
+	}
+	$value = $_product->getData($attribute_name) ?? '';
+    
+	if(!$value){
+		if ($fallback){
+			echo $block->escapeHtml($fallback);
+		}
+		return;
+	}
+
+	$current_date = date('Y-m-j');
+	$estimated_date = strtotime($current_date);
+	$business_days = 7 - (int)$weekends;
+
+	for ($i = 0; $i < $value; $i++) {
+		$estimated_date = strtotime('+1 day', $estimated_date);
+		while (date('N', $estimated_date) > $business_days) {
+			$estimated_date = strtotime('+1 day', $estimated_date);
+		}
+	}
+	echo $block->escapeHtml(date((string)$date_format, $estimated_date));
+	if((int)$range){
+		$estimated_end_date = $estimated_date;
+		for ($i = 0; $i < $range; $i++) {
+			$estimated_end_date = strtotime('+1 day', $estimated_end_date);
+			// add one more day if the day is weekend
+			while (date('N', $estimated_end_date) > $business_days) {
+				$estimated_end_date = strtotime('+1 day', $estimated_end_date);
+			}
+		}			
+		echo ' - ' . $block->escapeHtml(date((string)$date_format, $estimated_end_date));
+	}
+	
+	if($tooltip){ ?>
+		<span class="a2-tooltip-btn">
+		<span class="a2-info-circle d-inline-flex align-items-center justify-content-center">
+			<svg xmlns="http://www.w3.org/2000/svg" width="2" height="10" viewBox="0 0 2 10">
+				<path d="M1,4V4M2,3H0v7H2V3Z"/>
+				<polygon points="2 0 0 0 0 2 2 2 2 0 2 0"/>
+			</svg>
+		</span>	
+		<span class="a2-tooltip a2-tooltip-normal a2-tooltip-white a2-tooltip-hc" style="width: 200px;padding: 12px;"><?php echo $block->escapeHtml($tooltip) ?></span></span>
+	<?php }
+?>

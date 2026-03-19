@@ -1,0 +1,32 @@
+<?php
+/**
+ * @var $block \Magento\Catalog\Block\Category\View
+ */
+$_category = $block->getCurrentCategory();
+$_imgUrl = '';
+try {
+    $imageHelper = $block->getImage();
+    if ($imageHelper) {
+        $_imgUrl = $imageHelper->getUrl($_category);
+    }
+} catch (\Exception $e) {
+    $_imgUrl = '';
+}
+if (!$_imgUrl) {
+    $_imgUrl = $_category->getImageUrl();
+}
+$_name = $_category->getName();
+$_description = $_category->getDescription();
+?>
+<div class="giant-category-banner<?= $_imgUrl ? ' has-image' : '' ?>"<?php if ($_imgUrl): ?> style="background-image: url('<?= $block->escapeUrl($_imgUrl) ?>')"<?php endif; ?>>
+    <div class="giant-category-banner-overlay">
+        <div class="giant-category-banner-content">
+            <?php if ($_name): ?>
+                <h1 class="giant-category-title"><?= $block->escapeHtml($_name) ?></h1>
+            <?php endif; ?>
+            <?php if ($_description): ?>
+                <div class="giant-category-description"><?= /* @noEscape */ $this->helper(Magento\Catalog\Helper\Output::class)->categoryAttribute($_category, $_description, 'description') ?></div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

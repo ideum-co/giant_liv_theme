@@ -1,0 +1,88 @@
+
+& when (@media-common = true) {
+    /* ABOVE FOOTER BANNER */
+    :is(.header-banner-flex,.above-footer-banner) .banner-wrap{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+    }
+    :is(.header-banner-flex,.above-footer-banner) .banner-wrap :where(p, h1, h2, h3, h4, h5, h6,.h1, .h2, .h3, .h4, .h5, .h6){
+        margin:4px;
+    }
+    .header-banner,
+    .above-footer-banner{
+        &.banner-columns-1{
+            background: #f8f8f8;
+        }
+        &.banner-columns-2{
+            .banner-wrap{
+                position: relative;
+                z-index: 2;
+                &:before{
+                    content: '';
+                    position: absolute;
+                    width: 200%;
+                    top: 0;
+                    left:0;
+                    height: 100%;
+                    z-index:-1;
+                }
+            }
+        }
+    }
+    .header-banner .banner-wrap{
+        min-height: 30px;
+        // padding-top: 6px;
+        // padding-bottom: 6px;
+    }
+   :is(.header-banner-below,.above-footer-banner) .banner-wrap{
+        min-height: 50px;
+    }
+    .header-banner{
+        position: relative;
+        .ox-overlay-close-btn{
+            line-height: 0;
+            padding: 6px;
+            top: 0;
+            right: 0;
+            span{
+                width: 14px;
+                height: 14px;
+            }
+        }
+    } 
+}
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+    .header-banner{
+        .ox-overlay-close-btn{
+            top: 50%;
+            right: 4px;
+            transform: translateY(-50%);
+        }
+    }
+}
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .header-banner,
+    .above-footer-banner{
+        &.banner-columns-2{
+            .banner-wrap{
+                &.first-banner{
+                    &:before{
+                        left: -100%;
+                    }
+                }
+                &.second-banner{
+                    &:before{
+                        right: -100%;
+                    }
+                }
+            }
+        }
+    }
+}

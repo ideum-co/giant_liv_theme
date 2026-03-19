@@ -256,44 +256,14 @@ else
   echo "Database schema is up to date, skipping setup:upgrade"
 fi
 
-# Run DI compile if generated code is missing (production optimization)
-GENERATED_COUNT=$(find "$WORKSPACE/generated/code" -name "*.php" 2>/dev/null | wc -l)
-if [ "$GENERATED_COUNT" -lt 100 ]; then
-  echo "Running DI compile (timeout: 10 minutes)..."
-  timeout 600 php -d memory_limit=2G bin/magento setup:di:compile 2>&1 | tail -15
-  DI_EXIT=$?
-  if [ $DI_EXIT -eq 0 ]; then
-    echo "DI compile completed successfully"
-  else
-    echo "DI compile timed out or failed (exit: $DI_EXIT), continuing in developer mode"
-  fi
-  GENERATED_COUNT=$(find "$WORKSPACE/generated/code" -name "*.php" 2>/dev/null | wc -l)
-fi
+# Keep developer mode (production mode requires full di:compile which exceeds container limits)
+echo "Running in developer mode"
+sed -i "s/'MAGE_MODE' => 'production'/'MAGE_MODE' => 'developer'/" $WORKSPACE/app/etc/env.php 2>/dev/null || true
 
-# Switch to production mode if DI compiled successfully (>500 generated files)
-if [ "$GENERATED_COUNT" -gt 500 ]; then
-  echo "DI compiled ($GENERATED_COUNT files), enabling production mode..."
-  sed -i "s/'MAGE_MODE' => 'developer'/'MAGE_MODE' => 'production'/" $WORKSPACE/app/etc/env.php 2>/dev/null || true
-  # Enable minify/merge in production mode
-  mysql -u root --socket=$MYSQL_SOCK magento -e "
-  UPDATE core_config_data SET value = '1' WHERE path = 'dev/js/minify_files';
-  UPDATE core_config_data SET value = '1' WHERE path = 'dev/css/minify_files';
-  UPDATE core_config_data SET value = '1' WHERE path = 'dev/js/merge_files';
-  UPDATE core_config_data SET value = '1' WHERE path = 'dev/css/merge_css_files';
-  UPDATE core_config_data SET value = '1' WHERE path = 'dev/template/minify_html';
-  " 2>&1 || true
-else
-  echo "Running in developer mode ($GENERATED_COUNT generated files)"
-  sed -i "s/'MAGE_MODE' => 'production'/'MAGE_MODE' => 'developer'/" $WORKSPACE/app/etc/env.php 2>/dev/null || true
-  # Disable minify/merge in developer mode (causes missing file errors)
-  mysql -u root --socket=$MYSQL_SOCK magento -e "
-  UPDATE core_config_data SET value = '0' WHERE path = 'dev/js/minify_files';
-  UPDATE core_config_data SET value = '0' WHERE path = 'dev/css/minify_files';
-  UPDATE core_config_data SET value = '0' WHERE path = 'dev/js/merge_files';
-  UPDATE core_config_data SET value = '0' WHERE path = 'dev/css/merge_css_files';
-  UPDATE core_config_data SET value = '0' WHERE path = 'dev/template/minify_html';
-  " 2>&1 || true
-fi
+# Disable minify/merge in developer mode (causes missing file errors without static-content:deploy)
+mysql -u root --socket=$MYSQL_SOCK magento -e "
+UPDATE core_config_data SET value = '0' WHERE path IN ('dev/js/minify_files','dev/css/minify_files','dev/js/merge_files','dev/css/merge_css_files','dev/template/minify_html');
+" 2>&1 || true
 
 # Deploy static content if not already deployed
 STATIC_DIR=$WORKSPACE/pub/static/frontend/Olegnax/athlete2/es_ES

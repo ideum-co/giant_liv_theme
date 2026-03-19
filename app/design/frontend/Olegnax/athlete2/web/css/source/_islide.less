@@ -1,0 +1,31 @@
+& when (@media-common = true) {
+    .a2-islide{
+        text-align: left;
+        white-space: nowrap;
+        contain:paint;
+        max-width: 100%;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+        line-height: normal;
+        &.pause-hover:hover {
+            .a2-islide__item {
+                animation-play-state: paused;
+            }
+        }
+    }
+    .a2-islide__item {
+        animation: to-left var(--a2-islide-time, 5s) linear infinite;
+        display: inline-block;
+        flex: 0 0 auto;
+        width: max-content;
+        will-change: transform;
+        padding-right:20px;
+    }
+    .a2-islide--item-fw{
+        .a2-islide__item{
+            width: 100%;
+            flex: 0 0 100%;
+        }
+    }
+}

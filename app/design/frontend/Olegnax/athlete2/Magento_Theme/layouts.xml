@@ -21,4 +21,7 @@
     <layout id="1column-fullwidth">
         <label translate="true">FullWidth 1 column</label>
     </layout>
+    <layout id="category-full-width">
+        <label translate="true">Category Full Width</label>
+    </layout>
 </page_layouts>

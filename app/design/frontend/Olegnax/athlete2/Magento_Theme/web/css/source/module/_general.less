@@ -1,0 +1,235 @@
+// /**
+//  * Copyright © Magento, Inc. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    body {
+        .lib-css(background-color, @page__background-color);
+    }
+    a {
+        transition: @link__transition;
+        &:hover{
+            transition: all 10ms ease-in-out;
+        }
+    }
+   /*._keyfocus *:focus, */
+   input:not([disabled]):focus, textarea:not([disabled]):focus, select:not([disabled]):focus {
+        box-shadow: none;
+    }
+
+    .page-main {
+        > .page-title-wrapper {
+            .page-title + .action {
+                margin-top: @indent__l;
+            }
+        }
+    }
+
+    .action.skip {
+        &:not(:focus) {
+            &:extend(.abs-visually-hidden all);
+        }
+
+        &:focus {
+            .lib-css(background, @color-gray94);
+            .lib-css(padding, @indent__s);
+            box-sizing: border-box;
+            left: 0;
+            position: absolute;
+            text-align: center;
+            top: 0;
+            width: 100%;
+            z-index: 15;
+        }
+    }
+
+    .action-skip-wrapper {
+        height: 0;
+        position: relative;
+    }
+
+    //
+    //  Global notice
+    //  ---------------------------------------------
+
+    .message.global {
+        p {
+            margin: 0;
+        }
+
+        &.noscript,
+        &.cookie {
+            .lib-message(@_message-type: global-note);
+            margin: 0;
+        }
+
+        &.cookie {
+            bottom: 0;
+            left: 0;
+            position: fixed;
+            right: 0;
+            z-index: 3;
+
+            .actions {
+                margin-top: @indent__s;
+            }
+        }
+
+        &.demo {
+            .lib-message(@_message-type: global-caution);
+            margin-bottom: 0;
+            text-align: center;
+        }
+    }
+    
+
+
+    //
+    //  Widgets
+    //  ---------------------------------------------
+
+    .sidebar {
+        .widget.block:not(:last-child),
+        .widget:not(:last-child) {
+            &:extend(.abs-margin-for-blocks-and-widgets all);
+        }
+    }
+    .sidebar-additional{
+        rs-module-wrap,
+        .rev_slider_wrapper{
+            margin-bottom: 15px!important;
+        }    
+        .block{
+            border: 0;
+            position:relative;
+            padding: 0 20px;
+            margin-bottom: 15px;
+            background-color: #f8f8f8;
+            .block-title {
+                    padding: 26px 0 17px;
+                > strong {
+                    .lib-heading(h5);
+                    font-weight: @font-weight__black;
+                    letter-spacing: -0.03em;
+                    text-transform:uppercase;
+                    line-height: .9;
+                }
+            }
+            &:before{
+                content: '';
+                height: 6px;
+                width: 100%;
+                background: @main-color;
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            &:last-child{
+                margin-bottom: 0;
+            }
+            > .empty,
+            > .block-content{
+                padding-bottom: 20px;
+            }
+        
+        }
+    }
+    .sidebar-nobg{
+        .sidebar-additional{
+            .block{
+                padding:0;
+                background-color: transparent;
+            }
+        }
+        &.page-layout-3columns,
+        &.page-layout-2columns-right{
+            .sidebar-additional {
+                .block:first-child {
+                    &:before {
+                        content:none;
+                    }
+                }
+            }
+        }
+    }
+    .widget {
+        clear: both;
+
+        .block-title {
+            &:extend(.abs-block-title all);
+        }
+    }
+    /*
+    .page-header,
+    .page-footer {
+        .widget.block {
+            .lib-css(margin, @indent__base 0);
+        }
+    }*/
+
+    .no-display {
+        &:extend(.abs-no-display all);
+    }
+
+    //
+    //  Calendar
+    //  ---------------------------------------------
+
+    .ui-datepicker {
+        td {
+            padding: 0;
+        }
+    }
+
+}
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+
+    html,
+    body {
+        height: 100%; // Stretch screen area for sticky footer
+    }
+
+    .page-wrapper {
+        display:flex;
+        flex-direction: column;
+        min-height: 100%; // Stretch content area for sticky footer
+
+        > .breadcrumbs,
+        > .top-container,
+        > .widget {
+            box-sizing: border-box;
+            width: 100%;
+            min-height: 40px;
+        }
+
+        .ie10 &,
+        .ie11 & {
+            height: 100%;
+        }
+    }
+
+    .page-main {
+        > .page-title-wrapper {
+            .page-title {
+                display: inline-block;
+            }
+
+            .page-title + .action {
+                float: right;
+                margin-top: @indent__base;
+            }
+        }
+    }
+}

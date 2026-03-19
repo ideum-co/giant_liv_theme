@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Giant_SheetSync::sheetsync" title="Giant Sync" module="Giant_SheetSync" sortOrder="90" resource="Giant_SheetSync::sheetsync" parent="Magento_Catalog::catalog"/>
+        <add id="Giant_SheetSync::sync" title="Sincronizar Google Sheet" module="Giant_SheetSync" sortOrder="10" action="sheetsync/sync/index" resource="Giant_SheetSync::sync" parent="Giant_SheetSync::sheetsync"/>
+    </menu>
+</config>

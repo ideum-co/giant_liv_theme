@@ -1,0 +1,44 @@
+<?php
+$helper_icons = $this->helper(Olegnax\Athlete2\Helper\Icons::class);
+if(!$helper_icons->getConfig('athlete2_settings/products_listing/close_sidebar')){
+    return;
+}
+$icon_option   =  'athlete2_design/appearance_toolbar/icon_';
+$icon_value = $helper_icons->getConfig($icon_option . 'filters');
+if($icon_value === 'filters2'){
+    $icon = '<span class="filter-icon"><span class="filter-icon__i1"></span><span class="filter-icon__i2"></span></span>'; 
+} else {
+    $icon = ($icon_value && $icon_value !== 'custom') ? $helper_icons->getIconHTML('filters', $icon_option) : ''; // $name, $icon_option = '', $classes = ''
+}
+$text = __('Show Filters');
+?>
+<div class="filters-toggle filters-toggle-show js-filters-toggle hide-on-tablet hide-on-mobile">
+    <div class="action show-filters">
+        <?php if($icon || $icon_value === 'custom'): ?>
+            <div class="icon" aria-label="<?= $block->escapeHtmlAttr($text) ?>">
+                <?php echo $icon ?>
+            </div>
+        <?php else: ?>
+            <div class="hamburger-menu-icon-small" aria-label="<?= $block->escapeHtmlAttr($text) ?>">
+                <span></span><span></span><span></span>
+            </div>
+        <?php endif; ?>
+        <span class="label"><?= $block->escapeHtmlAttr($text); ?></span>
+    </div>
+    <span class="filter-current-count"></span>
+</div>
+<?php 
+$scriptString = 'require(["jquery"],function ($) {
+    function initFilterstoggle(){
+        $("body").off("click.OXToggleFilters").on("click.OXToggleFilters", ".js-filters-toggle", function(e){
+            $("body").toggleClass("hide-sidebar");
+        });
+    }
+    $("body").on("contentUpdated", initFilterstoggle);
+    initFilterstoggle();
+});';
+if (isset($secureRenderer)){
+    echo /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false);
+} else{
+    echo /* @noEscape */ '<script>' .  $scriptString . '</script>';
+}

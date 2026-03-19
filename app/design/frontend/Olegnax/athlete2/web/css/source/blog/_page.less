@@ -1,0 +1,56 @@
+& when (@media-common = true) {
+    .blog-page{
+        .breadcrumbs,
+        .page-title{
+            padding: 0;
+            margin-top:0;
+            margin-bottom:0;
+        }
+    }
+    .page-layout-1column-fullwidth {
+        &.blog-page{
+            .page-main{
+                padding-left: 20px;
+                padding-right:20px;
+                padding-bottom: 40px;
+                padding-top: 30px;
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+    .page-layout-1column-fullwidth {
+        &.blog-page{
+            .page-main{
+                padding-left: 30px;
+                padding-right:30px;
+            }
+        }
+    }
+}
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__sm) {
+    .page-layout-1column-fullwidth {
+        &.blog-page{
+            .page-main{
+                padding-left: 40px;
+                padding-right:40px;
+            }
+        }
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .page-layout-1column-fullwidth {
+        &.blog-page{
+            .page-main{
+                padding-bottom: 80px;
+                padding-top: 40px;
+            }
+        }
+    }
+}

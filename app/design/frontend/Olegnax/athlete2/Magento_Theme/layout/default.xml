@@ -13,5 +13,8 @@
                 <argument name="logo_height" xsi:type="number">43</argument>
             </arguments>
         </referenceBlock>
+        <referenceContainer name="before.body.end">
+            <block class="Magento\Framework\View\Element\Template" name="giant.external.scripts" template="Magento_Theme::giant-external-scripts.phtml"/>
+        </referenceContainer>
     </body>
 </page>

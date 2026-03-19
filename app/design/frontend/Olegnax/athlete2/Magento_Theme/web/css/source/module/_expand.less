@@ -1,0 +1,57 @@
+& when (@media-common = true) {
+    .ox-expand{
+        &.minimized{
+            .ox-expand__inner{
+                display:block;
+                max-height: 90px;
+                overflow: hidden;
+                position: relative;
+                &:before{
+                    content: '';
+                    display: block;
+                    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 10%, rgba(255,255,255,0) 100%);
+                    width: 100%;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    height: 50px;
+                    z-index:2;
+                }
+            }
+            .ox-expand__link{
+                .more{
+                    display:inline-block;
+                }
+                .less{
+                    display:none;
+                }
+            }
+        }
+        .ox-expand__link{
+            .less,
+            .more{
+                cursor: pointer;
+                border-bottom: 1px solid;
+            }
+            .more{
+                display:none;
+                margin-top: 5px;
+                
+            }
+            .less{
+                display: inline-block;
+                margin-top: 14px;
+            }
+            &.button{
+                margin-top: 20px;
+                .more{
+                    margin-top: 0;
+                    
+                }
+                .less{
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+}

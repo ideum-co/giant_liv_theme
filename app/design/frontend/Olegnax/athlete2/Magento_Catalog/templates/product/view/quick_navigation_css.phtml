@@ -1,0 +1,178 @@
+<?php 
+
+$nav_settings	 = $block->getConfig( 'athlete2_design/product_quick_nav' );
+$sticky_header = $block->getConfig( 'athlete2_settings/header/sticky_header' );
+$bar_settings = $block->getConfig( 'athlete2_settings/product_bar' );
+$nav_style = $nav_settings['style'];
+$nav_stretch = $nav_settings['stretch'];
+$nav_border = $nav_settings['border'];
+$nav_border_top = $nav_settings['border_top'];
+$nav_bg = !empty($nav_settings['bg']) ? $nav_settings['bg']: 'white';
+
+$letter_spacing = !empty($nav_settings['letter_spacing']) ? (int)$nav_settings['letter_spacing'] . 'px' : 'var(--a2-btn-ls, -0.03em)';
+$text_transform = !empty($nav_settings['text_transform']) ? $nav_settings['text_transform'] : 'var(--a2-btn-tt, uppercase)';
+$font_weight = !empty($nav_settings['font_weight']) ? (int)$nav_settings['font_weight'] : ' var(--a2-btn-fw, 800)';
+$font_size = !empty($nav_settings['font_size']) ? (int)$nav_settings['font_size'] . 'px' : '1.5rem';
+
+$color = !empty($nav_settings['item_color']) ? $nav_settings['item_color']: 'black';
+$color_hover = !empty($nav_settings['item_color_hover']) ? $nav_settings['item_color_hover']: 'white';
+$color_active = !empty($nav_settings['item_color_active']) ? $nav_settings['item_color_active']: 'black';
+$bg = !empty($nav_settings['item_bg']) ? $nav_settings['item_bg']: 'black';
+$bg_active = !empty($nav_settings['item_bg_active']) ? $nav_settings['item_bg_active']: 'var(--a2-main-color)';
+$nav_border_color = !empty($nav_settings['border_color']) ? $nav_settings['border_color'] : 'rgba(0, 0, 0, 0.08)';
+
+$styles = '';
+$styles .= '.a2-qn{
+    position:sticky;
+    top:0;
+    width:100%;
+    z-index: 8;
+    margin-bottom:30px;
+    transition:0.2s ease;
+    transition-property:transform, top;
+    transform: translateY(0);
+}';
+$styles .= '.page-main > .a2-qn{
+	margin-top: -20px;
+}';
+$styles .= '.a2-qn:before{
+    content: "";
+    background: ' . $nav_bg .';    
+    display: block;
+    position: absolute;
+    height: 100%;
+    z-index: -1;';
+
+if($nav_stretch){
+    $styles .= 'width: 200%;left: -50%;';
+} else{
+    $styles .= 'width: 100%;left:0;';
+}
+if($nav_border){
+    $styles .= 'border-bottom: 1px solid ' . $nav_border_color . ';';
+}
+if($nav_border_top){
+    $styles .= 'border-top: 1px solid ' . $nav_border_color . ';';
+}
+$styles .= '}';
+
+$styles .='.a2-qn .a2-qn__link{
+    box-sizing: content-box;
+    overflow: hidden;
+    position:relative;
+    line-height: 30px;
+    height: 30px;
+    padding: 6px 30px 6px 30px;
+    color: ' . $color . ';
+    background-color:transparent;
+    border: none;
+    text-decoration: none;
+    letter-spacing: ' . $letter_spacing . ';
+    text-transform: ' . $text_transform . ';
+    font-weight: ' . $font_weight . ';
+    font-family: var(--a2-btn-ff);
+    font-size: ' . $font_size . ';
+    transition: all 0.25s ease;
+    display: block;
+}
+.a2-qn__link span{
+    color:' . $color . ';
+    position:relative;
+}';
+if($nav_style == 'default'):
+    $styles .='	.a2-qn .a2-qn__link:hover span{
+		color: ' . $color_hover . ';
+	}
+	.a2-qn .a2-qn__link.active span{
+		color: ' . $color_active . ';
+	}
+	.a2-qn__link:before{
+		content: "";
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		bottom: 0;
+		left: 0;
+		transform: translateY(39px);
+		transition: all 0.25s ease;
+		background: ' . $bg . ';
+		will-change: transform;
+		z-index: -1;
+	}
+	.a2-qn__link:after{
+		content: "";
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		bottom: 0;
+		left: 0;
+		transform: translateY(100%);
+		transition: all 0.4s ease;
+		background: ' . $bg_active . ';
+		will-change: transform;
+		z-index: -1;
+	}	
+    .a2-qn__link.active:after{
+		transform: translateY(0);
+		transition: all 0.3s ease;
+	}
+	.a2-qn__link:hover:before,
+	.a2-qn__link.active:before{
+		transform: translateY(0);
+	}';
+elseif($nav_style == 'minimal'):
+    $styles .='.a2-qn .a2-qn__link.active span,
+	.a2-qn .a2-qn__link:hover span{
+		color: ' . $color_active . ';
+	}
+	.a2-qn__link:before{
+        content: "";
+		display: block;
+		position: absolute;
+		width: 100%;
+		bottom: 0;
+		left: 0;
+		transition: all 0.25s ease;
+		background: ' . $bg . ';
+		z-index: -1;
+
+		height: 3px;
+		transform: translateY(3px);
+		will-change: transform;
+	}
+	.a2-qn__link:hover:before,
+	.a2-qn__link.active:before{
+		transform: translateY(0);
+		transition: transform 0.3s ease;
+	}';
+endif;
+
+if($sticky_header):
+    $styles .='.header-is-sticky.a2-qn{
+        top: var(--ox-sticky-height, 0);
+    }
+    .header-is-resized.a2-qn{
+        top: var(--ox-sh, var(--ox-sticky-height));
+    }
+    .sticky-smart .a2-qn:not(.header-is-smart){ 
+        top: 0;			
+    }';
+	if($bar_settings['enabled'] && $bar_settings['position_top']):
+		$styles .='.pbar-is-visible .header-is-sticky.a2-qn{
+			top: calc(var(--ox-sticky-height, 0) + var(--ox-pbar-height));
+		}
+		.pbar-is-visible.sticky-smart .a2-qn:not(.header-is-smart){ 
+			top: var(--ox-pbar-height);			
+		}';
+	endif;
+endif;
+
+$styles .='@media only screen and (max-width: 639px){.a2-qn .a2-qn__link{
+	padding-left:10px;
+	padding-right:10px;
+	font-size:14px;
+}}';
+echo $block->renderStyles($styles);
+?>

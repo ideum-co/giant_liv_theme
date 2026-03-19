@@ -1,0 +1,121 @@
+<?php
+/**
+ * Athlete2 Theme
+ *
+ * @author      Olegnax
+ * @package     Olegnax_Athlete2
+ * @copyright   Copyright (c) 2024 Olegnax (https://olegnax.com). All rights reserved.
+ * @license     https://www.olegnax.com/license
+ */
+
+/** @var Magento\Framework\View\Element\Template $block */
+/** @var Olegnax\Athlete2\ViewModel\StockInfoViewModel $viewModel */
+$viewModel = $block->getData('StockInfoViewModel');
+$options = $this->helper(\Olegnax\Athlete2\Helper\Helper::class)->getConfig('athlete2_settings/product_stock');
+$appearance = $this->helper(\Olegnax\Athlete2\Helper\Helper::class)->getConfig('athlete2_design/product_stock');
+
+$showQty = $options['enable'];
+$showQtyAlways = $options['show'] === 'always';
+$original =  $options['position'] === 'original';
+$lowStock = $options['low_stock_value'] ?: 10;
+$show_out_of_stock = $options['show_out_of_stock'];
+
+$showProgress = $appearance['show_progress_line'];
+$showProgressAlways = !$appearance['show_progress_line_low_stock'];
+
+$progressInvert = (($appearance['progress_color_style'] === 'ryg') || ($appearance['progress_color_active'] && $appearance['progress_color2_active']));
+
+$showTotal =  $options['show_total_sold'];
+/* by default base stock based on sold amount + current stock value (shipped/completed orders) */
+$useCustomBaseQty =  $options['set_base_qty'];
+$customBaseQty = $options['fake_base_qty'] ?: 1000;
+$css = '';
+$progressVisible = false;
+?>
+
+<?php $_product = $block->getProduct(); ?>
+<?php /* $block->displayProductStockStatus() */ ?>
+<?php if ($showQty ): ?>
+	<?php if ($_product->isAvailable()) :?>
+		<?php $qtyData = $viewModel->getProductQuantity($_product, !($showProgress || $showTotal)) ?? ''; ?>
+		<?php if(is_array($qtyData) && $count = count($qtyData)): ?>
+			<div class="ox-stock-values <?php echo ($count > 1) ? 'js-ox-stock-values multiple' : 'single'; ?>">
+				<?php foreach ($qtyData as $item_id => $data): ?>
+					<?php 
+						/* saleable qty */
+						$qty = $data['qty'];
+						$sold = array_key_exists('total_sold', $data) ? $data['total_sold'] : 0;
+						$qtyBase =  array_key_exists('qty_base', $data) ? $data['qty_base'] : 0;
+						$totalSold = $qtyBase - $qty + $sold;
+						$qtyTotal = $useCustomBaseQty ? $customBaseQty : ($qtyBase + $sold);
+						$isLowStock = (bool)($qty <= $lowStock);
+						
+					?>
+					<div class="ox-stock-value stock <?php echo $isLowStock ?  'low-stock' : 'available'; ?>" data-product-id="<?php echo $item_id ?>" title="<?= $block->escapeHtmlAttr(__('Availability')) ?>">
+					
+						<?php if($isLowStock): ?>
+							<span class="label">
+								<?php echo !empty($options['low_stock_text']) ? $viewModel->replaceVars($options['low_stock_text'], $qty, $totalSold) : $block->escapeHtml(
+										__(
+											'Only <span class="qty">%1</span> left in stock!',
+											(int)$qty
+										),
+										['span']
+									); ?>
+							</span>
+						<?php elseif($showQtyAlways): ?>
+							<span class="label">
+								<?php echo !empty($options['stock_text']) ? $viewModel->replaceVars($options['stock_text'], $qty, $totalSold) : $block->escapeHtml(
+										__(
+											'<span class="qty">%1</span> In Stock',
+											(int)$qty
+										),
+										['span']
+									); ?>
+							</span>
+						<?php endif; ?>
+						
+						<?php if(($isLowStock || $showQtyAlways ) && ($showTotal && $totalSold > 0)): ?>
+							<span class="label total-value">
+								<?php echo !empty($options['sold_text']) ? $viewModel->replaceVars($options['sold_text'], $qty, $totalSold) : $block->escapeHtml(
+										__(
+											'<span class="amount">%1</span> Sold',
+											(int)$totalSold
+										),
+										['span']
+									); ?>
+							</span>
+						<?php endif; ?>
+						<?php $progressVisible = $showProgress && (($showQtyAlways && $showProgressAlways) || (!$showProgressAlways && $isLowStock)) && $qtyTotal > 0; ?>
+						<?php if($progressVisible): ?>
+							<?php $percent = (($qty / $qtyTotal) * 100);
+								if($progressInvert){ $percent = 100 - $percent; }
+							?>			
+							<div class="progress-line"  data-total="<?php echo (int)$qtyTotal ?>">
+								<span style="width:<?php echo (int)$percent; ?>%"></span>
+							</div>
+						<?php endif; ?>
+
+					</div>
+				<?php endforeach; ?>
+			</div>
+			<?php if($showTotal): ?>
+				<?php $css .= '.ox-stock-values .total-value{'. ($progressVisible ? 'float:right;' : '') .' margin-left:5px}'; ?>
+			<?php endif; ?>
+			<?php if($count > 1): ?>
+				<?php $css .= '.ox-stock-values.multiple .ox-stock-value{margin:0;}.ox-stock-values.multiple .ox-stock-value:not(.show){display:none;}'; ?>
+			<?php endif; ?>
+
+			<?php if(!empty($css)): ?>
+				<?php echo $viewModel->renderStyles($css) ?>
+			<?php endif; ?>
+
+		<?php endif; ?>
+	<?php elseif($original || $show_out_of_stock) :?>
+		<div class="stock unavailable" title="<?= $block->escapeHtmlAttr(__('Availability')) ?>">
+			<span><?= $block->escapeHtml(__('Out of stock')) ?></span>
+		</div>
+	<?php endif; ?>
+<?php endif; ?>
+
+

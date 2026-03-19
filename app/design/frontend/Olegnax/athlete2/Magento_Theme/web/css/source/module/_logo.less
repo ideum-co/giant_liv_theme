@@ -1,0 +1,18 @@
+& when (@media-common = true) {
+    .logo {
+        float: left;
+        margin: 0 0 @indent__s @indent__xl;
+        max-width: 50%;
+        position: relative;
+        z-index: 5;
+
+        img {
+            display: block;
+            max-height: 100%;
+        }
+
+        .page-print & {
+            float: none;
+        }
+    }
+}
