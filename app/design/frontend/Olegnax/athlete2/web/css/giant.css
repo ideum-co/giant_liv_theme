@@ -1354,7 +1354,7 @@ body.giant-menu-open {
 }
 
 .page-footer .footer-block-content {
-    display: none !important;
+    display: block !important;
 }
 
 .giant-footer-new {

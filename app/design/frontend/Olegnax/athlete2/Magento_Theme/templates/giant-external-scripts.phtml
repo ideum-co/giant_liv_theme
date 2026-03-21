@@ -57,6 +57,19 @@ $culture = str_replace('_', '-', strtolower($locale));
 
             var _origDefine = window.define;
             var _giantLoading = false;
+            var _blockedDomains = [
+                'giant-bicycles.com',
+                'jsdelivr.net',
+                'unpkg.com'
+            ];
+
+            function isBlockedScript(src) {
+                if (!src) return false;
+                for (var i = 0; i < _blockedDomains.length; i++) {
+                    if (src.indexOf(_blockedDomains[i]) !== -1) return true;
+                }
+                return false;
+            }
 
             function installDefineProxy() {
                 if (_giantLoading) return;
@@ -64,11 +77,16 @@ $culture = str_replace('_', '-', strtolower($locale));
                 _origDefine = window.define;
                 window.define = function() {
                     var cs = document.currentScript;
-                    if (cs && cs.src && cs.src.indexOf('giant-bicycles.com') !== -1) {
+                    if (cs && cs.src && isBlockedScript(cs.src)) {
                         return;
                     }
-                    if (cs && cs.src && cs.src.indexOf('jsdelivr.net') !== -1) {
-                        return;
+                    /* Also block anonymous defines that happen during Giant loading */
+                    if (!cs && _giantLoading) {
+                        var args = arguments;
+                        var hasId = typeof args[0] === 'string';
+                        if (!hasId) {
+                            return;
+                        }
                     }
                     return _origDefine.apply(this, arguments);
                 };
@@ -84,7 +102,8 @@ $culture = str_replace('_', '-', strtolower($locale));
             function loadScript(url, callback, critical) {
                 var s = document.createElement('script');
                 s.src = url;
-                s.crossOrigin = 'anonymous';
+                s.async = true;
+
                 s.onload = function() {
                     if (callback) callback();
                 };
@@ -143,6 +162,11 @@ $culture = str_replace('_', '-', strtolower($locale));
                 } catch(e) {}
             }
 
+            var preloadScripts = [
+                'https://cdn.jsdelivr.net/npm/typeahead.js@0.11.1/dist/bloodhound.min.js',
+                'https://cdn.jsdelivr.net/npm/typeahead.js@0.11.1/dist/typeahead.bundle.min.js'
+            ];
+
             var giantScripts = [
                 {url: 'https://static.giant-bicycles.com/SharedBundles/js/common.d8545941e3f068f2.js', critical: true},
                 'https://static.giant-bicycles.com/SharedBundles/js/common-async.5acb38a3e7d30df0.js',
@@ -154,20 +178,22 @@ $culture = str_replace('_', '-', strtolower($locale));
                 'https://static.giant-bicycles.com/SharedBundles/js/swiper.dfee150b85b3e689.js'
             ];
 
-            installDefineProxy();
-
-            loadScriptsSequentially(giantScripts, 0, function() {
-                if (typeof Swiper === 'undefined') {
-                    loadScriptsSequentially(swiperScripts, 0, function() {
-                        removeDefineProxy();
-                        initGiantSwipers();
-                    });
-                } else {
-                    loadScript(swiperScripts[1], function() {
-                        removeDefineProxy();
-                        initGiantSwipers();
-                    });
-                }
+            /* Load Bloodhound/typeahead BEFORE the define proxy so they register normally */
+            loadScriptsSequentially(preloadScripts, 0, function() {
+                installDefineProxy();
+                loadScriptsSequentially(giantScripts, 0, function() {
+                    if (typeof Swiper === 'undefined') {
+                        loadScriptsSequentially(swiperScripts, 0, function() {
+                            removeDefineProxy();
+                            initGiantSwipers();
+                        });
+                    } else {
+                        loadScript(swiperScripts[1], function() {
+                            removeDefineProxy();
+                            initGiantSwipers();
+                        });
+                    }
+                });
             });
         });
     }

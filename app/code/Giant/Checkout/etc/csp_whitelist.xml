@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="script-src">
+            <values>
+                <value id="giant_static_js" type="host">static.giant-bicycles.com</value>
+                <value id="giant_www_js" type="host">www.giant-bicycles.com</value>
+                <value id="cloudflare_insights" type="host">static.cloudflareinsights.com</value>
+                <value id="unpkg" type="host">unpkg.com</value>
+                <value id="jsdelivr_js" type="host">cdn.jsdelivr.net</value>
+            </values>
+        </policy>
+        <policy id="style-src">
+            <values>
+                <value id="giant_static_css" type="host">static.giant-bicycles.com</value>
+                <value id="unpkg_css" type="host">unpkg.com</value>
+                <value id="jsdelivr_css" type="host">cdn.jsdelivr.net</value>
+            </values>
+        </policy>
+        <policy id="font-src">
+            <values>
+                <value id="giant_static_fonts" type="host">static.giant-bicycles.com</value>
+            </values>
+        </policy>
+        <policy id="img-src">
+            <values>
+                <value id="giant_static_img" type="host">static.giant-bicycles.com</value>
+                <value id="giant_www_img" type="host">www.giant-bicycles.com</value>
+            </values>
+        </policy>
+        <policy id="connect-src">
+            <values>
+                <value id="giant_static_connect" type="host">static.giant-bicycles.com</value>
+                <value id="giant_www_connect" type="host">www.giant-bicycles.com</value>
+                <value id="jsdelivr_connect" type="host">cdn.jsdelivr.net</value>
+                <value id="unpkg_connect" type="host">unpkg.com</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>
