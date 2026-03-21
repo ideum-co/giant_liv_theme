@@ -10,7 +10,9 @@
         <css src="https://static.giant-bicycles.com/Plugins/aos/aos.css" src_type="url"/>
         <css src="https://static.giant-bicycles.com/SharedBundles/css/restyle.586fd05599fee735.css" src_type="url"/>
         <css src="https://static.giant-bicycles.com/SharedBundles/css/restyle-async.925d4dc2bc4b90f3.css" src_type="url"/>
+        <css src="css/giant-header-override.css"/>
         <script src="https://cdn.jsdelivr.net/npm/typeahead.js@0.11.1/dist/bloodhound.min.js" src_type="url"/>
         <script src="js/aos-init.js"/>
+        <script src="js/giant-header.js"/>
     </head>
 </page>
